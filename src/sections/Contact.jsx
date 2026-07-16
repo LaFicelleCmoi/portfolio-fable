@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Send, Github, Linkedin, Mail } from 'lucide-react'
-import GradientText from '../components/GradientText.jsx'
+import { Send, Github, Linkedin, Mail, Radio } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
+import SectionHeader from '../components/SectionHeader.jsx'
 import GlowButton from '../components/GlowButton.jsx'
 import Magnetic from '../components/Magnetic.jsx'
 
@@ -49,19 +49,16 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative mx-auto max-w-3xl px-6 py-28">
-      <ScrollReveal>
-        <h2 className="mb-2 text-center text-sm uppercase tracking-[0.35em] text-cyan">Contact</h2>
-        <p className="mb-4 text-center text-4xl font-bold">
-          <GradientText>On travaille ensemble ?</GradientText>
-        </p>
-        <p className="mb-12 text-center text-sm text-gray-400">
-          Une opportunité, une question, ou juste envie d'échanger sur un projet ? Écrivez-moi.
-        </p>
-      </ScrollReveal>
+      <SectionHeader sector="05" kicker="Contact" title="On travaille ensemble ?">
+        Une opportunité, une question, ou juste envie d'échanger sur un projet ? Ouvrez la radio.
+      </SectionHeader>
 
       <ScrollReveal delay={0.1}>
         <form onSubmit={onSubmit} className="border-beam rounded-3xl">
           <div className="border-beam-inner space-y-5 p-8">
+            <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.3em] text-gray-500">
+              <Radio size={13} className="animate-pulse text-f1" /> TEAM RADIO — CANAL OUVERT
+            </p>
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label="Votre nom" name="name" value={form.name} onChange={onChange} />
               <Field label="Votre email" name="email" value={form.email} onChange={onChange} />
