@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Star, ExternalLink, Github, RefreshCw } from 'lucide-react'
-import GradientText from '../components/GradientText.jsx'
+import { Star, ExternalLink, Github, RefreshCw, Trophy } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
+import SectionHeader from '../components/SectionHeader.jsx'
 import TiltCard from '../components/TiltCard.jsx'
 import Loader from '../components/Loader.jsx'
 import ShinyText from '../components/ShinyText.jsx'
@@ -32,6 +32,15 @@ const CATEGORY_ICONS = {
 }
 const categoryOf = (repo) => CATEGORY_MAP[repo.name] ?? 'Autres'
 
+// Le podium : mes 3 projets phares montent sur la boîte (or, argent, bronze)
+const PODIUM = { 'f1-2026': 1, Marioparty: 2, Alice: 3 }
+const PODIUM_STYLE = {
+  1: { label: 'P1', color: '#ffd700' },
+  2: { label: 'P2', color: '#c0c4cc' },
+  3: { label: 'P3', color: '#cd7f32' },
+}
+const podiumRank = (repo) => PODIUM[repo.name] ?? 99
+
 // Mes projets phares avec une vraie description (les autres gardent celle de GitHub)
 const HIGHLIGHTS = {
   'f1-2026': 'App web autour de la saison F1 2026 : classements, écuries et stats en React.',
@@ -44,6 +53,7 @@ const HIGHLIGHTS = {
 
 function ProjectCard({ repo, index }) {
   const color = LANG_COLORS[repo.language] ?? '#a78bfa'
+  const podium = PODIUM_STYLE[PODIUM[repo.name]]
   return (
     <motion.div
       layout
@@ -55,7 +65,16 @@ function ProjectCard({ repo, index }) {
       <TiltCard className="h-full">
         <div className="group flex h-full flex-col rounded-3xl border border-line bg-panel/70 p-6 backdrop-blur transition-all hover:border-cyan/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]">
           <div className="mb-3 flex items-start justify-between gap-2">
-            <h3 className="font-semibold text-white transition-colors group-hover:text-cyan">
+            <h3 className="flex items-center gap-2 font-semibold text-white transition-colors group-hover:text-cyan">
+              {podium && (
+                <span
+                  className="flex shrink-0 items-center gap-1 rounded-md px-1.5 py-0.5 font-mono text-[11px] font-bold"
+                  style={{ color: podium.color, background: `${podium.color}1f`, border: `1px solid ${podium.color}55` }}
+                  title={`Sur le podium de mes projets — ${podium.label}`}
+                >
+                  <Trophy size={11} /> {podium.label}
+                </span>
+              )}
               {repo.name}
             </h3>
             {repo.stars > 0 && (
@@ -104,19 +123,18 @@ export default function Projects() {
     () => ['Tous', ...new Set(repos.map((r) => r.language).filter(Boolean))],
     [repos]
   )
-  const filtered = repos.filter(
-    (r) =>
-      (category === 'Tous' || categoryOf(r) === category) &&
-      (language === 'Tous' || r.language === language)
-  )
+  const filtered = repos
+    .filter(
+      (r) =>
+        (category === 'Tous' || categoryOf(r) === category) &&
+        (language === 'Tous' || r.language === language)
+    )
+    .sort((a, b) => podiumRank(a) - podiumRank(b))
 
   return (
     <section id="projets" className="relative mx-auto max-w-6xl px-6 py-28">
+      <SectionHeader sector="04" kicker="Projets" title="Le classement" />
       <ScrollReveal>
-        <h2 className="mb-2 text-center text-sm uppercase tracking-[0.35em] text-cyan">Projets</h2>
-        <p className="mb-4 text-center text-4xl font-bold">
-          <GradientText>Mes réalisations</GradientText>
-        </p>
         <p className="mb-10 flex items-center justify-center gap-2 text-center text-sm text-gray-500">
           <RefreshCw size={14} className="text-cyan" />
           <ShinyText>Synchronisé en direct avec mon GitHub — toujours à jour.</ShinyText>
