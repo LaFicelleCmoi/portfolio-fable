@@ -1,7 +1,7 @@
 import { GraduationCap, MapPin, Mail, Github, Sparkles } from 'lucide-react'
 import BlurText from '../components/BlurText.jsx'
-import GradientText from '../components/GradientText.jsx'
 import ScrollReveal from '../components/ScrollReveal.jsx'
+import SectionHeader from '../components/SectionHeader.jsx'
 import Marquee from '../components/Marquee.jsx'
 
 const TECHS = [
@@ -9,38 +9,34 @@ const TECHS = [
   'Docker', 'Jenkins', 'Git & GitHub', 'HTML / CSS', 'TailwindCSS', 'SQL',
 ]
 
+// mon parcours, saison par saison — comme un palmarès de pilote
 const TIMELINE = [
   {
-    date: '2023 – 2025',
+    date: 'Saisons 2023 – 2025',
     title: 'BTS CIEL',
     text: "Cybersécurité, Informatique et réseaux, Électronique. Premiers projets concrets : système d'arrosage automatique, jeu 2D en Java.",
   },
   {
-    date: '2025 – aujourd\'hui',
+    date: 'Saison 2025 – en cours',
     title: 'Epitech',
     text: "Pédagogie par projets : développement web (React, Node), IA (projet Alice), DevOps (Docker, Kubernetes, Jenkins), travail en équipe et gestion de projet.",
   },
   {
-    date: 'Aujourd\'hui',
-    title: 'Alternance — Développeur Full-Stack',
+    date: 'Saison en cours',
+    title: 'Alternance — Développeur Full-Stack chez EzDrive',
     text: "En entreprise 4 semaines sur 6 : du code en conditions réelles, des vrais utilisateurs et une vraie équipe. Détails dans la section Alternance 🏎️",
   },
   {
-    date: 'Demain',
+    date: 'Prochaines saisons',
     title: 'Et après ?',
-    text: "Objectif : devenir développeur full-stack polyvalent, avec une appétence pour l'IA et l'automatisation.",
+    text: "Objectif : devenir développeur full-stack polyvalent, avec une appétence pour l'IA et l'automatisation. Comme en F1 : chaque saison, une monoplace plus rapide.",
   },
 ]
 
 export default function About() {
   return (
     <section id="apropos" className="relative mx-auto max-w-5xl px-6 py-28">
-      <ScrollReveal>
-        <h2 className="mb-2 text-center text-sm uppercase tracking-[0.35em] text-cyan">À propos</h2>
-        <p className="mb-12 text-center text-4xl font-bold">
-          <GradientText>Qui suis-je ?</GradientText>
-        </p>
-      </ScrollReveal>
+      <SectionHeader sector="01" kicker="À propos" title="Qui suis-je ?" />
 
       <div className="grid gap-10 md:grid-cols-2">
         <ScrollReveal direction="right">
