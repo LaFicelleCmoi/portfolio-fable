@@ -3,10 +3,9 @@ import GradientText from '../components/GradientText.jsx'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import TiltCard from '../components/TiltCard.jsx'
 
-// ⚠️ PLACEHOLDER : remplace name / sector / city par les infos de ta vraie entreprise
 const COMPANY = {
-  name: 'EzDrive',
-  sector: 'Transport & Logistique',
+  name: '[Nom de l\'entreprise]',
+  sector: '[Secteur d\'activité]',
   city: 'France',
 }
 
