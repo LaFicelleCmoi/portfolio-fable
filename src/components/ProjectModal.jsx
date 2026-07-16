@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Star, Github, ExternalLink, Clock, Trophy } from 'lucide-react'
+import { X, Star, Github, ExternalLink, Clock, Trophy, GraduationCap } from 'lucide-react'
 import GlowButton from './GlowButton.jsx'
 import { PROJECT_DETAILS, PODIUM_STYLE, categoryOf, CATEGORY_ICONS } from '../data/projectDetails.js'
 
@@ -99,6 +99,16 @@ export default function ProjectModal({ repo, rank, onClose }) {
               <p className="mb-6 text-sm leading-relaxed text-gray-300">
                 {details?.details ?? repo.description ?? 'Projet personnel — le code parle de lui-même, il est sur GitHub.'}
               </p>
+
+              {/* rétrospective : l'analyse des progrès demandée par le sujet */}
+              {details?.learned && (
+                <div className="mb-6 rounded-2xl border border-neon/30 bg-neon/5 p-4">
+                  <p className="mb-1.5 flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] text-neon">
+                    <GraduationCap size={13} /> DEBRIEF — CE QUE J'AI APPRIS
+                  </p>
+                  <p className="text-sm leading-relaxed text-gray-300">{details.learned}</p>
+                </div>
+              )}
 
               {/* technologies */}
               {details?.tech && (
