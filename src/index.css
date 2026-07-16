@@ -1,4 +1,8 @@
 @import "tailwindcss";
+/* la vraie Space Grotesk, auto-hébergée (déclarée dans --font-display) */
+@import "@fontsource/space-grotesk/400.css";
+@import "@fontsource/space-grotesk/500.css";
+@import "@fontsource/space-grotesk/700.css";
 
 @theme {
   --color-ink: #05060f;
@@ -135,6 +139,20 @@ body {
 }
 .speed-line {
   animation: speed-lines 0.5s ease-out infinite;
+}
+
+/* ── accessibilité : animations coupées si demandé ─ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* ── bouton glitch (style uiverse.io) ───────────── */
