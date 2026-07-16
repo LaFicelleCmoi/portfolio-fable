@@ -1,12 +1,16 @@
 import { useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Star, ExternalLink, Github, RefreshCw, Trophy } from 'lucide-react'
+import { Star, ExternalLink, Github, RefreshCw, Trophy, MousePointerClick } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
 import TiltCard from '../components/TiltCard.jsx'
 import Loader from '../components/Loader.jsx'
 import ShinyText from '../components/ShinyText.jsx'
+import ProjectModal from '../components/ProjectModal.jsx'
 import useGithubRepos from '../hooks/useGithubRepos.js'
+import {
+  PROJECT_DETAILS, PODIUM, PODIUM_STYLE, podiumRank, categoryOf, CATEGORY_ICONS,
+} from '../data/projectDetails.js'
 
 const LANG_COLORS = {
   JavaScript: '#f7df1e',
@@ -17,41 +21,7 @@ const LANG_COLORS = {
   Groovy: '#4298b8',
 }
 
-// Regroupe les projets qui se ressemblent sous une même catégorie
-const CATEGORY_MAP = {
-  Marioparty: 'Jeux', Pendu: 'Jeux', 'Jeu-2D': 'Jeux', 'F1-Retro-Game': 'Jeux', 'Auto-Clicker': 'Jeux',
-  'f1-2026': 'Web', easyjob: 'Web', got: 'Web', 'T-ENT-500': 'Web', 'Site-Web': 'Web',
-  'f1-portfolio': 'Web', TEPITECH: 'Web', epitech: 'Web', btelgeuse: 'Web',
-  Alice: 'IA & Python', 'T-AIA-600---Alice-au-pays-des-merveilles': 'IA & Python',
-  qr_app: 'IA & Python', 'Smart-Fridge': 'IA & Python',
-  'RTC-Project-Bureau': 'Temps réel', 'RTC-Projet': 'Temps réel',
-  Docker: 'DevOps', Jenkins: 'DevOps', BERNSTEIN: 'DevOps', breinstein: 'DevOps', 't-dev': 'DevOps',
-}
-const CATEGORY_ICONS = {
-  'Tous': '🏁', 'Jeux': '🎮', 'Web': '🌐', 'IA & Python': '🧠', 'Temps réel': '⚡', 'DevOps': '🐳', 'Autres': '📦',
-}
-const categoryOf = (repo) => CATEGORY_MAP[repo.name] ?? 'Autres'
-
-// Le podium : mes 3 projets phares montent sur la boîte (or, argent, bronze)
-const PODIUM = { 'f1-2026': 1, Marioparty: 2, Alice: 3 }
-const PODIUM_STYLE = {
-  1: { label: 'P1', color: '#ffd700' },
-  2: { label: 'P2', color: '#c0c4cc' },
-  3: { label: 'P3', color: '#cd7f32' },
-}
-const podiumRank = (repo) => PODIUM[repo.name] ?? 99
-
-// Mes projets phares avec une vraie description (les autres gardent celle de GitHub)
-const HIGHLIGHTS = {
-  'f1-2026': 'App web autour de la saison F1 2026 : classements, écuries et stats en React.',
-  'Marioparty': 'Jeu multijoueur inspiré de Mario Party, mini-jeux et plateau en JavaScript.',
-  'Alice': "Projet IA : traitement du langage et prédiction autour d'Alice au pays des merveilles.",
-  'Jeu-2D': 'Hub de jeu 2D en Java réalisé en 3 semaines : moteur, sprites et collisions.',
-  'qr_app': 'Générateur de QR codes en Python, simple et efficace.',
-  'RTC-Project-Bureau': 'Application temps réel en TypeScript (WebSocket / RTC).',
-}
-
-function ProjectCard({ repo, index }) {
+function ProjectCard({ repo, index, onOpen }) {
   const color = LANG_COLORS[repo.language] ?? '#a78bfa'
   const podium = PODIUM_STYLE[PODIUM[repo.name]]
   return (
@@ -63,7 +33,14 @@ function ProjectCard({ repo, index }) {
       transition={{ duration: 0.3, delay: (index % 6) * 0.05 }}
     >
       <TiltCard className="h-full">
-        <div className="group flex h-full flex-col rounded-3xl border border-line bg-panel/70 p-6 backdrop-blur transition-all hover:border-cyan/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]">
+        <div
+          onClick={() => onOpen(repo)}
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onOpen(repo)}
+          role="button"
+          tabIndex={0}
+          aria-label={`Ouvrir la fiche du projet ${repo.name}`}
+          className="group flex h-full cursor-pointer flex-col rounded-3xl border border-line bg-panel/70 p-6 backdrop-blur transition-all hover:border-cyan/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]"
+        >
           <div className="mb-3 flex items-start justify-between gap-2">
             <h3 className="flex items-center gap-2 font-semibold text-white transition-colors group-hover:text-cyan">
               {podium && (
@@ -84,7 +61,7 @@ function ProjectCard({ repo, index }) {
             )}
           </div>
           <p className="mb-5 flex-1 text-sm leading-relaxed text-gray-400">
-            {HIGHLIGHTS[repo.name] ?? repo.description ?? 'Projet personnel — voir le code sur GitHub.'}
+            {PROJECT_DETAILS[repo.name]?.tagline ?? repo.description ?? 'Projet personnel — voir le code sur GitHub.'}
           </p>
           <div className="flex items-center justify-between">
             {repo.language ? (
@@ -94,12 +71,29 @@ function ProjectCard({ repo, index }) {
               </span>
             ) : <span />}
             <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1 text-[11px] text-gray-600 opacity-0 transition-opacity group-hover:opacity-100">
+                <MousePointerClick size={12} /> Voir la fiche
+              </span>
               {repo.homepage && (
-                <a href={repo.homepage} target="_blank" rel="noreferrer" aria-label={`Démo de ${repo.name}`} className="text-gray-400 hover:text-cyan">
+                <a
+                  href={repo.homepage}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Démo de ${repo.name}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-gray-400 hover:text-cyan"
+                >
                   <ExternalLink size={16} />
                 </a>
               )}
-              <a href={repo.url} target="_blank" rel="noreferrer" aria-label={`Code source de ${repo.name}`} className="text-gray-400 hover:text-neon">
+              <a
+                href={repo.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Code source de ${repo.name}`}
+                onClick={(e) => e.stopPropagation()}
+                className="text-gray-400 hover:text-neon"
+              >
                 <Github size={16} />
               </a>
             </div>
@@ -114,6 +108,7 @@ export default function Projects() {
   const { repos, loading, error } = useGithubRepos()
   const [category, setCategory] = useState('Tous')
   const [language, setLanguage] = useState('Tous')
+  const [selected, setSelected] = useState(null)
 
   const categories = useMemo(
     () => ['Tous', ...new Set(repos.map(categoryOf))],
@@ -137,7 +132,7 @@ export default function Projects() {
       <ScrollReveal>
         <p className="mb-10 flex items-center justify-center gap-2 text-center text-sm text-gray-500">
           <RefreshCw size={14} className="text-cyan" />
-          <ShinyText>Synchronisé en direct avec mon GitHub — toujours à jour.</ShinyText>
+          <ShinyText>Synchronisé en direct avec mon GitHub — cliquez sur un projet pour sa fiche.</ShinyText>
         </p>
       </ScrollReveal>
 
@@ -190,7 +185,7 @@ export default function Projects() {
       <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {filtered.map((repo, i) => (
-            <ProjectCard key={repo.name} repo={repo} index={i} />
+            <ProjectCard key={repo.name} repo={repo} index={i} onOpen={setSelected} />
           ))}
         </AnimatePresence>
       </motion.div>
@@ -200,6 +195,8 @@ export default function Projects() {
           🏎️ Tout droit dans le mur : aucun projet ne combine ces deux filtres. Essaie une autre combinaison !
         </p>
       )}
+
+      <ProjectModal repo={selected} onClose={() => setSelected(null)} />
     </section>
   )
 }
