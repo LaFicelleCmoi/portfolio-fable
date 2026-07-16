@@ -72,7 +72,6 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onOpen(repo)}
           role="button"
           tabIndex={0}
-          aria-label={`Ouvrir la fiche du projet ${repo.name}`}
           className="group flex h-full cursor-pointer flex-col rounded-3xl border border-line bg-panel/70 p-6 backdrop-blur transition-all hover:border-cyan/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]"
         >
           <div className={`mb-3 flex items-start justify-between gap-2 ${draggable ? 'pr-7' : ''}`}>
@@ -104,8 +103,8 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
                 {repo.language}
               </span>
             ) : <span />}
-            <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1 text-[11px] text-gray-600 opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="flex items-center gap-1">
+              <span className="mr-1 flex items-center gap-1 text-[11px] text-gray-500 opacity-0 transition-opacity group-hover:opacity-100">
                 <MousePointerClick size={12} /> Voir la fiche
               </span>
               {repo.homepage && (
@@ -115,7 +114,7 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
                   rel="noreferrer"
                   aria-label={`Démo de ${repo.name}`}
                   onClick={(e) => e.stopPropagation()}
-                  className="text-gray-400 hover:text-cyan"
+                  className="rounded-lg p-2 text-gray-400 hover:text-cyan"
                 >
                   <ExternalLink size={16} />
                 </a>
@@ -126,7 +125,7 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
                 rel="noreferrer"
                 aria-label={`Code source de ${repo.name}`}
                 onClick={(e) => e.stopPropagation()}
-                className="text-gray-400 hover:text-neon"
+                className="rounded-lg p-2 text-gray-400 hover:text-neon"
               >
                 <Github size={16} />
               </a>
