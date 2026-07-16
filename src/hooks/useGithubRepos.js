@@ -5,6 +5,9 @@ const EXCLUDED = new Set(['Portfolio', 'Portfolio.V2', 'portfolio-lois-clerc', '
 
 // Récupère les repos publics en direct : le portfolio se met à jour
 // automatiquement à chaque nouveau projet publié sur GitHub.
+// Stratégie "stale-while-revalidate" : on affiche tout de suite le cache
+// de l'onglet, puis on re-vérifie auprès de GitHub à chaque chargement —
+// un nouveau repo apparaît donc au simple rafraîchissement de la page.
 export default function useGithubRepos() {
   const [repos, setRepos] = useState([])
   const [loading, setLoading] = useState(true)
@@ -15,7 +18,6 @@ export default function useGithubRepos() {
     if (cached) {
       setRepos(JSON.parse(cached))
       setLoading(false)
-      return
     }
     fetch(`https://api.github.com/users/${USERNAME}/repos?per_page=100&sort=updated`)
       .then((r) => {
@@ -37,8 +39,12 @@ export default function useGithubRepos() {
           }))
         sessionStorage.setItem('gh-repos', JSON.stringify(cleaned))
         setRepos(cleaned)
+        setError(null)
       })
-      .catch((e) => setError(e.message))
+      .catch((e) => {
+        // en cas d'échec (rate limit, hors-ligne), on garde le cache affiché
+        if (!cached) setError(e.message)
+      })
       .finally(() => setLoading(false))
   }, [])
 
