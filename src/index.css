@@ -109,6 +109,21 @@ body {
 }
 
 /* ── thème F1 ───────────────────────────────────── */
+/* couleurs des secteurs (comme sur les écrans de chrono F1) */
+@keyframes start-light {
+  0%, 4% { background: #232842; box-shadow: none; }
+  22%, 78% { background: var(--color-f1); box-shadow: 0 0 14px rgba(225, 6, 0, 0.85); }
+  88%, 100% { background: #232842; box-shadow: none; }
+}
+.start-light {
+  background: #232842;
+  animation: start-light 2.8s ease-in-out infinite;
+}
+
+.kerb {
+  background: repeating-linear-gradient(90deg, var(--color-f1) 0 16px, #e5e7eb 16px 32px);
+}
+
 .checkered {
   background-image: conic-gradient(#fff 0 25%, #111 0 50%, #fff 0 75%, #111 0);
   background-size: 8px 8px;
