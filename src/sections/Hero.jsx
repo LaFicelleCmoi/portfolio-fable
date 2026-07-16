@@ -9,10 +9,11 @@ import GlowButton from '../components/GlowButton.jsx'
 import Magnetic from '../components/Magnetic.jsx'
 import CountUp from '../components/CountUp.jsx'
 
+// chaque stat porte la couleur d'un secteur de chrono F1 (S1 jaune, S2 vert, S3 violet)
 const STATS = [
-  { value: 30, suffix: '+', label: 'Projets GitHub' },
-  { value: 6, suffix: '', label: 'Langages maîtrisés' },
-  { value: 3, suffix: '+', label: "Années d'études" },
+  { value: 30, suffix: '+', label: 'Projets GitHub', sector: 'S1', color: '#ffd700' },
+  { value: 6, suffix: '', label: 'Langages maîtrisés', sector: 'S2', color: '#00d26a' },
+  { value: 3, suffix: '+', label: "Années d'études", sector: 'S3', color: '#b455ff' },
 ]
 
 export default function Hero() {
@@ -92,7 +93,9 @@ export default function Hero() {
         {/* stats animées */}
         <div className="mx-auto mt-14 grid max-w-lg grid-cols-3 gap-4">
           {STATS.map((s) => (
-            <div key={s.label} className="rounded-2xl border border-line bg-panel/50 p-4 backdrop-blur">
+            <div key={s.label} className="relative overflow-hidden rounded-2xl border border-line bg-panel/50 p-4 backdrop-blur">
+              <span className="absolute inset-x-0 top-0 h-0.5" style={{ background: s.color, boxShadow: `0 0 8px ${s.color}` }} />
+              <div className="mb-1 font-mono text-[10px] tracking-widest" style={{ color: s.color }}>{s.sector}</div>
               <div className="text-3xl font-bold text-white">
                 <CountUp to={s.value} suffix={s.suffix} />
               </div>
