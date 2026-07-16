@@ -4,8 +4,8 @@ import ScrollReveal from '../components/ScrollReveal.jsx'
 import TiltCard from '../components/TiltCard.jsx'
 
 const COMPANY = {
-  name: '[Nom de l\'entreprise]',
-  sector: '[Secteur d\'activité]',
+  name: 'EzDrive',
+  sector: 'Transport & Logistique',
   city: 'France',
 }
 
