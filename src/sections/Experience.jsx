@@ -1,6 +1,6 @@
 import { Building2, CalendarClock, Rocket, GitBranch, Layers, Flag } from 'lucide-react'
-import GradientText from '../components/GradientText.jsx'
 import ScrollReveal from '../components/ScrollReveal.jsx'
+import SectionHeader from '../components/SectionHeader.jsx'
 import TiltCard from '../components/TiltCard.jsx'
 
 const COMPANY = {
@@ -32,16 +32,11 @@ const STACK = ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Git']
 export default function Experience() {
   return (
     <section id="experience" className="relative mx-auto max-w-5xl px-6 py-28">
-      <ScrollReveal>
-        <h2 className="mb-2 text-center text-sm uppercase tracking-[0.35em] text-cyan">Expérience</h2>
-        <p className="mb-4 text-center text-4xl font-bold">
-          <GradientText>Mon alternance</GradientText>
-        </p>
-        <p className="mx-auto mb-14 max-w-2xl text-center text-sm text-gray-400">
-          En parallèle d'Epitech, je suis développeur full-stack en alternance : l'école m'apprend à
-          apprendre, l'entreprise m'apprend le métier.
-        </p>
-      </ScrollReveal>
+      <SectionHeader sector="02" kicker="Expérience" title="Mon écurie : EzDrive">
+        En parallèle d'Epitech, je suis développeur full-stack en alternance : l'école m'apprend à
+        apprendre, l'entreprise m'apprend le métier. Comme un pilote, je progresse au contact de
+        l'équipe — chaque sprint est un Grand Prix.
+      </SectionHeader>
 
       <ScrollReveal>
         <TiltCard>
