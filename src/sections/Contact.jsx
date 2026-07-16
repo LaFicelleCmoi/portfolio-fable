@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Send, Github, Linkedin, Mail, Radio } from 'lucide-react'
+import { Send, Github, Linkedin, Mail, Radio, CheckCircle2, LoaderCircle } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
 import GlowButton from '../components/GlowButton.jsx'
@@ -38,13 +38,35 @@ function Field({ label, name, textarea = false, value, onChange }) {
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
-  const onSubmit = (e) => {
+  // envoi réel via formsubmit.co ; si le service échoue, on retombe sur mailto
+  const onSubmit = async (e) => {
     e.preventDefault()
-    const subject = encodeURIComponent(`[Portfolio] Message de ${form.name}`)
-    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`)
-    window.location.href = `mailto:lois.clerc@epitech.eu?subject=${subject}&body=${body}`
+    setStatus('sending')
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/lois.clerc@epitech.eu', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          _subject: `[Portfolio] Message de ${form.name}`,
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      setStatus('sent')
+      setForm({ name: '', email: '', message: '' })
+    } catch {
+      setStatus('error')
+      const subject = encodeURIComponent(`[Portfolio] Message de ${form.name}`)
+      const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`)
+      window.location.href = `mailto:lois.clerc@epitech.eu?subject=${subject}&body=${body}`
+    }
   }
 
   return (
@@ -64,9 +86,22 @@ export default function Contact() {
               <Field label="Votre email" name="email" value={form.email} onChange={onChange} />
             </div>
             <Field label="Votre message" name="message" textarea value={form.message} onChange={onChange} />
-            <div className="flex justify-end">
-              <GlowButton type="submit">
-                <Send size={16} /> Envoyer
+            <div className="flex items-center justify-end gap-4">
+              {status === 'sent' && (
+                <span className="flex items-center gap-1.5 text-sm text-green-400">
+                  <CheckCircle2 size={15} /> Message transmis au stand — je te réponds vite !
+                </span>
+              )}
+              <GlowButton type="submit" disabled={status === 'sending'}>
+                {status === 'sending' ? (
+                  <>
+                    <LoaderCircle size={16} className="animate-spin" /> Envoi…
+                  </>
+                ) : (
+                  <>
+                    <Send size={16} /> Envoyer
+                  </>
+                )}
               </GlowButton>
             </div>
           </div>
