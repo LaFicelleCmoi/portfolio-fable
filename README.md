@@ -30,7 +30,6 @@ npm run build    # build de production dans dist/
 ## 📋 À personnaliser
 
 - **CV** : remplacer `public/cv-lois.pdf` par ton vrai CV.
-- **Entreprise** : renseigner nom/secteur dans `src/sections/Experience.jsx` (const `COMPANY`).
 - **LinkedIn** : pointer vers ton profil public (`/in/...`) dans `src/sections/Contact.jsx`.
 - **Photo** : l'avatar GitHub est utilisé par défaut (`src/sections/Hero.jsx`).
 
