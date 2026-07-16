@@ -1,0 +1,88 @@
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { Home, User, Briefcase, Code2, FolderGit2, Mail } from 'lucide-react'
+import Magnetic from './Magnetic.jsx'
+
+const LINKS = [
+  { id: 'accueil', label: 'Accueil', icon: Home },
+  { id: 'apropos', label: 'À propos', icon: User },
+  { id: 'experience', label: 'Alternance', icon: Briefcase },
+  { id: 'competences', label: 'Compétences', icon: Code2 },
+  { id: 'projets', label: 'Projets', icon: FolderGit2 },
+  { id: 'contact', label: 'Contact', icon: Mail },
+]
+
+// Navigation "dock" thème F1 : la bulle active est une livrée rouge F1
+// avec un damier d'arrivée, et elle "roule" d'un onglet à l'autre 🏎️
+export default function Navbar() {
+  const [active, setActive] = useState('accueil')
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive(e.target.id)
+      },
+      { rootMargin: '-45% 0px -45% 0px' }
+    )
+    LINKS.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <motion.nav
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: 'spring', damping: 18, delay: 0.3 }}
+      className="fixed top-4 left-1/2 z-50 -translate-x-1/2"
+      aria-label="Navigation principale"
+    >
+      <ul className="flex items-center gap-0.5 rounded-2xl border border-line bg-panel/70 px-2 py-2 shadow-2xl shadow-black/50 backdrop-blur-xl sm:gap-1">
+        {LINKS.map(({ id, label, icon: Icon }) => (
+          <li key={id}>
+            <Magnetic strength={0.2}>
+              <a
+                href={`#${id}`}
+                aria-label={label}
+                className={`relative flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm whitespace-nowrap transition-colors sm:px-4 ${
+                  active === id ? 'text-white' : 'text-gray-400 hover:text-gray-200'
+                }`}
+              >
+                {active === id && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 overflow-hidden rounded-xl shadow-[0_0_18px_rgba(225,6,0,0.55)]"
+                    transition={{ type: 'spring', damping: 22, stiffness: 320 }}
+                  >
+                    {/* livrée rouge F1 */}
+                    <span className="absolute inset-0 bg-gradient-to-r from-f1 via-[#c00500] to-[#7f0300]" />
+                    {/* damier de ligne d'arrivée sur le bord droit */}
+                    <span className="checkered absolute inset-y-0 right-0 w-2.5 opacity-90" />
+                    {/* reflet vitesse */}
+                    <span className="absolute inset-x-0 top-0 h-1/2 bg-white/15" />
+                  </motion.span>
+                )}
+                <Icon size={16} className="relative z-10" />
+                <span className="relative z-10 hidden lg:inline">{label}</span>
+                {/* petite F1 qui apparaît sur l'onglet actif */}
+                {active === id && (
+                  <motion.span
+                    initial={{ x: -14, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.15, type: 'spring', damping: 15 }}
+                    className="relative z-10 hidden -scale-x-100 text-xs lg:inline"
+                    aria-hidden
+                  >
+                    🏎️
+                  </motion.span>
+                )}
+              </a>
+            </Magnetic>
+          </li>
+        ))}
+      </ul>
+    </motion.nav>
+  )
+}
