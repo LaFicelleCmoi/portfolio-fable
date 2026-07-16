@@ -21,13 +21,14 @@ export const CATEGORY_ICONS = {
 
 export const categoryOf = (repo) => CATEGORY_MAP[repo.name] ?? 'Autres'
 
-export const PODIUM = { 'f1-2026': 1, Marioparty: 2, Alice: 3 }
+// Le podium est dynamique : les 3 premières cartes de la grille portent P1/P2/P3.
+// DEFAULT_ORDER est l'ordre de départ, réorganisable par glisser-déposer.
+export const DEFAULT_ORDER = ['f1-2026', 'Marioparty', 'Alice']
 export const PODIUM_STYLE = {
   1: { label: 'P1', color: '#ffd700' },
   2: { label: 'P2', color: '#c0c4cc' },
   3: { label: 'P3', color: '#cd7f32' },
 }
-export const podiumRank = (repo) => PODIUM[repo.name] ?? 99
 
 export const PROJECT_DETAILS = {
   'f1-2026': {
