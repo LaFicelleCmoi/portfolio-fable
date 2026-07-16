@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Clerc;Loïs;;;
+FN:Loïs Clerc
+TITLE:Développeur Full-Stack (alternance)
+ORG:EzDrive
+EMAIL;TYPE=INTERNET:lois.clerc@epitech.eu
+URL:https://portfolio-loisclerc.vercel.app/
+NOTE:Portfolio : https://portfolio-loisclerc.vercel.app/ — GitHub : https://github.com/LaFicelleCmoi
+END:VCARD
