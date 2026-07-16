@@ -10,6 +10,10 @@ import Magnetic from '../components/Magnetic.jsx'
 import CountUp from '../components/CountUp.jsx'
 
 // chaque stat porte la couleur d'un secteur de chrono F1 (S1 jaune, S2 vert, S3 violet)
+// Pour passer à une vraie photo : dépose-la dans public/ (ex. public/photo.jpg)
+// et remplace la valeur ci-dessous par '/photo.jpg'.
+const PHOTO = 'https://avatars.githubusercontent.com/u/232385998?v=4'
+
 const STATS = [
   { value: 30, suffix: '+', label: 'Projets GitHub', sector: 'S1', color: '#ffd700' },
   { value: 6, suffix: '', label: 'Langages maîtrisés', sector: 'S2', color: '#00d26a' },
@@ -32,7 +36,7 @@ export default function Hero() {
           <Magnetic strength={0.25}>
             <div className="animate-pulse-glow rounded-full bg-gradient-to-r from-neon to-cyan p-[3px]">
               <img
-                src="https://avatars.githubusercontent.com/u/232385998?v=4"
+                src={PHOTO}
                 alt="Photo de profil de Loïs"
                 className="h-32 w-32 rounded-full object-cover sm:h-36 sm:w-36"
                 width="144"
