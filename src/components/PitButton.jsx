@@ -20,7 +20,7 @@ export default function PitButton() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 30, scale: 0.8 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          aria-label="Retourner en haut de la page"
+          aria-label="PIT — retourner en haut de la page"
           className="btn-uiverse fixed right-5 bottom-5 z-50 flex cursor-pointer flex-col items-center gap-0.5 rounded-2xl border border-f1/60 bg-panel/80 px-4 py-3 backdrop-blur [--glow:var(--color-f1)]"
         >
           <ArrowUp size={17} className="text-f1" />
