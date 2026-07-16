@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #05060f;
+  --color-panel: #0b0d1a;
+  --color-line: #1c2033;
+  --color-neon: #7c3aed;
+  --color-cyan: #22d3ee;
+  --color-pink: #f472b6;
+  --color-f1: #e10600;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: #e5e7eb;
+  font-family: var(--font-display);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-neon);
+  color: white;
+}
+
+/* ── scrollbar custom ───────────────────────────── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-ink); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-neon), var(--color-cyan));
+  border-radius: 99px;
+}
+
+/* ── animations globales (style uiverse.io) ─────── */
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 4s ease infinite;
+}
+
+@keyframes shine {
+  0% { background-position: 100%; }
+  100% { background-position: -100%; }
+}
+.animate-shine {
+  background: linear-gradient(120deg, rgba(255,255,255,0.35) 40%, #fff 50%, rgba(255,255,255,0.35) 60%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes border-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+.animate-float { animation: float 5s ease-in-out infinite; }
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
+  50% { box-shadow: 0 0 45px rgba(34, 211, 238, 0.55); }
+}
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.animate-blink { animation: blink 1s step-end infinite; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 30s linear infinite; }
+
+/* ── carte "border beam" (style uiverse.io) ─────── */
+.border-beam {
+  position: relative;
+  overflow: hidden;
+}
+.border-beam::before {
+  content: "";
+  position: absolute;
+  inset: -150%;
+  background: conic-gradient(from 0deg, transparent 0 340deg, var(--color-cyan) 350deg, var(--color-neon) 360deg);
+  animation: border-spin 4s linear infinite;
+}
+.border-beam > * {
+  position: relative;
+  z-index: 1;
+}
+.border-beam-inner {
+  background: var(--color-panel);
+  border-radius: inherit;
+  margin: 1.5px;
+}
+
+/* ── thème F1 ───────────────────────────────────── */
+.checkered {
+  background-image: conic-gradient(#fff 0 25%, #111 0 50%, #fff 0 75%, #111 0);
+  background-size: 8px 8px;
+}
+
+@keyframes speed-lines {
+  from { transform: translateX(0); opacity: 0.9; }
+  to { transform: translateX(-18px); opacity: 0; }
+}
+.speed-line {
+  animation: speed-lines 0.5s ease-out infinite;
+}
+
+/* ── bouton glitch (style uiverse.io) ───────────── */
+.btn-uiverse {
+  --glow: var(--color-neon);
+  transition: all 0.3s ease;
+}
+.btn-uiverse:hover {
+  box-shadow: 0 0 12px var(--glow), 0 0 40px color-mix(in srgb, var(--glow) 50%, transparent);
+  transform: translateY(-2px);
+}
+.btn-uiverse:active { transform: translateY(0) scale(0.97); }
