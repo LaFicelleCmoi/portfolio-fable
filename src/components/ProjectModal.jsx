@@ -2,15 +2,16 @@ import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Star, Github, ExternalLink, Clock, Trophy } from 'lucide-react'
 import GlowButton from './GlowButton.jsx'
-import { PROJECT_DETAILS, PODIUM, PODIUM_STYLE, categoryOf, CATEGORY_ICONS } from '../data/projectDetails.js'
+import { PROJECT_DETAILS, PODIUM_STYLE, categoryOf, CATEGORY_ICONS } from '../data/projectDetails.js'
 
 const LANG_COLORS = {
   JavaScript: '#f7df1e', TypeScript: '#3178c6', Python: '#3776ab',
   Java: '#e76f00', HTML: '#e34c26', Groovy: '#4298b8',
 }
 
-// Fiche projet détaillée, ouverte au clic sur une carte
-export default function ProjectModal({ repo, onClose }) {
+// Fiche projet détaillée, ouverte au clic sur une carte.
+// `rank` (1-3) : position sur le podium de la grille, si le projet y est.
+export default function ProjectModal({ repo, rank, onClose }) {
   useEffect(() => {
     if (!repo) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -23,7 +24,7 @@ export default function ProjectModal({ repo, onClose }) {
   }, [repo, onClose])
 
   const details = repo ? PROJECT_DETAILS[repo.name] : null
-  const podium = repo ? PODIUM_STYLE[PODIUM[repo.name]] : null
+  const podium = repo ? PODIUM_STYLE[rank] : null
   const category = repo ? categoryOf(repo) : null
   const langColor = repo ? (LANG_COLORS[repo.language] ?? '#a78bfa') : null
 
