@@ -42,6 +42,7 @@ const STRINGS = {
         title: 'Cinéma',
         text: 'Grand consommateur de films, journal de visionnage tenu sérieusement sur Letterboxd.',
         color: 'rgba(244, 114, 182, 0.16)',
+        letterboxd: true,
       },
       {
         emoji: '🧱',
@@ -84,6 +85,7 @@ const STRINGS = {
         title: 'Movies',
         text: 'Heavy film watcher, with a viewing diary seriously maintained on Letterboxd.',
         color: 'rgba(244, 114, 182, 0.16)',
+        letterboxd: true,
       },
       {
         emoji: '🧱',
@@ -123,6 +125,23 @@ export default function OffTrack() {
                     className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full border border-line bg-ink/60 px-3 py-1.5 text-xs text-cyan transition-colors hover:border-cyan/50"
                   >
                     {L.proof} : {tile.link.label} <ExternalLink size={11} />
+                  </a>
+                )}
+                {tile.letterboxd && (
+                  <a
+                    href="https://letterboxd.com/LaFicelleCmoi/"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Letterboxd — LaFicelleCmoi"
+                    className="mt-4 inline-flex w-fit items-center gap-2.5 rounded-full border border-[#2c3440] bg-[#14181c] px-3.5 py-2 transition-all hover:border-[#40bcf4]/60 hover:shadow-[0_0_16px_rgba(64,188,244,0.3)]"
+                  >
+                    {/* les trois pastilles Letterboxd */}
+                    <span className="flex -space-x-1" aria-hidden>
+                      <span className="h-3 w-3 rounded-full bg-[#ff8000]" />
+                      <span className="h-3 w-3 rounded-full bg-[#00e054] mix-blend-screen" />
+                      <span className="h-3 w-3 rounded-full bg-[#40bcf4] mix-blend-screen" />
+                    </span>
+                    <span className="text-xs font-bold tracking-wide text-white">LaFicelleCmoi</span>
                   </a>
                 )}
               </div>
