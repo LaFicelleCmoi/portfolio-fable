@@ -31,7 +31,7 @@ const STRINGS = {
       },
       {
         date: 'Saison en cours',
-        title: 'Apprentissage chez EzDrive — Transformation Numérique & Data',
+        title: 'Apprentissage chez EZdrive — Transformation Numérique & Data',
         text: "Ingénieur junior au sein du Groupe SURAYA (recharge électrique dans les DROM et l'Océan Indien) : apps mobiles, automatisations n8n, Firebase/Supabase et cloud. Détails dans la section Alternance 🏎️",
       },
       {
@@ -62,7 +62,7 @@ const STRINGS = {
       },
       {
         date: 'Current season',
-        title: 'Apprenticeship at EzDrive — Digital Transformation & Data',
+        title: 'Apprenticeship at EZdrive — Digital Transformation & Data',
         text: 'Junior engineer within Groupe SURAYA (EV charging across the French overseas territories and the Indian Ocean): mobile apps, n8n automations, Firebase/Supabase and cloud. Details in the Apprenticeship section 🏎️',
       },
       {
