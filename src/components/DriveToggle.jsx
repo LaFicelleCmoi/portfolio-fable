@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useLang } from '../i18n.jsx'
 
 // Bouton d'activation du Mode Piste (+ raccourci clavier P).
@@ -12,8 +12,18 @@ const STRINGS = {
 
 export default function DriveToggle() {
   const [active, setActive] = useState(false)
+  const closeReq = useRef(null) // sortie fluide déclenchée par DriveMode
   const { lang } = useLang()
   const L = STRINGS[lang]
+
+  const toggle = () => {
+    if (active) {
+      // fermeture douce si le jeu est prêt, brutale sinon
+      closeReq.current ? closeReq.current() : setActive(false)
+    } else {
+      setActive(true)
+    }
+  }
 
   useEffect(() => {
     const onKey = (e) => {
@@ -22,7 +32,8 @@ export default function DriveToggle() {
         !['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) &&
         !e.metaKey && !e.ctrlKey && !e.altKey
       ) {
-        setActive((a) => !a)
+        // quand le jeu tourne, c'est lui qui gère P (sortie animée) — on n'agit qu'à l'ouverture
+        setActive((a) => (a ? a : true))
       }
     }
     window.addEventListener('keydown', onKey)
@@ -32,7 +43,7 @@ export default function DriveToggle() {
   return (
     <>
       <button
-        onClick={() => setActive((a) => !a)}
+        onClick={toggle}
         aria-pressed={active}
         title={L.title}
         className="btn-uiverse fixed bottom-5 left-5 z-[90] hidden cursor-pointer items-center gap-2 overflow-hidden rounded-2xl border border-line bg-panel/80 px-4 py-2.5 text-xs font-semibold text-gray-200 backdrop-blur transition-colors [--glow:var(--color-f1)] hover:border-f1/60 sm:flex"
@@ -45,7 +56,10 @@ export default function DriveToggle() {
 
       {active && (
         <Suspense fallback={null}>
-          <DriveMode onClose={() => setActive(false)} />
+          <DriveMode
+            onClose={() => setActive(false)}
+            registerClose={(fn) => (closeReq.current = fn)}
+          />
         </Suspense>
       )}
     </>
