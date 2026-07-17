@@ -57,7 +57,7 @@ export default function Hero() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-f1 opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-f1" />
           </span>
-          Développeur Full-Stack en alternance
+          En apprentissage chez EzDrive ⚡ — Transformation Numérique & Data
         </motion.p>
 
         <p className="mb-3 text-sm uppercase tracking-[0.35em] text-cyan">Bonjour, moi c'est</p>
