@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Home, User, Briefcase, Code2, FolderGit2, Mail, Languages } from 'lucide-react'
+import { Home, User, Briefcase, Code2, FolderGit2, Mail, Languages, Gauge, Joystick } from 'lucide-react'
 import Magnetic from './Magnetic.jsx'
 import { useLang } from '../i18n.jsx'
 
@@ -10,6 +10,8 @@ const LINKS = [
   { id: 'experience', icon: Briefcase, fr: 'Alternance', en: 'Apprenticeship' },
   { id: 'competences', icon: Code2, fr: 'Compétences', en: 'Skills' },
   { id: 'projets', icon: FolderGit2, fr: 'Projets', en: 'Projects' },
+  { id: 'data', icon: Gauge, fr: 'Data', en: 'Data' },
+  { id: 'horspiste', icon: Joystick, fr: 'Hors piste', en: 'Off track' },
   { id: 'contact', icon: Mail, fr: 'Contact', en: 'Contact' },
 ]
 
