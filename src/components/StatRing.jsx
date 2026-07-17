@@ -39,7 +39,7 @@ export default function StatRing({ pct, label, sub, color = '#22d3ee' }) {
       </div>
       <div>
         <p className="text-sm font-semibold text-gray-200">{label}</p>
-        <p className="font-mono text-[11px] text-gray-500">{sub}</p>
+        <p className="font-mono text-[11px] text-gray-400">{sub}</p>
       </div>
     </div>
   )
