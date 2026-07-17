@@ -15,7 +15,7 @@ export default function SectionHeader({ sector, kicker, title, children }) {
         <span className="text-xs uppercase tracking-[0.35em] text-cyan">{kicker}</span>
         <span className="h-px w-10 bg-gradient-to-l from-transparent to-f1/70" />
       </div>
-      <h2 className="mb-4 text-center text-4xl font-bold">
+      <h2 className="title-glow mb-4 text-center text-4xl font-bold [text-wrap:balance]">
         <GradientText>{title}</GradientText>
       </h2>
       {children && (
