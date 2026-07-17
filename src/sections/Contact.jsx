@@ -27,7 +27,7 @@ const STRINGS = {
       {
         icon: Briefcase,
         title: 'Recruteur / RH',
-        text: 'Un profil full-stack en alternance, déjà en poste chez EzDrive, qui livre et apprend vite.',
+        text: 'Un profil full-stack en alternance, déjà en poste chez EZdrive, qui livre et apprend vite.',
         cta: 'Parler recrutement',
         subject: 0,
         template: "Bonjour Loïs,\n\nJe te contacte au sujet d'une opportunité chez [entreprise] : [alternance / stage / suite de cursus].\nSerais-tu disponible pour un échange cette semaine ?\n\n[Nom — entreprise]",
@@ -51,7 +51,7 @@ const STRINGS = {
     ],
     pitwall: 'PIT WALL — INFOS DIRECTES',
     availability: (
-      <>En alternance chez EzDrive — <span className="text-green-200">ouvert aux échanges</span></>
+      <>En alternance chez EZdrive — <span className="text-green-200">ouvert aux échanges</span></>
     ),
     copy: 'Copier',
     copied: 'Copié !',
@@ -89,9 +89,9 @@ const STRINGS = {
     ],
     faqTitle: 'BRIEFING — QUESTIONS FRÉQUENTES',
     faq: [
-      { q: 'Tu cherches quoi en ce moment ?', a: "Je suis en alternance chez EzDrive en parallèle d'Epitech, donc bien occupé — mais toujours ouvert aux échanges, aux projets intéressants et aux opportunités pour la suite du cursus." },
+      { q: 'Tu cherches quoi en ce moment ?', a: "Je suis en alternance chez EZdrive en parallèle d'Epitech, donc bien occupé — mais toujours ouvert aux échanges, aux projets intéressants et aux opportunités pour la suite du cursus." },
       { q: 'Tu réponds en combien de temps ?', a: 'En général sous 24 à 48 h. Pendant les périodes intenses en entreprise ou les rushs de projets Epitech, ça peut prendre un poil plus — mais je réponds toujours.' },
-      { q: 'Télétravail ou présentiel ?', a: "Les deux : habitué au travail en équipe sur site chez EzDrive, et à l'async/remote pour les projets Epitech (Git, reviews, outils de com). Le bon setup, c'est celui du projet." },
+      { q: 'Télétravail ou présentiel ?', a: "Les deux : habitué au travail en équipe sur site chez EZdrive, et à l'async/remote pour les projets Epitech (Git, reviews, outils de com). Le bon setup, c'est celui du projet." },
       { q: 'Comment tu bosses en équipe ?', a: "Git flow propre : branches, pull requests, revues de code, commits atomiques — ce portfolio est d'ailleurs commité fichier par fichier. Et une règle d'or : un blocage de plus de 30 minutes, ça se partage." },
       { q: 'Ta stack de prédilection ?', a: "React + Node.js + PostgreSQL pour le web, Docker pour emballer le tout, et Python dès que l'IA ou l'automatisation s'invitent. J'aime aussi sortir de ma zone de confort — ce portfolio en est la preuve." },
       { q: 'On peut parler F1 ?', a: 'Toujours. Surtout les week-ends de Grand Prix. Attention : je défends mes opinions sur la stratégie comme un ingénieur de course défend son undercut.' },
@@ -106,7 +106,7 @@ const STRINGS = {
       {
         icon: Briefcase,
         title: 'Recruiter / HR',
-        text: 'A full-stack apprentice already working at EzDrive, who ships and learns fast.',
+        text: 'A full-stack apprentice already working at EZdrive, who ships and learns fast.',
         cta: 'Talk recruiting',
         subject: 0,
         template: "Hi Loïs,\n\nI'm reaching out about an opportunity at [company]: [apprenticeship / internship / next steps].\nWould you be available for a chat this week?\n\n[Name — company]",
@@ -130,7 +130,7 @@ const STRINGS = {
     ],
     pitwall: 'PIT WALL — DIRECT INFO',
     availability: (
-      <>Apprentice at EzDrive — <span className="text-green-200">open to conversations</span></>
+      <>Apprentice at EZdrive — <span className="text-green-200">open to conversations</span></>
     ),
     copy: 'Copy',
     copied: 'Copied!',
@@ -168,9 +168,9 @@ const STRINGS = {
     ],
     faqTitle: 'BRIEFING — FREQUENTLY ASKED QUESTIONS',
     faq: [
-      { q: 'What are you looking for right now?', a: "I'm an apprentice at EzDrive alongside Epitech, so quite busy — but always open to conversations, interesting projects and opportunities for the rest of my studies." },
+      { q: 'What are you looking for right now?', a: "I'm an apprentice at EZdrive alongside Epitech, so quite busy — but always open to conversations, interesting projects and opportunities for the rest of my studies." },
       { q: 'How fast do you reply?', a: 'Usually within 24–48 hours. During intense company periods or Epitech project rushes it may take a little longer — but I always reply.' },
-      { q: 'Remote or on-site?', a: "Both: used to on-site teamwork at EzDrive, and to async/remote for Epitech projects (Git, reviews, communication tools). The right setup is the project's setup." },
+      { q: 'Remote or on-site?', a: "Both: used to on-site teamwork at EZdrive, and to async/remote for Epitech projects (Git, reviews, communication tools). The right setup is the project's setup." },
       { q: 'How do you work in a team?', a: 'Clean Git flow: branches, pull requests, code reviews, atomic commits — this portfolio is actually committed one file at a time. Golden rule: any blocker longer than 30 minutes gets shared.' },
       { q: 'Your go-to stack?', a: "React + Node.js + PostgreSQL for the web, Docker to package it all, and Python whenever AI or automation shows up. I also like leaving my comfort zone — this portfolio is proof." },
       { q: 'Can we talk F1?', a: 'Always. Especially on Grand Prix weekends. Fair warning: I defend my strategy opinions like a race engineer defends his undercut.' },
