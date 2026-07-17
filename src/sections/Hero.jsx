@@ -75,9 +75,10 @@ export default function Hero() {
           <Magnetic strength={0.25}>
             <div className="relative rounded-full p-[3px]">
               {/* anneau conique qui tourne + halo flou assorti */}
+              {/* halo flouté réservé au desktop : le flou animé coûte cher sur mobile */}
               <span
                 aria-hidden
-                className="animate-spin-slow absolute -inset-1 rounded-full opacity-60 blur-md"
+                className="animate-spin-slow absolute -inset-1 hidden rounded-full opacity-60 blur-md sm:block"
                 style={{ background: 'conic-gradient(from 0deg, #7c3aed, #22d3ee, #f472b6, #e10600, #7c3aed)' }}
               />
               <span
