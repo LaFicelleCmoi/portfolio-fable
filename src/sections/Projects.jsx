@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence, useDragControls } from 'framer-motion'
 import {
-  Star, ExternalLink, Github, RefreshCw, Trophy, MousePointerClick, GripVertical, RotateCcw, Hand,
+  Star, ExternalLink, Github, RefreshCw, Trophy, MousePointerClick, GripVertical, RotateCcw, Hand, History,
 } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
@@ -10,8 +10,10 @@ import Loader from '../components/Loader.jsx'
 import ShinyText from '../components/ShinyText.jsx'
 import ProjectModal from '../components/ProjectModal.jsx'
 import useGithubRepos from '../hooks/useGithubRepos.js'
+import { relativeTime } from '../utils/time.js'
+import { useLang } from '../i18n.jsx'
 import {
-  PROJECT_DETAILS, PODIUM_STYLE, DEFAULT_ORDER, categoryOf, CATEGORY_ICONS,
+  getProjectText, PODIUM_STYLE, DEFAULT_ORDER, categoryOf, CATEGORY_ICONS, CATEGORY_LABELS,
 } from '../data/projectDetails.js'
 
 const ORDER_KEY = 'project-order'
@@ -25,11 +27,52 @@ const LANG_COLORS = {
   Groovy: '#4298b8',
 }
 
-function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, registerRef }) {
+const STRINGS = {
+  fr: {
+    kicker: 'Projets',
+    title: 'Le classement',
+    sync: 'Synchronisé en direct avec mon GitHub — cliquez sur un projet pour sa fiche.',
+    dragHint: "Glissez les cartes avec la poignée — la ligne du haut, c'est le podium (P1, P2, P3).",
+    reset: 'Ordre par défaut',
+    updated: 'maj',
+    seeCard: 'Voir la fiche',
+    fallback: 'Projet personnel — voir le code sur GitHub.',
+    loadError: 'Impossible de charger les projets',
+    seeGithub: 'voir directement sur GitHub',
+    noResult: '🏎️ Tout droit dans le mur : aucun projet ne combine ces deux filtres. Essaie une autre combinaison !',
+    dragAria: (name) => `Déplacer ${name} dans le classement`,
+    dragTitle: 'Glisser pour reclasser',
+    openAria: (name) => `Ouvrir la fiche du projet ${name}`,
+    demoAria: (name) => `Démo de ${name}`,
+    codeAria: (name) => `Code source de ${name}`,
+    podiumTitle: (label) => `Sur le podium de mes projets — ${label}`,
+  },
+  en: {
+    kicker: 'Projects',
+    title: 'The standings',
+    sync: 'Live-synced with my GitHub — click a project for its details.',
+    dragHint: 'Drag cards by their handle — the top row is the podium (P1, P2, P3).',
+    reset: 'Default order',
+    updated: 'updated',
+    seeCard: 'View details',
+    fallback: 'Personal project — see the code on GitHub.',
+    loadError: 'Could not load projects',
+    seeGithub: 'view directly on GitHub',
+    noResult: "🏎️ Straight into the wall: no project matches both filters. Try another combination!",
+    dragAria: (name) => `Move ${name} in the standings`,
+    dragTitle: 'Drag to reorder',
+    openAria: (name) => `Open details for ${name}`,
+    demoAria: (name) => `${name} demo`,
+    codeAria: (name) => `${name} source code`,
+    podiumTitle: (label) => `On my project podium — ${label}`,
+  },
+}
+
+function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, registerRef, lang, L }) {
   const color = LANG_COLORS[repo.language] ?? '#a78bfa'
   const podium = PODIUM_STYLE[rank]
-  const controls = useDragControls()
   const dragging = useRef(false)
+  const controls = useDragControls()
 
   return (
     <motion.div
@@ -59,8 +102,8 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
             e.preventDefault()
             controls.start(e)
           }}
-          aria-label={`Déplacer ${repo.name} dans le classement`}
-          title="Glisser pour reclasser"
+          aria-label={L.dragAria(repo.name)}
+          title={L.dragTitle}
           className="absolute top-3.5 right-3.5 z-20 cursor-grab touch-none rounded-lg border border-line bg-ink/90 p-1.5 text-gray-500 transition-colors hover:border-f1/60 hover:text-white active:cursor-grabbing"
         >
           <GripVertical size={14} />
@@ -80,7 +123,7 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
                 <span
                   className="flex shrink-0 items-center gap-1 rounded-md px-1.5 py-0.5 font-mono text-[11px] font-bold"
                   style={{ color: podium.color, background: `${podium.color}1f`, border: `1px solid ${podium.color}55` }}
-                  title={`Sur le podium de mes projets — ${podium.label}`}
+                  title={L.podiumTitle(podium.label)}
                 >
                   <Trophy size={11} /> {podium.label}
                 </span>
@@ -93,8 +136,13 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
               </span>
             )}
           </div>
-          <p className="mb-5 flex-1 text-sm leading-relaxed text-gray-400">
-            {PROJECT_DETAILS[repo.name]?.tagline ?? repo.description ?? 'Projet personnel — voir le code sur GitHub.'}
+          <p className="mb-3 flex-1 text-sm leading-relaxed text-gray-400">
+            {getProjectText(repo.name, lang)?.tagline ?? repo.description ?? L.fallback}
+          </p>
+          {/* dernière modification, synchronisée avec GitHub */}
+          <p className="mb-4 flex items-center gap-1.5 text-[11px] text-gray-500">
+            <History size={11} className="text-cyan/70" />
+            {L.updated} {relativeTime(repo.updatedAt, lang)}
           </p>
           <div className="flex items-center justify-between">
             {repo.language ? (
@@ -105,14 +153,14 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
             ) : <span />}
             <div className="flex items-center gap-1">
               <span className="mr-1 flex items-center gap-1 text-[11px] text-gray-500 opacity-0 transition-opacity group-hover:opacity-100">
-                <MousePointerClick size={12} /> Voir la fiche
+                <MousePointerClick size={12} /> {L.seeCard}
               </span>
               {repo.homepage && (
                 <a
                   href={repo.homepage}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label={`Démo de ${repo.name}`}
+                  aria-label={L.demoAria(repo.name)}
                   onClick={(e) => e.stopPropagation()}
                   className="rounded-lg p-2 text-gray-400 hover:text-cyan"
                 >
@@ -123,7 +171,7 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
                 href={repo.url}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={`Code source de ${repo.name}`}
+                aria-label={L.codeAria(repo.name)}
                 onClick={(e) => e.stopPropagation()}
                 className="rounded-lg p-2 text-gray-400 hover:text-neon"
               >
@@ -138,6 +186,8 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
 }
 
 export default function Projects() {
+  const { lang } = useLang()
+  const L = STRINGS[lang]
   const { repos, loading, error } = useGithubRepos()
   const [category, setCategory] = useState('Tous')
   const [language, setLanguage] = useState('Tous')
@@ -209,11 +259,11 @@ export default function Projects() {
 
   return (
     <section className="relative mx-auto max-w-6xl px-6 py-28">
-      <SectionHeader sector="04" kicker="Projets" title="Le classement" />
+      <SectionHeader sector="04" kicker={L.kicker} title={L.title} />
       <ScrollReveal>
         <p className="mb-10 flex items-center justify-center gap-2 text-center text-sm text-gray-500">
           <RefreshCw size={14} className="text-cyan" />
-          <ShinyText>Synchronisé en direct avec mon GitHub — cliquez sur un projet pour sa fiche.</ShinyText>
+          <ShinyText>{L.sync}</ShinyText>
         </p>
       </ScrollReveal>
 
@@ -231,22 +281,22 @@ export default function Projects() {
                     : 'border-line bg-panel/60 text-gray-400 hover:text-white'
                 }`}
               >
-                {CATEGORY_ICONS[cat] ?? '📦'} {cat}
+                {CATEGORY_ICONS[cat] ?? '📦'} {CATEGORY_LABELS[lang][cat] ?? cat}
               </button>
             ))}
           </div>
           <div className="flex flex-wrap justify-center gap-2">
-            {languages.map((lang) => (
+            {languages.map((l) => (
               <button
-                key={lang}
-                onClick={() => setLanguage(lang)}
+                key={l}
+                onClick={() => setLanguage(l)}
                 className={`btn-uiverse relative cursor-pointer rounded-full border px-3 py-1 text-xs transition-colors ${
-                  language === lang
+                  language === l
                     ? 'border-transparent bg-gradient-to-r from-neon to-cyan text-white'
                     : 'border-line bg-panel/60 text-gray-500 hover:text-white'
                 }`}
               >
-                {lang}
+                {l === 'Tous' ? CATEGORY_LABELS[lang].Tous : l}
               </button>
             ))}
           </div>
@@ -258,13 +308,13 @@ export default function Projects() {
         <ScrollReveal className="mb-8 flex flex-wrap items-center justify-center gap-3 text-xs text-gray-500">
           <span className="flex items-center gap-1.5">
             <Hand size={13} className="text-f1" />
-            Glissez les cartes avec la poignée — la ligne du haut, c'est le podium (P1, P2, P3).
+            {L.dragHint}
           </span>
           <button
             onClick={resetOrder}
             className="flex cursor-pointer items-center gap-1 rounded-full border border-line bg-panel/60 px-3 py-1 transition-colors hover:text-white"
           >
-            <RotateCcw size={11} /> Ordre par défaut
+            <RotateCcw size={11} /> {L.reset}
           </button>
         </ScrollReveal>
       )}
@@ -272,9 +322,9 @@ export default function Projects() {
       {loading && <Loader />}
       {error && (
         <p className="text-center text-sm text-gray-500">
-          Impossible de charger les projets ({error}) —{' '}
+          {L.loadError} ({error}) —{' '}
           <a href="https://github.com/LaFicelleCmoi?tab=repositories" target="_blank" rel="noreferrer" className="text-cyan underline">
-            voir directement sur GitHub
+            {L.seeGithub}
           </a>
         </p>
       )}
@@ -291,15 +341,15 @@ export default function Projects() {
               draggable={draggable}
               onReorder={handleReorder}
               registerRef={registerRef}
+              lang={lang}
+              L={L}
             />
           ))}
         </AnimatePresence>
       </motion.div>
 
       {!loading && !error && filtered.length === 0 && (
-        <p className="mt-6 text-center text-sm text-gray-500">
-          🏎️ Tout droit dans le mur : aucun projet ne combine ces deux filtres. Essaie une autre combinaison !
-        </p>
+        <p className="mt-6 text-center text-sm text-gray-500">{L.noResult}</p>
       )}
 
       <ProjectModal repo={selected} rank={rankOf(selected)} onClose={() => setSelected(null)} />
