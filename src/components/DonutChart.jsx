@@ -80,7 +80,7 @@ export default function DonutChart({ data, centerLabel, centerSub, ariaLabel }) 
             <span className="h-3 w-3 shrink-0 rounded-sm" style={{ background: s.color }} />
             <span className="flex-1 text-gray-300">{s.label}</span>
             <span className="font-mono text-xs text-gray-400">{s.value}</span>
-            <span className="w-10 text-right font-mono text-xs text-gray-500">
+            <span className="w-10 text-right font-mono text-xs text-gray-400">
               {Math.round(s.frac * 100)}%
             </span>
           </li>
