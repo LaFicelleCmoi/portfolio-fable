@@ -371,7 +371,7 @@ export default function Contact() {
               </Magnetic>
               <Magnetic>
                 <a
-                  href="https://www.linkedin.com/feed/"
+                  href="https://www.linkedin.com/in/lo%C3%AFs-clerc-a46583386/"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="LinkedIn"
