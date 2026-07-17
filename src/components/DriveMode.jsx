@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
 import { useLang } from '../i18n.jsx'
 
 // ── MODE PISTE ────────────────────────────────────────────────────────────
@@ -40,7 +41,7 @@ const HUD_STRINGS = {
   },
 }
 
-export default function DriveMode({ onClose }) {
+export default function DriveMode({ onClose, registerClose }) {
   const { lang } = useLang()
   const T = HUD_STRINGS[lang]
   const tRef = useRef(T)
@@ -48,6 +49,20 @@ export default function DriveMode({ onClose }) {
   const canvasRef = useRef(null)
   const [hud, setHud] = useState({ speed: 0, time: '0:00.0', dist: 0 })
   const [banner, setBanner] = useState(null)
+  // entrée/sortie fluides : fondu du calque + la voiture déboule puis repart en trombe
+  const [visible, setVisible] = useState(false)
+  const [closing, setClosing] = useState(false)
+  const closingRef = useRef(false)
+  // callbacks stabilisés : le jeu ne doit pas redémarrer si le parent re-render
+  const onCloseRef = useRef(onClose)
+  onCloseRef.current = onClose
+  const registerCloseRef = useRef(registerClose)
+  registerCloseRef.current = registerClose
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setVisible(true))
+    return () => cancelAnimationFrame(raf)
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -63,14 +78,17 @@ export default function DriveMode({ onClose }) {
     }
     resize()
 
-    // la voiture vit en coordonnées DOCUMENT (elle traverse toute la page)
+    // la voiture vit en coordonnées DOCUMENT (elle traverse toute la page).
+    // Elle déboule depuis le bord gauche et ralentit d'elle-même : entrée en scène.
     const car = {
-      x: window.innerWidth / 2,
+      x: -80,
       y: window.scrollY + window.innerHeight / 2,
-      angle: Math.PI / 2, // face à la suite de la page
-      speed: 0,
+      angle: 0, // plein est : elle traverse l'écran vers le centre
+      speed: 620,
       steerVisual: 0,
     }
+    const born = performance.now()
+    let entered = false
     const keys = { up: false, down: false, left: false, right: false }
     const trail = [] // traces de pneus {x, y, life, w}
     const sparks = [] // étincelles d'échappement {x, y, vx, vy, life}
@@ -83,9 +101,20 @@ export default function DriveMode({ onClose }) {
     let raf = 0
     let last = t0
 
+    // sortie fluide : la voiture remet les gaz et file hors champ pendant le fondu
+    const beginExit = () => {
+      if (closingRef.current) return
+      closingRef.current = true
+      setClosing(true)
+      setTimeout(() => onCloseRef.current(), 520)
+    }
+    registerCloseRef.current?.(beginExit)
+
     const onKey = (down) => (e) => {
       const k = e.key
-      if (down && k === 'Escape') return onClose()
+      if (down && (k === 'Escape' || k.toLowerCase() === 'p')) {
+        if (!['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return beginExit()
+      }
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return // on laisse le clavier au formulaire
       const map = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right' }
       if (map[k]) {
@@ -187,12 +216,17 @@ export default function DriveMode({ onClose }) {
       const docH = document.documentElement.scrollHeight
 
       // ── physique ──
-      if (keys.up) car.speed += 950 * dt
-      if (keys.down) car.speed -= 1300 * dt
-      car.speed *= 1 - 1.4 * dt // frottements
-      car.speed = clamp(car.speed, -260, 950)
+      if (closingRef.current) {
+        // sortie : plein gaz automatique, la voiture file hors champ
+        car.speed = Math.min(car.speed + 1600 * dt, 1250)
+      } else {
+        if (keys.up) car.speed += 950 * dt
+        if (keys.down) car.speed -= 1300 * dt
+        car.speed *= 1 - 1.4 * dt // frottements
+        car.speed = clamp(car.speed, -260, 950)
+      }
 
-      const steerInput = (keys.left ? -1 : 0) + (keys.right ? 1 : 0)
+      const steerInput = closingRef.current ? 0 : (keys.left ? -1 : 0) + (keys.right ? 1 : 0)
       car.steerVisual += (steerInput - car.steerVisual) * Math.min(1, 10 * dt)
       const grip = clamp(car.speed / 320, -1.6, 1.6)
       car.angle += steerInput * 2.4 * dt * grip
@@ -203,16 +237,19 @@ export default function DriveMode({ onClose }) {
       car.y += vy * dt
       dist += Math.abs(car.speed) * dt
 
-      // murs : rebond amorti
-      if (car.x < 24 || car.x > window.innerWidth - 24) {
-        car.x = clamp(car.x, 24, window.innerWidth - 24)
-        car.angle = Math.PI - car.angle
-        car.speed *= 0.55
-      }
-      if (car.y < 24 || car.y > docH - 24) {
-        car.y = clamp(car.y, 24, docH - 24)
-        car.angle = -car.angle
-        car.speed *= 0.55
+      // murs : rebond amorti — désactivés pendant l'arrivée (hors champ) et la sortie
+      if (!entered && car.x > 30) entered = true
+      if (entered && !closingRef.current) {
+        if (car.x < 24 || car.x > window.innerWidth - 24) {
+          car.x = clamp(car.x, 24, window.innerWidth - 24)
+          car.angle = Math.PI - car.angle
+          car.speed *= 0.55
+        }
+        if (car.y < 24 || car.y > docH - 24) {
+          car.y = clamp(car.y, 24, docH - 24)
+          car.angle = -car.angle
+          car.speed *= 0.55
+        }
       }
 
       // la page suit la monoplace
@@ -230,6 +267,16 @@ export default function DriveMode({ onClose }) {
         )
         if (trail.length > 900) trail.splice(0, trail.length - 900)
       }
+      // gerbe d'étincelles pendant l'entrée en scène et la sortie en trombe
+      if (now - born < 650 || closingRef.current) {
+        sparks.push({
+          x: car.x - Math.cos(car.angle) * 26,
+          y: car.y - Math.sin(car.angle) * 26,
+          vx: -vx * 0.2 + (Math.random() - 0.5) * 90,
+          vy: -vy * 0.2 + (Math.random() - 0.5) * 90,
+          life: 0.55,
+        })
+      }
       // étincelles à l'accélération
       if (keys.up && Math.abs(car.speed) > 150) {
         sparks.push({
@@ -241,10 +288,10 @@ export default function DriveMode({ onClose }) {
         })
       }
 
-      bump(now, vx, vy)
+      if (!closingRef.current) bump(now, vx, vy)
 
       // ── ligne d'arrivée : le bas de page ──
-      if (armed && car.y > docH * 0.94) {
+      if (armed && !closingRef.current && car.y > docH * 0.94) {
         armed = false
         setBanner(tRef.current.finish(fmtTime(now - started)))
         setTimeout(() => setBanner(null), 6000)
@@ -300,19 +347,27 @@ export default function DriveMode({ onClose }) {
     window.addEventListener('resize', resize)
     return () => {
       cancelAnimationFrame(raf)
+      registerCloseRef.current?.(null)
       window.removeEventListener('keydown', kd)
       window.removeEventListener('keyup', ku)
       window.removeEventListener('resize', resize)
       document.querySelectorAll('.car-bump').forEach((el) => el.classList.remove('car-bump'))
     }
-  }, [onClose])
+  }, [])
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[80]">
+    <div
+      className="pointer-events-none fixed inset-0 z-[80] transition-opacity duration-500 ease-out"
+      style={{ opacity: visible && !closing ? 1 : 0 }}
+    >
       <canvas ref={canvasRef} className="absolute inset-0" />
 
       {/* HUD télémétrie */}
-      <div className="absolute top-20 left-4 rounded-2xl border border-line bg-ink/85 px-4 py-3 font-mono text-xs text-gray-300 backdrop-blur">
+      <motion.div
+        initial={{ opacity: 0, y: -18, scale: 0.95 }}
+        animate={closing ? { opacity: 0, y: -18, scale: 0.95 } : { opacity: 1, y: 0, scale: 1 }}
+        transition={{ type: 'spring', damping: 18, stiffness: 220 }}
+        className="absolute top-20 left-4 rounded-2xl border border-line bg-ink/85 px-4 py-3 font-mono text-xs text-gray-300 backdrop-blur">
         <p className="mb-1 tracking-[0.25em] text-f1">{T.title}</p>
         <p>
           <span className="text-gray-500">{T.speed}</span>{' '}
@@ -324,7 +379,7 @@ export default function DriveMode({ onClose }) {
         </p>
         <p className="mt-2 text-[10px] text-gray-500">{T.keys}</p>
         <p className="text-[10px] text-gray-500">{T.finishHint}</p>
-      </div>
+      </motion.div>
 
       {/* annonces de course */}
       {banner && (
