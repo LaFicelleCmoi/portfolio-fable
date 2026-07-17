@@ -1,0 +1,72 @@
+name: Lighthouse CI
+
+# À chaque push sur main : build du site, audit Lighthouse (mobile),
+# puis mise à jour des badges de scores affichés dans le README.
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.github/badges/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installer et builder
+        run: |
+          npm ci
+          npm run build
+
+      - name: Servir le build et lancer Lighthouse
+        run: |
+          npx serve -l 4173 dist &
+          sleep 3
+          npx lighthouse@12 http://localhost:4173 \
+            --quiet \
+            --chrome-flags="--headless --no-sandbox" \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --output=json --output-path=./lh.json
+
+      - name: Générer les badges de scores
+        run: |
+          mkdir -p .github/badges
+          badge () {
+            local label="$1" score="$2" file="$3" color
+            if   [ "$score" -ge 90 ]; then color=brightgreen
+            elif [ "$score" -ge 75 ]; then color=green
+            elif [ "$score" -ge 50 ]; then color=orange
+            else color=red; fi
+            curl -s "https://img.shields.io/badge/${label}-${score}-${color}?logo=lighthouse&logoColor=white" -o ".github/badges/${file}.svg"
+          }
+          perf=$(jq -r '.categories.performance.score*100|round' lh.json)
+          a11y=$(jq -r '.categories.accessibility.score*100|round' lh.json)
+          bp=$(jq -r '.categories["best-practices"].score*100|round' lh.json)
+          seo=$(jq -r '.categories.seo.score*100|round' lh.json)
+          badge "Performance" "$perf" "performance"
+          badge "Accessibilit%C3%A9" "$a11y" "accessibility"
+          badge "Bonnes%20pratiques" "$bp" "best-practices"
+          badge "SEO" "$seo" "seo"
+          echo "Scores : perf=$perf a11y=$a11y bp=$bp seo=$seo"
+
+      - name: Commiter les badges
+        run: |
+          git config user.name "lighthouse-bot"
+          git config user.email "actions@github.com"
+          git add .github/badges
+          if git diff --cached --quiet; then
+            echo "Badges inchangés"
+          else
+            git commit -m "chore(ci): met à jour les badges Lighthouse [skip ci]"
+            git push
+          fi
