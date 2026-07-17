@@ -273,7 +273,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="relative mx-auto max-w-6xl px-6 py-28">
+    <section className="relative mx-auto max-w-6xl px-6 py-28">
       <SectionHeader sector="05" kicker="Contact" title="On travaille ensemble ?">
         Une opportunité, une question, ou juste envie d'échanger sur un projet ? Ouvrez la radio —
         tous les canaux mènent à moi.
