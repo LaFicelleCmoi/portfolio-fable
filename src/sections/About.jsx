@@ -7,6 +7,7 @@ import Marquee from '../components/Marquee.jsx'
 const TECHS = [
   'React', 'JavaScript', 'TypeScript', 'Python', 'Java', 'Node.js',
   'Docker', 'Jenkins', 'Git & GitHub', 'HTML / CSS', 'TailwindCSS', 'SQL',
+  'Firebase', 'Supabase', 'n8n', 'Flutter', 'Figma',
 ]
 
 // mon parcours, saison par saison — comme un palmarès de pilote
@@ -23,8 +24,8 @@ const TIMELINE = [
   },
   {
     date: 'Saison en cours',
-    title: 'Alternance — Développeur Full-Stack chez EzDrive',
-    text: "En entreprise 4 semaines sur 6 : du code en conditions réelles, des vrais utilisateurs et une vraie équipe. Détails dans la section Alternance 🏎️",
+    title: 'Apprentissage chez EzDrive — Transformation Numérique & Data',
+    text: "Ingénieur junior au sein du Groupe SURAYA (recharge électrique dans les DROM et l'Océan Indien) : apps mobiles, automatisations n8n, Firebase/Supabase et cloud. Détails dans la section Alternance 🏎️",
   },
   {
     date: 'Prochaines saisons',
