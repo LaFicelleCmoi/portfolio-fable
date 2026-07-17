@@ -9,6 +9,15 @@ const LANG_COLORS = {
   Java: '#e76f00', HTML: '#e34c26', Groovy: '#4298b8',
 }
 
+// Label du bouton "démo" adapté au type de projet
+const DEMO_LABELS = {
+  'Jeux': 'Jouer en ligne',
+  'Foot': 'Ouvrir le tracker',
+  'Web': "Ouvrir l'app",
+  'IA & Python': 'Tester en ligne',
+  'Temps réel': "Ouvrir l'app",
+}
+
 // Fiche projet détaillée, ouverte au clic sur une carte.
 // `rank` (1-3) : position sur le podium de la grille, si le projet y est.
 export default function ProjectModal({ repo, rank, onClose }) {
@@ -129,7 +138,7 @@ export default function ProjectModal({ repo, rank, onClose }) {
                 </GlowButton>
                 {repo.homepage && (
                   <GlowButton href={repo.homepage} target="_blank" rel="noreferrer" variant="ghost">
-                    <ExternalLink size={16} /> Voir la démo
+                    <ExternalLink size={16} /> {DEMO_LABELS[category] ?? 'Essayer en ligne'}
                   </GlowButton>
                 )}
               </div>
