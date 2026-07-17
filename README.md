@@ -1,5 +1,14 @@
 # Portfolio — Loïs ⚡
 
+![Performance](.github/badges/performance.svg)
+![Accessibilité](.github/badges/accessibility.svg)
+![Bonnes pratiques](.github/badges/best-practices.svg)
+![SEO](.github/badges/seo.svg)
+
+> Badges mis à jour automatiquement par [Lighthouse CI](.github/workflows/lighthouse.yml) à chaque push 🏁
+
+**🌐 En ligne : [portfolio-loisclerc.vercel.app](https://portfolio-loisclerc.vercel.app/)** — bilingue FR/EN.
+
 Portfolio personnel construit avec **React + Vite + TailwindCSS v4 + Framer Motion**.
 Design inspiré de [reactbits.dev](https://reactbits.dev) et [uiverse.io](https://uiverse.io).
 
