@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLang } from '../i18n.jsx'
 
 // ── MODE PISTE ────────────────────────────────────────────────────────────
 // Easter egg inspiré de bruno-simon.com : une monoplace pilotable aux
@@ -16,7 +17,34 @@ const fmtTime = (ms) => {
   return `${m}:${String(s).padStart(2, '0')}.${d}`
 }
 
+const HUD_STRINGS = {
+  fr: {
+    title: '🏎️ MODE PISTE 🇫🇷',
+    speed: 'VITESSE',
+    lap: 'TOUR',
+    dist: 'DIST.',
+    keys: '↑ ↓ ← → conduire · Échap quitter',
+    finishHint: "La ligne d'arrivée est en bas de page 🏁",
+    finish: (lap) => `🏁 Ligne d'arrivée — tour en ${lap} ! Remonte tout en haut pour relancer un tour.`,
+    newLap: '🟢 Nouveau tour lancé — fonce !',
+  },
+  en: {
+    title: '🏎️ TRACK MODE 🇫🇷',
+    speed: 'SPEED',
+    lap: 'LAP',
+    dist: 'DIST.',
+    keys: '↑ ↓ ← → drive · Esc to quit',
+    finishHint: 'The finish line is at the bottom of the page 🏁',
+    finish: (lap) => `🏁 Finish line — lap in ${lap}! Head back to the top to start a new lap.`,
+    newLap: '🟢 New lap started — floor it!',
+  },
+}
+
 export default function DriveMode({ onClose }) {
+  const { lang } = useLang()
+  const T = HUD_STRINGS[lang]
+  const tRef = useRef(T)
+  tRef.current = T
   const canvasRef = useRef(null)
   const [hud, setHud] = useState({ speed: 0, time: '0:00.0', dist: 0 })
   const [banner, setBanner] = useState(null)
@@ -218,14 +246,13 @@ export default function DriveMode({ onClose }) {
       // ── ligne d'arrivée : le bas de page ──
       if (armed && car.y > docH * 0.94) {
         armed = false
-        const lap = fmtTime(now - started)
-        setBanner(`🏁 Ligne d'arrivée — tour en ${lap} ! Remonte tout en haut pour relancer un tour.`)
+        setBanner(tRef.current.finish(fmtTime(now - started)))
         setTimeout(() => setBanner(null), 6000)
       }
       if (!armed && car.y < docH * 0.12) {
         armed = true
         started = now
-        setBanner('🟢 Nouveau tour lancé — fonce !')
+        setBanner(tRef.current.newLap)
         setTimeout(() => setBanner(null), 2500)
       }
 
@@ -286,17 +313,17 @@ export default function DriveMode({ onClose }) {
 
       {/* HUD télémétrie */}
       <div className="absolute top-20 left-4 rounded-2xl border border-line bg-ink/85 px-4 py-3 font-mono text-xs text-gray-300 backdrop-blur">
-        <p className="mb-1 tracking-[0.25em] text-f1">🏎️ MODE PISTE 🇫🇷</p>
+        <p className="mb-1 tracking-[0.25em] text-f1">{T.title}</p>
         <p>
-          <span className="text-gray-500">VITESSE</span>{' '}
+          <span className="text-gray-500">{T.speed}</span>{' '}
           <span className="text-lg font-bold text-white">{hud.speed}</span> km/h
         </p>
         <p>
-          <span className="text-gray-500">TOUR</span> <span className="text-cyan">{hud.time}</span>
-          <span className="ml-3 text-gray-500">DIST.</span> {hud.dist} m
+          <span className="text-gray-500">{T.lap}</span> <span className="text-cyan">{hud.time}</span>
+          <span className="ml-3 text-gray-500">{T.dist}</span> {hud.dist} m
         </p>
-        <p className="mt-2 text-[10px] text-gray-500">↑ ↓ ← → conduire · Échap quitter</p>
-        <p className="text-[10px] text-gray-500">La ligne d'arrivée est en bas de page 🏁</p>
+        <p className="mt-2 text-[10px] text-gray-500">{T.keys}</p>
+        <p className="text-[10px] text-gray-500">{T.finishHint}</p>
       </div>
 
       {/* annonces de course */}
