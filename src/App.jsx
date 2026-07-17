@@ -13,6 +13,8 @@ const About = lazy(() => import('./sections/About.jsx'))
 const Experience = lazy(() => import('./sections/Experience.jsx'))
 const Skills = lazy(() => import('./sections/Skills.jsx'))
 const Projects = lazy(() => import('./sections/Projects.jsx'))
+const DataSection = lazy(() => import('./sections/DataSection.jsx'))
+const OffTrack = lazy(() => import('./sections/OffTrack.jsx'))
 const Contact = lazy(() => import('./sections/Contact.jsx'))
 const Footer = lazy(() => import('./sections/Footer.jsx'))
 
@@ -37,6 +39,14 @@ export default function App() {
         <Kerb />
         <LazySection id="projets">
           <Projects />
+        </LazySection>
+        <Kerb />
+        <LazySection id="data">
+          <DataSection />
+        </LazySection>
+        <Kerb />
+        <LazySection id="horspiste">
+          <OffTrack />
         </LazySection>
         <Kerb />
         <LazySection id="contact">
