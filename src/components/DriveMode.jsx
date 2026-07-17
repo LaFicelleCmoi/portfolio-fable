@@ -105,11 +105,12 @@ export default function DriveMode({ onClose }) {
       wheel(-15, 11, 0)
       wheel(14, -10, car.steerVisual * 0.5)
       wheel(14, 10, car.steerVisual * 0.5)
-      // aileron arrière
-      ctx.fillStyle = '#8f0300'
+      // livrée tricolore 🇫🇷 : bleu à l'avant, blanc au centre, rouge à l'arrière
+      // aileron arrière — rouge
+      ctx.fillStyle = '#ef4135'
       ctx.fillRect(-24, -11, 5, 22)
-      // corps effilé
-      ctx.fillStyle = '#e10600'
+      // corps effilé — blanc
+      ctx.fillStyle = '#f2f4f8'
       ctx.beginPath()
       ctx.moveTo(-20, -7)
       ctx.lineTo(4, -5)
@@ -119,18 +120,33 @@ export default function DriveMode({ onClose }) {
       ctx.lineTo(-20, 7)
       ctx.closePath()
       ctx.fill()
-      // ponton + numéro
-      ctx.fillStyle = '#ff7a00'
-      ctx.fillRect(-8, -8, 12, 16)
-      // aileron avant
-      ctx.fillStyle = '#8f0300'
+      // arrière du corps — rouge
+      ctx.fillStyle = '#ef4135'
+      ctx.beginPath()
+      ctx.moveTo(-20, -7)
+      ctx.lineTo(-10, -6.4)
+      ctx.lineTo(-10, 6.4)
+      ctx.lineTo(-20, 7)
+      ctx.closePath()
+      ctx.fill()
+      // museau — bleu de France
+      ctx.fillStyle = '#0055a4'
+      ctx.beginPath()
+      ctx.moveTo(8, -4.6)
+      ctx.lineTo(24, -2)
+      ctx.lineTo(24, 2)
+      ctx.lineTo(8, 4.6)
+      ctx.closePath()
+      ctx.fill()
+      // aileron avant — bleu
+      ctx.fillStyle = '#0055a4'
       ctx.fillRect(22, -9, 3, 18)
-      // cockpit + casque
+      // cockpit + casque bleu
       ctx.fillStyle = '#1a1a1a'
       ctx.beginPath()
       ctx.ellipse(-2, 0, 6, 3.5, 0, 0, Math.PI * 2)
       ctx.fill()
-      ctx.fillStyle = '#22d3ee'
+      ctx.fillStyle = '#0055a4'
       ctx.beginPath()
       ctx.arc(-2, 0, 2.2, 0, Math.PI * 2)
       ctx.fill()
@@ -230,7 +246,7 @@ export default function DriveMode({ onClose }) {
         s.x += s.vx * dt
         s.y += s.vy * dt
         ctx.globalAlpha = s.life
-        ctx.fillStyle = Math.random() > 0.5 ? '#ffb347' : '#22d3ee'
+        ctx.fillStyle = ['#0055a4', '#f2f4f8', '#ef4135'][(Math.random() * 3) | 0]
         ctx.fillRect(s.x - 1.5, s.y - sy - 1.5, 3, 3)
       }
       ctx.globalAlpha = 1
@@ -270,7 +286,7 @@ export default function DriveMode({ onClose }) {
 
       {/* HUD télémétrie */}
       <div className="absolute top-20 left-4 rounded-2xl border border-line bg-ink/85 px-4 py-3 font-mono text-xs text-gray-300 backdrop-blur">
-        <p className="mb-1 tracking-[0.25em] text-f1">🏎️ MODE PISTE</p>
+        <p className="mb-1 tracking-[0.25em] text-f1">🏎️ MODE PISTE 🇫🇷</p>
         <p>
           <span className="text-gray-500">VITESSE</span>{' '}
           <span className="text-lg font-bold text-white">{hud.speed}</span> km/h
