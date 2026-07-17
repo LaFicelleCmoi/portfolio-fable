@@ -140,7 +140,7 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
             {getProjectText(repo.name, lang)?.tagline ?? repo.description ?? L.fallback}
           </p>
           {/* dernière modification, synchronisée avec GitHub */}
-          <p className="mb-4 flex items-center gap-1.5 text-[11px] text-gray-500">
+          <p className="mb-4 flex items-center gap-1.5 text-[11px] text-gray-400">
             <History size={11} className="text-cyan/70" />
             {L.updated} {relativeTime(repo.updatedAt, lang)}
           </p>
