@@ -35,7 +35,7 @@ const TIMELINE = [
 
 export default function About() {
   return (
-    <section id="apropos" className="relative mx-auto max-w-5xl px-6 py-28">
+    <section className="relative mx-auto max-w-5xl px-6 py-28">
       <SectionHeader sector="01" kicker="À propos" title="Qui suis-je ?" />
 
       <div className="grid gap-10 md:grid-cols-2">
