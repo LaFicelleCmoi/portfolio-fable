@@ -31,7 +31,7 @@ const STACK = ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Git']
 
 export default function Experience() {
   return (
-    <section id="experience" className="relative mx-auto max-w-5xl px-6 py-28">
+    <section className="relative mx-auto max-w-5xl px-6 py-28">
       <SectionHeader sector="02" kicker="Expérience" title="Mon écurie : EzDrive">
         En parallèle d'Epitech, je suis développeur full-stack en alternance : l'école m'apprend à
         apprendre, l'entreprise m'apprend le métier. Comme un pilote, je progresse au contact de
