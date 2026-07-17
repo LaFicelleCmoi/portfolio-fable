@@ -43,9 +43,9 @@ export default function Navbar() {
       className="fixed top-4 left-1/2 z-50 -translate-x-1/2"
       aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}
     >
-      <ul className="relative flex items-center gap-0.5 rounded-2xl border border-line bg-panel/70 px-2 py-2 shadow-2xl shadow-black/50 backdrop-blur-xl sm:gap-1">
-        {/* liseré lumineux sous le dock */}
-        <span aria-hidden className="absolute inset-x-6 -bottom-px h-px bg-gradient-to-r from-transparent via-neon/70 to-transparent" />
+      {/* liseré lumineux sous le dock (hors du ul : un ul ne contient que des li) */}
+      <span aria-hidden className="pointer-events-none absolute inset-x-8 bottom-0 h-px bg-gradient-to-r from-transparent via-neon/70 to-transparent" />
+      <ul className="flex items-center gap-0.5 rounded-2xl border border-line bg-panel/70 px-2 py-2 shadow-2xl shadow-black/50 backdrop-blur-xl sm:gap-1">
         {LINKS.map(({ id, icon: Icon, ...labels }) => (
           <li key={id}>
             <Magnetic strength={0.2}>
