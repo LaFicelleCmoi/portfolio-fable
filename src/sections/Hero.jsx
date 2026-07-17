@@ -8,19 +8,58 @@ import Typewriter from '../components/Typewriter.jsx'
 import GlowButton from '../components/GlowButton.jsx'
 import Magnetic from '../components/Magnetic.jsx'
 import CountUp from '../components/CountUp.jsx'
+import { useLang } from '../i18n.jsx'
 
-// chaque stat porte la couleur d'un secteur de chrono F1 (S1 jaune, S2 vert, S3 violet)
 // Pour passer à une vraie photo : dépose-la dans public/ (ex. public/photo.jpg)
 // et remplace la valeur ci-dessous par '/photo.jpg'.
 const PHOTO = 'https://avatars.githubusercontent.com/u/232385998?v=4'
 
+// chaque stat porte la couleur d'un secteur de chrono F1 (S1 jaune, S2 vert, S3 violet)
 const STATS = [
-  { value: 30, suffix: '+', label: 'Projets GitHub', sector: 'S1', color: '#ffd700' },
-  { value: 6, suffix: '', label: 'Langages maîtrisés', sector: 'S2', color: '#00d26a' },
-  { value: 3, suffix: '+', label: "Années d'études", sector: 'S3', color: '#b455ff' },
+  { value: 30, suffix: '+', fr: 'Projets GitHub', en: 'GitHub projects', sector: 'S1', color: '#ffd700' },
+  { value: 6, suffix: '', fr: 'Langages maîtrisés', en: 'Languages', sector: 'S2', color: '#00d26a' },
+  { value: 3, suffix: '+', fr: "Années d'études", en: 'Years of study', sector: 'S3', color: '#b455ff' },
 ]
 
+const STRINGS = {
+  fr: {
+    badge: 'En apprentissage chez EzDrive ⚡ — Transformation Numérique & Data',
+    hello: "Bonjour, moi c'est",
+    tagline1: 'Je transforme des idées en',
+    taglineAccent: 'code qui marche',
+    phrases: [
+      'Développeur Full-Stack en alternance',
+      'React · Python · Java · TypeScript',
+      'DevOps : Docker, Kubernetes, CI/CD',
+      'Fan de F1 : vite, mais sans bug 🏁',
+    ],
+    cv: 'Télécharger mon CV',
+    github: 'Mon GitHub',
+    scrollAria: 'Descendre vers la section À propos',
+    photoAlt: 'Photo de profil de Loïs',
+  },
+  en: {
+    badge: 'Apprentice at EzDrive ⚡ — Digital Transformation & Data',
+    hello: "Hi, I'm",
+    tagline1: 'I turn ideas into',
+    taglineAccent: 'code that works',
+    phrases: [
+      'Full-Stack developer & apprentice',
+      'React · Python · Java · TypeScript',
+      'DevOps: Docker, Kubernetes, CI/CD',
+      'F1 fan: fast, but bug-free 🏁',
+    ],
+    cv: 'Download my resume',
+    github: 'My GitHub',
+    scrollAria: 'Scroll down to the About section',
+    photoAlt: "Loïs's profile picture",
+  },
+}
+
 export default function Hero() {
+  const { lang } = useLang()
+  const L = STRINGS[lang]
+
   return (
     <section id="accueil" className="relative flex min-h-screen items-center justify-center overflow-hidden">
       <Aurora />
@@ -37,7 +76,7 @@ export default function Hero() {
             <div className="animate-pulse-glow rounded-full bg-gradient-to-r from-neon to-cyan p-[3px]">
               <img
                 src={PHOTO}
-                alt="Photo de profil de Loïs"
+                alt={L.photoAlt}
                 className="h-32 w-32 rounded-full object-cover sm:h-36 sm:w-36"
                 width="144"
                 height="144"
@@ -57,10 +96,10 @@ export default function Hero() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-f1 opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-f1" />
           </span>
-          En apprentissage chez EzDrive ⚡ — Transformation Numérique & Data
+          {L.badge}
         </motion.p>
 
-        <p className="mb-3 text-sm uppercase tracking-[0.35em] text-cyan">Bonjour, moi c'est</p>
+        <p className="mb-3 text-sm uppercase tracking-[0.35em] text-cyan">{L.hello}</p>
 
         <h1 className="mb-4 text-5xl font-bold sm:text-7xl">
           <SplitText text="Loïs" delay={0.4} />{' '}
@@ -71,39 +110,31 @@ export default function Hero() {
 
         {/* accroche */}
         <p className="mb-2 text-xl text-gray-300 sm:text-2xl">
-          Je transforme des idées en{' '}
-          <GradientText className="font-semibold">code qui marche</GradientText>.
+          {L.tagline1} <GradientText className="font-semibold">{L.taglineAccent}</GradientText>.
         </p>
         <p className="mb-10 h-8 text-lg text-gray-400">
-          <Typewriter
-            phrases={[
-              'Développeur Full-Stack en alternance',
-              'React · Python · Java · TypeScript',
-              'DevOps : Docker, Kubernetes, CI/CD',
-              'Fan de F1 : vite, mais sans bug 🏁',
-            ]}
-          />
+          <Typewriter key={lang} phrases={L.phrases} />
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
           <GlowButton href="/cv-lois.pdf" download>
-            <FileDown size={17} /> Télécharger mon CV
+            <FileDown size={17} /> {L.cv}
           </GlowButton>
           <GlowButton href="https://github.com/LaFicelleCmoi" target="_blank" rel="noreferrer" variant="ghost">
-            <Github size={17} /> Mon GitHub
+            <Github size={17} /> {L.github}
           </GlowButton>
         </div>
 
         {/* stats animées */}
         <div className="mx-auto mt-14 grid max-w-lg grid-cols-3 gap-4">
           {STATS.map((s) => (
-            <div key={s.label} className="relative overflow-hidden rounded-2xl border border-line bg-panel/50 p-4 backdrop-blur">
+            <div key={s.sector} className="relative overflow-hidden rounded-2xl border border-line bg-panel/50 p-4 backdrop-blur">
               <span className="absolute inset-x-0 top-0 h-0.5" style={{ background: s.color, boxShadow: `0 0 8px ${s.color}` }} />
               <div className="mb-1 font-mono text-[10px] tracking-widest" style={{ color: s.color }}>{s.sector}</div>
               <div className="text-3xl font-bold text-white">
                 <CountUp to={s.value} suffix={s.suffix} />
               </div>
-              <div className="mt-1 text-xs text-gray-400">{s.label}</div>
+              <div className="mt-1 text-xs text-gray-400">{s[lang]}</div>
             </div>
           ))}
         </div>
@@ -111,7 +142,7 @@ export default function Hero() {
 
       <motion.a
         href="#apropos"
-        aria-label="Descendre vers la section À propos"
+        aria-label={L.scrollAria}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-500 hover:text-cyan"
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 1.8 }}
