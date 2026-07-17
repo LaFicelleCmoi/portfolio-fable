@@ -128,6 +128,36 @@ body {
   background: repeating-linear-gradient(90deg, var(--color-f1) 0 16px, #e5e7eb 16px 32px);
 }
 
+/* ── texte glitch au survol (style reactbits) ───── */
+@keyframes glitch-shift-1 {
+  0%, 100% { clip-path: inset(20% 0 60% 0); transform: translate(-3px, -2px); }
+  33% { clip-path: inset(65% 0 10% 0); transform: translate(3px, 1px); }
+  66% { clip-path: inset(40% 0 40% 0); transform: translate(-2px, 2px); }
+}
+@keyframes glitch-shift-2 {
+  0%, 100% { clip-path: inset(70% 0 5% 0); transform: translate(3px, 2px); }
+  33% { clip-path: inset(10% 0 75% 0); transform: translate(-3px, -1px); }
+  66% { clip-path: inset(45% 0 35% 0); transform: translate(2px, -2px); }
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.glitch:hover::before {
+  opacity: 0.85;
+  color: var(--color-cyan);
+  animation: glitch-shift-1 0.45s steps(2) infinite;
+}
+.glitch:hover::after {
+  opacity: 0.85;
+  color: var(--color-f1);
+  animation: glitch-shift-2 0.45s steps(2) infinite;
+}
+
 /* la carte percutée par la monoplace du Mode Piste */
 @keyframes car-bump {
   0% { transform: translate(0, 0) rotate(0); }
