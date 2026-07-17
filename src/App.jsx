@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import Navbar from './components/Navbar.jsx'
 import RaceProgress from './components/RaceProgress.jsx'
 import PitButton from './components/PitButton.jsx'
+import DriveToggle from './components/DriveToggle.jsx'
 import Kerb from './components/Kerb.jsx'
 import LazySection from './components/LazySection.jsx'
 import Hero from './sections/Hero.jsx'
@@ -44,6 +45,7 @@ export default function App() {
         </LazySection>
       </main>
       <PitButton />
+      <DriveToggle />
     </>
   )
 }
