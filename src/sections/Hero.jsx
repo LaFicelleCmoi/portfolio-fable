@@ -73,11 +73,22 @@ export default function Hero() {
           className="mx-auto mb-8 w-fit"
         >
           <Magnetic strength={0.25}>
-            <div className="animate-pulse-glow rounded-full bg-gradient-to-r from-neon to-cyan p-[3px]">
+            <div className="relative rounded-full p-[3px]">
+              {/* anneau conique qui tourne + halo flou assorti */}
+              <span
+                aria-hidden
+                className="animate-spin-slow absolute -inset-1 rounded-full opacity-60 blur-md"
+                style={{ background: 'conic-gradient(from 0deg, #7c3aed, #22d3ee, #f472b6, #e10600, #7c3aed)' }}
+              />
+              <span
+                aria-hidden
+                className="animate-spin-slow absolute inset-0 rounded-full"
+                style={{ background: 'conic-gradient(from 0deg, #7c3aed, #22d3ee, #f472b6, #e10600, #7c3aed)' }}
+              />
               <img
                 src={PHOTO}
                 alt={L.photoAlt}
-                className="h-32 w-32 rounded-full object-cover sm:h-36 sm:w-36"
+                className="relative h-32 w-32 rounded-full object-cover sm:h-36 sm:w-36"
                 width="144"
                 height="144"
               />
