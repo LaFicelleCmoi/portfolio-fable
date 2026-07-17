@@ -320,7 +320,7 @@ export default function Experience() {
         <MonoTitle>
           <Flag size={13} className="text-cyan" /> {L.goalsTitle}
         </MonoTitle>
-        <p className="mb-6 text-center text-xs text-gray-500">{L.goalsSub}</p>
+        <p className="mb-6 text-center text-xs text-gray-400">{L.goalsSub}</p>
         <ol className="mx-auto max-w-2xl space-y-3">
           {L.goals.map((goal, i) => (
             <motion.li
@@ -343,7 +343,7 @@ export default function Experience() {
                 <goal.icon size={16} className={goal.finish ? 'text-ink' : 'text-cyan'} />
               </span>
               <span className="flex-1 text-sm text-gray-200">{goal.text}</span>
-              <span className="font-mono text-[10px] text-gray-600">{goal.finish ? '🏁' : `T${i + 1}`}</span>
+              <span className="font-mono text-[10px] text-gray-400">{goal.finish ? '🏁' : `T${i + 1}`}</span>
             </motion.li>
           ))}
         </ol>
