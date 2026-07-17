@@ -26,6 +26,28 @@ body {
   overflow-x: hidden;
 }
 
+/* ── ambiance globale : grain photographique + halos ── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.05;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(640px 320px at 12% -6%, rgba(124, 58, 237, 0.16), transparent 70%),
+    radial-gradient(720px 380px at 92% 112%, rgba(34, 211, 238, 0.11), transparent 70%),
+    radial-gradient(500px 260px at 105% 8%, rgba(225, 6, 0, 0.07), transparent 70%);
+}
+
 ::selection {
   background: var(--color-neon);
   color: white;
@@ -77,6 +99,37 @@ body {
   50% { box-shadow: 0 0 45px rgba(34, 211, 238, 0.55); }
 }
 .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spin-slow 6s linear infinite; }
+
+/* halo doux derrière les grands titres (fonctionne aussi sur texte en dégradé) */
+.title-glow {
+  text-shadow:
+    0 0 42px rgba(124, 58, 237, 0.45),
+    0 0 90px rgba(34, 211, 238, 0.22);
+}
+
+/* balayage lumineux au survol des boutons */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -160%;
+  width: 55%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.55s ease;
+  pointer-events: none;
+}
+.btn-shine:hover::after { left: 165%; }
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
