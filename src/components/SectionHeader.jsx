@@ -1,14 +1,16 @@
 import GradientText from './GradientText.jsx'
 import ScrollReveal from './ScrollReveal.jsx'
+import { useLang } from '../i18n.jsx'
 
 // En-tête de section façon télémétrie F1 : chaque section est un "secteur" du circuit
 export default function SectionHeader({ sector, kicker, title, children }) {
+  const { lang } = useLang()
   return (
     <ScrollReveal>
       <div className="mb-3 flex items-center justify-center gap-3">
         <span className="h-px w-10 bg-gradient-to-r from-transparent to-f1/70" />
         <span className="font-mono text-[11px] tracking-[0.3em] text-gray-500">
-          SECTEUR {sector}
+          {lang === 'fr' ? 'SECTEUR' : 'SECTOR'} {sector}
         </span>
         <span className="text-xs uppercase tracking-[0.35em] text-cyan">{kicker}</span>
         <span className="h-px w-10 bg-gradient-to-l from-transparent to-f1/70" />
