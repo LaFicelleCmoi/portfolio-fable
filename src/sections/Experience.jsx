@@ -1,41 +1,45 @@
-import { Building2, CalendarClock, Rocket, GitBranch, Layers, Flag } from 'lucide-react'
+import { CalendarClock, Smartphone, Workflow, CloudUpload, Flag, Zap } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
 import TiltCard from '../components/TiltCard.jsx'
 
 const COMPANY = {
   name: 'EzDrive',
-  sector: 'Transport & Logistique',
-  city: 'France',
+  group: 'Groupe SURAYA',
+  sector: 'Recharge électrique — DROM & Océan Indien',
+  city: 'Marseille · télétravail partiel',
+  pitch:
+    "EzDrive construit l'écosystème souverain de la recharge électrique dans les DROM et l'Océan Indien. J'y accompagne la transformation numérique : innovation, automatisation et gestion avancée des données.",
 }
 
 const MISSIONS = [
   {
-    icon: Layers,
-    title: 'Développement full-stack',
-    text: 'Conception et développement de fonctionnalités front (React) et back (API Node.js / bases de données), de la maquette à la mise en production.',
+    icon: Smartphone,
+    title: 'Apps mobiles & SaaS',
+    text: "Publication du code des applications mobiles sur les environnements iOS et Play Store, construction de mini-apps et de modules SaaS.",
   },
   {
-    icon: GitBranch,
-    title: 'Qualité & collaboration',
-    text: 'Travail en équipe avec Git : revues de code, pull requests, résolution de bugs et amélioration continue de l\'existant.',
+    icon: Workflow,
+    title: 'Automatisation & data',
+    text: "Création d'automatisations n8n, intégration d'APIs REST, de bases de données et de modèles autour de Firebase et Supabase.",
   },
   {
-    icon: Rocket,
-    title: 'Intégration & déploiement',
-    text: 'Participation à la CI/CD : conteneurisation Docker, pipelines automatisés et suivi des déploiements.',
+    icon: CloudUpload,
+    title: 'Cloud & produit',
+    text: "Déploiement d'environnements cloud, prototypage Figma, cérémonies agiles et participation aux nouveaux produits numériques (outils CPO/eMSP).",
   },
 ]
 
-const STACK = ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Git']
+const STACK = ['GitLab', 'GitHub', 'Figma', 'Firebase', 'Supabase', 'n8n', 'APIs REST', 'Swift / Kotlin / Flutter', 'Cursor']
 
 export default function Experience() {
   return (
     <section className="relative mx-auto max-w-5xl px-6 py-28">
       <SectionHeader sector="02" kicker="Expérience" title="Mon écurie : EzDrive">
-        En parallèle d'Epitech, je suis développeur full-stack en alternance : l'école m'apprend à
-        apprendre, l'entreprise m'apprend le métier. Comme un pilote, je progresse au contact de
-        l'équipe — chaque sprint est un Grand Prix.
+        En parallèle d'Epitech, je suis apprenti ingénieur en transformation numérique et data :
+        l'école m'apprend à apprendre, l'entreprise m'apprend le métier. Comme un pilote, je progresse
+        au contact de l'équipe — chaque sprint est un Grand Prix. Et chez EzDrive, l'électrique ⚡
+        c'est littéralement le métier.
       </SectionHeader>
 
       <ScrollReveal>
@@ -47,17 +51,23 @@ export default function Experience() {
               <div className="flex flex-wrap items-start justify-between gap-6">
                 <div className="flex items-center gap-4">
                   <span className="animate-pulse-glow flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-f1 to-orange-600">
-                    <Building2 size={26} className="text-white" />
+                    <Zap size={26} className="text-white" />
                   </span>
                   <div>
-                    <h3 className="text-xl font-bold text-white">{COMPANY.name}</h3>
+                    <h3 className="text-xl font-bold text-white">
+                      {COMPANY.name} <span className="text-sm font-medium text-gray-400">({COMPANY.group})</span>
+                    </h3>
                     <p className="text-sm text-gray-400">{COMPANY.sector} · {COMPANY.city}</p>
                   </div>
                 </div>
                 <span className="flex items-center gap-2 rounded-full border border-f1/50 bg-f1/10 px-4 py-1.5 text-xs font-semibold text-orange-300">
-                  <Flag size={13} /> Développeur Full-Stack — Alternance
+                  <Flag size={13} /> Ingénieur Transformation Numérique & Data Junior — Apprentissage
                 </span>
               </div>
+
+              <p className="mt-6 rounded-2xl border border-line bg-ink/40 p-4 text-sm leading-relaxed text-gray-300">
+                {COMPANY.pitch}
+              </p>
 
               {/* rythme d'alternance */}
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
