@@ -8,7 +8,7 @@ export default function GlowButton({ children, href, variant = 'primary', classN
   return (
     <Tag
       href={href}
-      className={`btn-uiverse inline-flex cursor-pointer items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold ${styles[variant]} ${className}`}
+      className={`btn-uiverse btn-shine inline-flex cursor-pointer items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold ${styles[variant]} ${className}`}
       {...props}
     >
       {children}
