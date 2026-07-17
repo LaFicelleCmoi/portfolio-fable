@@ -208,7 +208,7 @@ export default function Projects() {
   }
 
   return (
-    <section id="projets" className="relative mx-auto max-w-6xl px-6 py-28">
+    <section className="relative mx-auto max-w-6xl px-6 py-28">
       <SectionHeader sector="04" kicker="Projets" title="Le classement" />
       <ScrollReveal>
         <p className="mb-10 flex items-center justify-center gap-2 text-center text-sm text-gray-500">
