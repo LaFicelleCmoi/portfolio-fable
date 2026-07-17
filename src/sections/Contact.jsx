@@ -365,7 +365,7 @@ export default function Contact() {
 
   return (
     <section className="relative mx-auto max-w-6xl px-6 py-28">
-      <SectionHeader sector="05" kicker={L.kicker} title={L.title}>
+      <SectionHeader sector="07" kicker={L.kicker} title={L.title}>
         {L.subtitle}
       </SectionHeader>
 
