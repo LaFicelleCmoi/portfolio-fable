@@ -85,7 +85,7 @@ function SkillBar({ name, level, proof, best }) {
 
 export default function Skills() {
   return (
-    <section id="competences" className="relative mx-auto max-w-6xl px-6 py-28">
+    <section className="relative mx-auto max-w-6xl px-6 py-28">
       <SectionHeader sector="03" kicker="Compétences" title="Ma télémétrie">
         Auto-évaluation honnête : chaque compétence est reliée aux projets qui la prouvent, et le
         secteur violet signale mon meilleur temps — comme sur un écran de chrono F1. Les pourcentages
