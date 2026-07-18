@@ -74,13 +74,13 @@ export const PROJECT_DETAILS = {
     },
   },
   cdm: {
-    tagline: 'Suivi de la Coupe du Monde : matchs, groupes et classements.',
-    details: "Petit frère du tracker Ligue des Champions, appliqué à la Coupe du Monde : suivi des matchs, des groupes et des classements, en HTML/CSS/JS sans framework. Même philosophie : léger, statique, direct à l'essentiel.",
-    tech: ['HTML', 'CSS', 'JavaScript'],
+    tagline: 'Coupe du Monde et Ligue des Nations : matchs, groupes et classements en direct.',
+    details: "Petit frère du tracker Ligue des Champions, appliqué à la Coupe du Monde ET à la Ligue des Nations : suivi des matchs, des groupes et des classements, en HTML/CSS/JS sans framework, déployé en ligne sur Vercel. Même philosophie : léger, statique, direct à l'essentiel.",
+    tech: ['HTML', 'CSS', 'JavaScript', 'Vercel'],
     learned: 'Réutiliser l\'architecture d\'un projet précédent pour livrer plus vite — le code aussi a une mémoire musculaire.',
     en: {
-      tagline: 'World Cup tracker: matches, groups and standings.',
-      details: 'Little brother of the Champions League tracker, applied to the World Cup: matches, groups and standings in framework-free HTML/CSS/JS. Same philosophy: light, static, straight to the point.',
+      tagline: 'World Cup and Nations League: live matches, groups and standings.',
+      details: 'Little brother of the Champions League tracker, applied to the World Cup AND the Nations League: matches, groups and standings in framework-free HTML/CSS/JS, deployed live on Vercel. Same philosophy: light, static, straight to the point.',
       learned: 'Reusing a previous project\'s architecture to ship faster — code has muscle memory too.',
     },
   },
