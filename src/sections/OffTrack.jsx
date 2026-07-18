@@ -26,9 +26,12 @@ const STRINGS = {
       {
         emoji: '⚽',
         title: 'Football',
-        text: 'Ligue des Champions et Coupe du Monde suivies de près — au point de coder mes propres trackers.',
+        text: 'Ligue des Champions, Coupe du Monde et Ligue des Nations suivies de près — au point de coder mes propres trackers.',
         color: 'rgba(0, 210, 106, 0.15)',
-        link: { label: 'LDC tracker', href: 'https://github.com/LaFicelleCmoi/LDC-2026-2027-' },
+        links: [
+          { label: 'LDC tracker', href: 'https://github.com/LaFicelleCmoi/LDC-2026-2027-' },
+          { label: 'CDM & Ligue des Nations', href: 'https://cdm-hazel.vercel.app/' },
+        ],
       },
       {
         emoji: '🎮',
@@ -69,9 +72,12 @@ const STRINGS = {
       {
         emoji: '⚽',
         title: 'Football',
-        text: 'Champions League and World Cup followed closely — to the point of coding my own trackers.',
+        text: 'Champions League, World Cup and Nations League followed closely — to the point of coding my own trackers.',
         color: 'rgba(0, 210, 106, 0.15)',
-        link: { label: 'UCL tracker', href: 'https://github.com/LaFicelleCmoi/LDC-2026-2027-' },
+        links: [
+          { label: 'UCL tracker', href: 'https://github.com/LaFicelleCmoi/LDC-2026-2027-' },
+          { label: 'World Cup & Nations League', href: 'https://cdm-hazel.vercel.app/' },
+        ],
       },
       {
         emoji: '🎮',
@@ -117,15 +123,20 @@ export default function OffTrack() {
                 </span>
                 <h3 className="mb-2 text-lg font-semibold text-white">{tile.title}</h3>
                 <p className="flex-1 text-sm leading-relaxed text-gray-400">{tile.text}</p>
-                {tile.link && (
-                  <a
-                    href={tile.link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full border border-line bg-ink/60 px-3 py-1.5 text-xs text-cyan transition-colors hover:border-cyan/50"
-                  >
-                    {L.proof} : {tile.link.label} <ExternalLink size={11} />
-                  </a>
+                {(tile.links ?? (tile.link ? [tile.link] : [])).length > 0 && (
+                  <span className="mt-4 flex flex-wrap gap-2">
+                    {(tile.links ?? [tile.link]).map((lnk) => (
+                      <a
+                        key={lnk.href}
+                        href={lnk.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex w-fit items-center gap-1.5 rounded-full border border-line bg-ink/60 px-3 py-1.5 text-xs text-cyan transition-colors hover:border-cyan/50"
+                      >
+                        {L.proof} : {lnk.label} <ExternalLink size={11} />
+                      </a>
+                    ))}
+                  </span>
                 )}
                 {tile.letterboxd && (
                   <a
