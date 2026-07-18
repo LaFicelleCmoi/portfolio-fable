@@ -45,14 +45,14 @@ export default function Navbar() {
     >
       {/* liseré lumineux sous le dock (hors du ul : un ul ne contient que des li) */}
       <span aria-hidden className="pointer-events-none absolute inset-x-8 bottom-0 h-px bg-gradient-to-r from-transparent via-neon/70 to-transparent" />
-      <ul className="flex items-center gap-0.5 rounded-2xl border border-line bg-panel/70 px-2 py-2 shadow-2xl shadow-black/50 backdrop-blur-xl sm:gap-1">
+      <ul className="flex max-w-[calc(100vw-12px)] items-center gap-0 rounded-2xl border border-line bg-panel/70 px-1.5 py-2 shadow-2xl shadow-black/50 backdrop-blur-xl sm:gap-1 sm:px-2">
         {LINKS.map(({ id, icon: Icon, ...labels }) => (
           <li key={id}>
             <Magnetic strength={0.2}>
               <a
                 href={`#${id}`}
                 aria-label={labels[lang]}
-                className={`relative flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm whitespace-nowrap transition-colors sm:px-4 ${
+                className={`relative flex items-center gap-2 rounded-xl px-2 py-2 text-sm whitespace-nowrap transition-colors sm:px-4 ${
                   active === id ? 'text-white' : 'text-gray-400 hover:text-gray-200'
                 }`}
               >
@@ -89,12 +89,12 @@ export default function Navbar() {
           </li>
         ))}
         {/* bascule de langue */}
-        <li className="ml-1 border-l border-line pl-1.5">
+        <li className="ml-0.5 border-l border-line pl-1 sm:ml-1 sm:pl-1.5">
           <button
             onClick={toggle}
             aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
             title={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
-            className="flex cursor-pointer items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-semibold text-gray-400 transition-colors hover:text-white"
+            className="flex cursor-pointer items-center gap-1.5 rounded-xl px-2 py-2 text-xs font-semibold text-gray-400 transition-colors hover:text-white sm:px-2.5"
           >
             <Languages size={15} />
             <span className="hidden sm:inline">{lang === 'fr' ? 'EN' : 'FR'}</span>
