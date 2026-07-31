@@ -3,20 +3,14 @@ import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
 import SpotlightCard from '../components/SpotlightCard.jsx'
 import GlitchText from '../components/GlitchText.jsx'
+import FilmTop4 from '../components/FilmTop4.jsx'
 import { useLang } from '../i18n.jsx'
 
 // « Hors piste » : ce qui me fait vibrer quand l'ordinateur est éteint.
 // Le sujet du portfolio encourage à montrer hobbies et personnalité —
 // et chaque passion renvoie vers un projet qui la prouve quand c'est possible.
-
-// Mon Top 4 Letterboxd (langue-agnostique : titres et affiches identiques FR/EN).
-// Affiches auto-hébergées dans public/ (servies à la racine du site).
-const TOP_FILMS = [
-  { title: 'Requiem for a Dream', year: 2000, img: '/requiem.jpg', url: 'https://letterboxd.com/film/requiem-for-a-dream/' },
-  { title: 'Apocalypse Now', year: 1979, img: '/apocalyspe.jpg', url: 'https://letterboxd.com/film/apocalypse-now/' },
-  { title: 'The Grand Budapest Hotel', year: 2014, img: '/hotel.jpg', url: 'https://letterboxd.com/film/the-grand-budapest-hotel/' },
-  { title: 'Spider-Man: Across the Spider-Verse', year: 2023, img: '/spiderman.jpg', url: 'https://letterboxd.com/film/spider-man-across-the-spider-verse/' },
-]
+// Le Top 4 Letterboxd de la tuile Cinéma vit dans src/data/films.js (éditable
+// en direct sur le site via ?edit=films) et s'affiche via <FilmTop4/>.
 
 const STRINGS = {
   fr: {
@@ -61,7 +55,7 @@ const STRINGS = {
         text: 'Grand consommateur de films, journal de visionnage tenu sérieusement sur Letterboxd.',
         color: 'rgba(244, 114, 182, 0.16)',
         letterboxd: true,
-        films: TOP_FILMS,
+        top4: true,
       },
       {
         emoji: '🧱',
@@ -113,7 +107,7 @@ const STRINGS = {
         text: 'Heavy film watcher, with a viewing diary seriously maintained on Letterboxd.',
         color: 'rgba(244, 114, 182, 0.16)',
         letterboxd: true,
-        films: TOP_FILMS,
+        top4: true,
       },
       {
         emoji: '🧱',
@@ -145,35 +139,8 @@ export default function OffTrack() {
                 </span>
                 <h3 className="mb-2 text-lg font-semibold text-white">{tile.title}</h3>
                 <p className="flex-1 text-sm leading-relaxed text-gray-400">{tile.text}</p>
-                {/* Top 4 Letterboxd : affiches auto-hébergées, chacune cliquable vers sa fiche */}
-                {tile.films?.length > 0 && (
-                  <div className="mt-4">
-                    <p className="mb-2 flex items-center gap-1.5 font-mono text-[10px] tracking-[0.25em] text-gray-500">
-                      <span className="h-3 w-3 rounded-full bg-[#00e054] mix-blend-screen" />
-                      {L.top4}
-                    </p>
-                    <div className="grid grid-cols-4 gap-2">
-                      {tile.films.map((film) => (
-                        <a
-                          key={film.title}
-                          href={film.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          title={`${film.title} (${film.year}) — Letterboxd`}
-                          aria-label={`${film.title} (${film.year}) — ${lang === 'fr' ? 'voir sur Letterboxd' : 'view on Letterboxd'}`}
-                          className="group/film block overflow-hidden rounded-lg border border-line bg-ink/60 transition-all hover:border-[#40bcf4]/60 hover:shadow-[0_0_14px_rgba(64,188,244,0.3)]"
-                        >
-                          <img
-                            src={film.img}
-                            alt={`${lang === 'fr' ? 'Affiche' : 'Poster'} : ${film.title}`}
-                            loading="lazy"
-                            className="aspect-[2/3] h-full w-full object-cover transition-transform duration-300 group-hover/film:scale-105"
-                          />
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                {/* Top 4 Letterboxd : affichage + éditeur local (mode ?edit=films) */}
+                {tile.top4 && <FilmTop4 lang={lang} label={L.top4} />}
                 {tile.links?.length > 0 && (
                   <span className="mt-4 flex flex-wrap gap-2">
                     {/* chip segmenté : au recruteur de choisir — le site en ligne ou le code */}
