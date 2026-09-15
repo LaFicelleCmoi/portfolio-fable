@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Send, Github, Linkedin, Radio, CheckCircle2, LoaderCircle, AlertTriangle,
   Copy, Check, Clock, MapPin, FileDown, ChevronDown, QrCode, Briefcase,
-  UserPlus, Activity, CalendarCheck, Code2, Sparkles, Timer, Mail,
+  UserPlus, Activity, CalendarCheck, Code2, Sparkles, Timer, Mail, ExternalLink,
 } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
@@ -60,6 +60,8 @@ const STRINGS = {
     response: 'Réponse sous 24 à 48 h',
     location: 'France — télétravail friendly',
     activity: 'Dernière activité GitHub :',
+    githubSub: '@LaFicelleCmoi — 30+ dépôts publics',
+    linkedinSub: 'Loïs Clerc — parcours & réseau',
     cv: 'Mon CV',
     vcard: 'Ajouter à vos contacts',
     qr: (
@@ -139,6 +141,8 @@ const STRINGS = {
     response: 'Reply within 24–48 h',
     location: 'France — remote friendly',
     activity: 'Latest GitHub activity:',
+    githubSub: '@LaFicelleCmoi — 30+ public repos',
+    linkedinSub: 'Loïs Clerc — career & network',
     cv: 'My resume',
     vcard: 'Add to your contacts',
     qr: (
@@ -409,6 +413,44 @@ export default function Contact() {
               <p className="text-sm text-green-300">{L.availability}</p>
             </div>
 
+            {/* réseaux mis en avant : les deux canaux directs pour me joindre */}
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Magnetic strength={0.12} className="block">
+                <a
+                  href="https://github.com/LaFicelleCmoi"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-uiverse group flex items-center gap-3 rounded-2xl border border-line bg-ink/60 px-4 py-3 transition-colors hover:border-white/50 [--glow:rgba(255,255,255,0.45)]"
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
+                    <Github size={20} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold text-white">GitHub</span>
+                    <span className="block truncate text-xs text-gray-400">{L.githubSub}</span>
+                  </span>
+                  <ExternalLink size={14} className="shrink-0 text-gray-500 transition-colors group-hover:text-white" />
+                </a>
+              </Magnetic>
+              <Magnetic strength={0.12} className="block">
+                <a
+                  href={LINKEDIN}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-uiverse group flex items-center gap-3 rounded-2xl border border-line bg-ink/60 px-4 py-3 transition-colors hover:border-[#0a66c2]/80 [--glow:#0a66c2]"
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0a66c2]/20 text-[#5eaaf5]">
+                    <Linkedin size={20} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold text-white">LinkedIn</span>
+                    <span className="block truncate text-xs text-gray-400">{L.linkedinSub}</span>
+                  </span>
+                  <ExternalLink size={14} className="shrink-0 text-gray-500 transition-colors group-hover:text-[#5eaaf5]" />
+                </a>
+              </Magnetic>
+            </div>
+
             <ul className="space-y-3">
               <InfoRow icon={Mail}>
                 <span id="email-text" className="truncate">{EMAIL}</span>
@@ -443,31 +485,6 @@ export default function Contact() {
                 <UserPlus size={15} /> {L.vcard}
               </GlowButton>
             </div>
-            <div className="flex gap-3">
-              <Magnetic>
-                <a
-                  href="https://github.com/LaFicelleCmoi"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="GitHub"
-                  className="btn-uiverse flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-panel/70 text-gray-400 hover:text-cyan"
-                >
-                  <Github size={18} />
-                </a>
-              </Magnetic>
-              <Magnetic>
-                <a
-                  href={LINKEDIN}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="LinkedIn"
-                  className="btn-uiverse flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-panel/70 text-gray-400 hover:text-cyan"
-                >
-                  <Linkedin size={18} />
-                </a>
-              </Magnetic>
-            </div>
-
             {/* QR code — généré par mon propre projet qr_app 😎 */}
             <div className="mt-auto flex items-center gap-4 rounded-2xl border border-line bg-ink/50 p-4">
               <img
