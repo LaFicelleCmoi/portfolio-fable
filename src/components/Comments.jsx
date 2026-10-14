@@ -55,8 +55,8 @@ export default function Comments() {
 
   return (
     <ScrollReveal className="mt-12">
-      <p className="mb-2 flex items-center justify-center gap-2 text-center font-mono text-[11px] tracking-[0.3em] text-gray-500">
-        <MessagesSquare size={13} className="text-cyan" /> {L.title}
+      <p className="mb-2 flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] text-gray-500">
+        <MessagesSquare size={13} className="text-accent" /> {L.title}
       </p>
       <p className="mb-6 text-center text-sm text-gray-400">{L.subtitle}</p>
       <div ref={ref} className="mx-auto max-w-3xl" />

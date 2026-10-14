@@ -1,8 +1,7 @@
-import { ExternalLink, Github } from 'lucide-react'
+import { ExternalLink, Github, Flag, Goal, Gamepad2, Clapperboard, Blocks } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
-import SpotlightCard from '../components/SpotlightCard.jsx'
-import GlitchText from '../components/GlitchText.jsx'
+import Card from '../components/Card.jsx'
 import FilmTop4 from '../components/FilmTop4.jsx'
 import { useLang } from '../i18n.jsx'
 
@@ -21,47 +20,42 @@ const STRINGS = {
     top4: 'Mon Top 4',
     tiles: [
       {
-        emoji: '🏎️',
+        icon: Flag,
         title: 'Formule 1',
         text: "Aucune surprise à ce stade. Week-ends de Grand Prix sacrés, débats stratégie assumés — et trois projets F1 sur mon GitHub.",
         span: true,
-        color: 'rgba(225, 6, 0, 0.18)',
         links: [
           { label: 'f1-2026', site: 'https://f1-2026-gamma.vercel.app/', code: 'https://github.com/LaFicelleCmoi/f1-2026' },
         ],
       },
       {
-        emoji: '⚽',
+        icon: Goal,
         title: 'Football',
         text: 'Ligue des Champions, Coupe du Monde et Ligue des Nations suivies de près — au point de coder mes propres trackers.',
-        color: 'rgba(0, 210, 106, 0.15)',
         links: [
           { label: 'LDC', site: 'https://ldc-2026-2027.vercel.app/', code: 'https://github.com/LaFicelleCmoi/LDC-2026-2027-' },
           { label: 'CDM & Nations', site: 'https://cdm-hazel.vercel.app/', code: 'https://github.com/LaFicelleCmoi/cdm' },
         ],
       },
       {
-        emoji: '🎮',
+        icon: Gamepad2,
         title: 'Jeux vidéo',
         text: "Joueur et créateur : Marioparty, F1 Retro Racer… j'aime autant jouer que fabriquer le jeu.",
-        color: 'rgba(124, 58, 237, 0.2)',
         links: [
           { label: 'Marioparty', site: 'https://marioparty.vercel.app/', code: 'https://github.com/LaFicelleCmoi/Marioparty' },
         ],
       },
       {
-        emoji: '🎬',
+        icon: Clapperboard,
         title: 'Cinéma',
         text: 'Grand consommateur de films, journal de visionnage tenu sérieusement sur Letterboxd.',
-        color: 'rgba(244, 114, 182, 0.16)',
         letterboxd: true,
         top4: true,
       },
       {
-        emoji: '🧱',
+        icon: Blocks,
         title: 'LEGO',
         text: "Construire brique par brique, avec des instructions ou sans : au fond, c'est déjà du développement.",
-        color: 'rgba(255, 215, 0, 0.14)',
       },
     ],
   },
@@ -73,47 +67,42 @@ const STRINGS = {
     top4: 'My Top 4',
     tiles: [
       {
-        emoji: '🏎️',
+        icon: Flag,
         title: 'Formula 1',
         text: 'No surprise at this point. Grand Prix weekends are sacred, strategy debates fully assumed — and three F1 projects on my GitHub.',
         span: true,
-        color: 'rgba(225, 6, 0, 0.18)',
         links: [
           { label: 'f1-2026', site: 'https://f1-2026-gamma.vercel.app/', code: 'https://github.com/LaFicelleCmoi/f1-2026' },
         ],
       },
       {
-        emoji: '⚽',
+        icon: Goal,
         title: 'Football',
         text: 'Champions League, World Cup and Nations League followed closely — to the point of coding my own trackers.',
-        color: 'rgba(0, 210, 106, 0.15)',
         links: [
           { label: 'UCL', site: 'https://ldc-2026-2027.vercel.app/', code: 'https://github.com/LaFicelleCmoi/LDC-2026-2027-' },
           { label: 'WC & Nations', site: 'https://cdm-hazel.vercel.app/', code: 'https://github.com/LaFicelleCmoi/cdm' },
         ],
       },
       {
-        emoji: '🎮',
+        icon: Gamepad2,
         title: 'Video games',
         text: 'Player and maker: Marioparty, F1 Retro Racer… I enjoy building the game as much as playing it.',
-        color: 'rgba(124, 58, 237, 0.2)',
         links: [
           { label: 'Marioparty', site: 'https://marioparty.vercel.app/', code: 'https://github.com/LaFicelleCmoi/Marioparty' },
         ],
       },
       {
-        emoji: '🎬',
+        icon: Clapperboard,
         title: 'Movies',
         text: 'Heavy film watcher, with a viewing diary seriously maintained on Letterboxd.',
-        color: 'rgba(244, 114, 182, 0.16)',
         letterboxd: true,
         top4: true,
       },
       {
-        emoji: '🧱',
+        icon: Blocks,
         title: 'LEGO',
         text: 'Building brick by brick, with or without instructions: deep down, that is already software development.',
-        color: 'rgba(255, 215, 0, 0.14)',
       },
     ],
   },
@@ -132,11 +121,9 @@ export default function OffTrack() {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {L.tiles.map((tile, i) => (
           <ScrollReveal key={tile.title} delay={i * 0.07} className={tile.span ? 'sm:col-span-2' : ''}>
-            <SpotlightCard className="h-full p-7" color={tile.color}>
+            <Card className="h-full p-7">
               <div className="flex h-full flex-col">
-                <span className="mb-4 text-4xl" aria-hidden>
-                  <GlitchText>{tile.emoji}</GlitchText>
-                </span>
+                <tile.icon size={20} strokeWidth={1.75} className="mb-5 text-gray-500" aria-hidden />
                 <h3 className="mb-2 text-lg font-semibold text-white">{tile.title}</h3>
                 <p className="flex-1 text-sm leading-relaxed text-gray-400">{tile.text}</p>
                 {/* Top 4 Letterboxd : affichage + éditeur local (mode ?edit=films) */}
@@ -157,7 +144,7 @@ export default function OffTrack() {
                             rel="noreferrer"
                             aria-label={`${lnk.label} — ${lang === 'fr' ? 'voir le site' : 'open the site'}`}
                             title={lang === 'fr' ? 'Voir le site' : 'Open the site'}
-                            className="flex items-center gap-1 border-l border-line px-2.5 text-cyan transition-colors hover:bg-panel"
+                            className="flex items-center gap-1 border-l border-line px-2.5 text-accent transition-colors hover:bg-panel"
                           >
                             <ExternalLink size={11} /> {lang === 'fr' ? 'site' : 'site'}
                           </a>
@@ -169,7 +156,7 @@ export default function OffTrack() {
                             rel="noreferrer"
                             aria-label={`${lnk.label} — ${lang === 'fr' ? 'code source' : 'source code'}`}
                             title={lang === 'fr' ? 'Code source sur GitHub' : 'Source code on GitHub'}
-                            className="flex items-center gap-1 border-l border-line px-2.5 text-gray-400 transition-colors hover:bg-panel hover:text-neon"
+                            className="flex items-center gap-1 border-l border-line px-2.5 text-gray-400 transition-colors hover:bg-panel hover:text-accent"
                           >
                             <Github size={11} /> code
                           </a>
@@ -184,7 +171,7 @@ export default function OffTrack() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label="Letterboxd — LaFicelleCmoi"
-                    className="mt-4 inline-flex w-fit items-center gap-2.5 rounded-full border border-[#2c3440] bg-[#14181c] px-3.5 py-2 transition-all hover:border-[#40bcf4]/60 hover:shadow-[0_0_16px_rgba(64,188,244,0.3)]"
+                    className="mt-4 inline-flex w-fit items-center gap-2.5 rounded-full border border-[#2c3440] bg-[#14181c] px-3.5 py-2 transition-all hover:border-[#40bcf4]/60"
                   >
                     {/* les trois pastilles Letterboxd */}
                     <span className="flex -space-x-1" aria-hidden>
@@ -196,7 +183,7 @@ export default function OffTrack() {
                   </a>
                 )}
               </div>
-            </SpotlightCard>
+            </Card>
           </ScrollReveal>
         ))}
       </div>

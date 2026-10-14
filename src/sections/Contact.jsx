@@ -7,9 +7,7 @@ import {
 } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
-import GlowButton from '../components/GlowButton.jsx'
-import Magnetic from '../components/Magnetic.jsx'
-import TiltCard from '../components/TiltCard.jsx'
+import Button from '../components/Button.jsx'
 import Comments from '../components/Comments.jsx'
 import { relativeTime } from '../utils/time.js'
 import { useLang } from '../i18n.jsx'
@@ -22,7 +20,7 @@ const STRINGS = {
     kicker: 'Contact',
     title: 'On travaille ensemble ?',
     subtitle: "Une opportunité, une question, ou juste envie d'échanger sur un projet ? Ouvrez la radio — tous les canaux mènent à moi.",
-    subjects: ['Alternance & recrutement', 'Projet & collaboration', 'Question technique', 'Parler F1 🏎️'],
+    subjects: ['Alternance & recrutement', 'Projet & collaboration', 'Question technique', 'Parler F1'],
     audiences: [
       {
         icon: Briefcase,
@@ -67,7 +65,7 @@ const STRINGS = {
     qr: (
       <>
         Partagez ce portfolio en un scan — QR généré avec mon propre projet{' '}
-        <a href="https://github.com/LaFicelleCmoi/qr_app" target="_blank" rel="noreferrer" className="text-cyan underline-offset-2 hover:underline">qr_app</a> 🐍
+        <a href="https://github.com/LaFicelleCmoi/qr_app" target="_blank" rel="noreferrer" className="text-accent underline-offset-2 hover:underline">qr_app</a>
       </>
     ),
     qrAlt: 'QR code vers ce portfolio',
@@ -103,7 +101,7 @@ const STRINGS = {
     kicker: 'Contact',
     title: 'Shall we work together?',
     subtitle: 'An opportunity, a question, or just fancy chatting about a project? Open the radio — every channel leads to me.',
-    subjects: ['Apprenticeship & recruiting', 'Project & collaboration', 'Technical question', 'Talk F1 🏎️'],
+    subjects: ['Apprenticeship & recruiting', 'Project & collaboration', 'Technical question', 'Talk F1'],
     audiences: [
       {
         icon: Briefcase,
@@ -148,7 +146,7 @@ const STRINGS = {
     qr: (
       <>
         Share this portfolio in one scan — QR generated with my own{' '}
-        <a href="https://github.com/LaFicelleCmoi/qr_app" target="_blank" rel="noreferrer" className="text-cyan underline-offset-2 hover:underline">qr_app</a> project 🐍
+        <a href="https://github.com/LaFicelleCmoi/qr_app" target="_blank" rel="noreferrer" className="text-accent underline-offset-2 hover:underline">qr_app</a> project
       </>
     ),
     qrAlt: 'QR code to this portfolio',
@@ -208,18 +206,18 @@ function Field({ label, name, textarea = false, value, onChange, onBlur, error, 
         placeholder=" "
         aria-invalid={!!error}
         aria-describedby={error ? `${name}-error` : undefined}
-        className={`peer w-full rounded-xl border bg-panel/60 px-4 pt-6 pb-2 text-sm text-white outline-none backdrop-blur transition-colors ${
-          error ? 'border-f1/70 focus:border-f1' : 'border-line focus:border-cyan'
+        className={`peer w-full rounded-xl border bg-panel px-4 pt-6 pb-2 text-sm text-white outline-none transition-colors ${
+          error ? 'border-f1/70 focus:border-f1' : 'border-line focus:border-accent'
         }`}
       />
       <label
         htmlFor={name}
-        className="pointer-events-none absolute top-2 left-4 text-xs text-cyan transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-focus:top-2 peer-focus:text-xs peer-focus:text-cyan"
+        className="pointer-events-none absolute top-2 left-4 text-xs text-accent transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500 peer-focus:top-2 peer-focus:text-xs peer-focus:text-accent"
       >
         {label}
       </label>
       {error && (
-        <p id={`${name}-error`} className="mt-1 flex items-center gap-1 text-xs text-orange-400">
+        <p id={`${name}-error`} className="mt-1 flex items-center gap-1 text-xs text-accent">
           <AlertTriangle size={11} /> {error}
         </p>
       )}
@@ -232,7 +230,7 @@ function InfoRow({ icon: Icon, children }) {
   return (
     <li className="flex items-center gap-3 text-sm text-gray-300">
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-line bg-ink/60">
-        <Icon size={15} className="text-cyan" />
+        <Icon size={15} className="text-accent" />
       </span>
       <span className="flex min-w-0 flex-1 items-center gap-2">{children}</span>
     </li>
@@ -242,7 +240,7 @@ function InfoRow({ icon: Icon, children }) {
 function FaqItem({ q, a }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="overflow-hidden rounded-2xl border border-line bg-panel/60">
+    <div className="overflow-hidden rounded-2xl border border-line bg-panel">
       <button
         onClick={() => setOpen(!open)}
         aria-expanded={open}
@@ -250,7 +248,7 @@ function FaqItem({ q, a }) {
       >
         {q}
         <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
-          <ChevronDown size={16} className="text-cyan" />
+          <ChevronDown size={16} className="text-accent" />
         </motion.span>
       </button>
       <AnimatePresence initial={false}>
@@ -377,21 +375,21 @@ export default function Contact() {
       <div className="mb-10 grid gap-5 sm:grid-cols-3">
         {L.audiences.map((aud, i) => (
           <ScrollReveal key={aud.title} delay={i * 0.08}>
-            <TiltCard className="h-full">
-              <div className="flex h-full flex-col rounded-3xl border border-line bg-panel/70 p-6 backdrop-blur transition-colors hover:border-neon/50">
-                <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-neon to-cyan">
+            <div className="h-full">
+              <div className="flex h-full flex-col rounded-2xl border border-line bg-panel p-6 transition-colors hover:border-accent/50">
+                <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg border border-line">
                   <aud.icon size={19} className="text-white" />
                 </span>
                 <h3 className="mb-1.5 font-semibold text-white">{aud.title}</h3>
                 <p className="mb-5 flex-1 text-sm leading-relaxed text-gray-400">{aud.text}</p>
                 <button
                   onClick={() => prefill(aud)}
-                  className="btn-uiverse w-fit cursor-pointer rounded-xl border border-line bg-ink/60 px-4 py-2 text-xs font-semibold text-cyan transition-colors hover:border-cyan/50"
+                  className="w-fit cursor-pointer rounded-xl border border-line bg-ink/60 px-4 py-2 text-xs font-semibold text-accent transition-colors hover:border-accent/50"
                 >
                   {aud.cta} →
                 </button>
               </div>
-            </TiltCard>
+            </div>
           </ScrollReveal>
         ))}
       </div>
@@ -399,15 +397,14 @@ export default function Contact() {
       <div className="grid gap-8 lg:grid-cols-5">
         {/* ── mur des stands : infos directes ── */}
         <ScrollReveal direction="right" className="lg:col-span-2">
-          <div className="flex h-full flex-col gap-5 rounded-3xl border border-line bg-panel/70 p-7 backdrop-blur">
-            <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.3em] text-gray-500">
+          <div className="flex h-full flex-col gap-5 rounded-2xl border border-line bg-panel p-7">
+            <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] text-gray-500">
               <Briefcase size={13} className="text-f1" /> {L.pitwall}
             </p>
 
             {/* disponibilité */}
             <div className="flex items-center gap-3 rounded-2xl border border-green-500/30 bg-green-500/10 px-4 py-3">
               <span className="relative flex h-2.5 w-2.5 shrink-0">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
               </span>
               <p className="text-sm text-green-300">{L.availability}</p>
@@ -415,12 +412,11 @@ export default function Contact() {
 
             {/* réseaux mis en avant : les deux canaux directs pour me joindre */}
             <div className="grid gap-3 sm:grid-cols-2">
-              <Magnetic strength={0.12} className="block">
                 <a
                   href="https://github.com/LaFicelleCmoi"
                   target="_blank"
                   rel="noreferrer"
-                  className="btn-uiverse group flex items-center gap-3 rounded-2xl border border-line bg-ink/60 px-4 py-3 transition-colors hover:border-white/50 [--glow:rgba(255,255,255,0.45)]"
+                  className="group flex items-center gap-3 rounded-2xl border border-line bg-ink/60 px-4 py-3 transition-colors hover:border-white/50"
                 >
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
                     <Github size={20} />
@@ -431,13 +427,11 @@ export default function Contact() {
                   </span>
                   <ExternalLink size={14} className="shrink-0 text-gray-500 transition-colors group-hover:text-white" />
                 </a>
-              </Magnetic>
-              <Magnetic strength={0.12} className="block">
                 <a
                   href={LINKEDIN}
                   target="_blank"
                   rel="noreferrer"
-                  className="btn-uiverse group flex items-center gap-3 rounded-2xl border border-line bg-ink/60 px-4 py-3 transition-colors hover:border-[#0a66c2]/80 [--glow:#0a66c2]"
+                  className="group flex items-center gap-3 rounded-2xl border border-line bg-ink/60 px-4 py-3 transition-colors hover:border-[#0a66c2]/80"
                 >
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0a66c2]/20 text-[#5eaaf5]">
                     <Linkedin size={20} />
@@ -448,7 +442,6 @@ export default function Contact() {
                   </span>
                   <ExternalLink size={14} className="shrink-0 text-gray-500 transition-colors group-hover:text-[#5eaaf5]" />
                 </a>
-              </Magnetic>
             </div>
 
             <ul className="space-y-3">
@@ -457,7 +450,7 @@ export default function Contact() {
                 <button
                   onClick={copyEmail}
                   aria-label={L.copyAria}
-                  className="ml-auto flex shrink-0 cursor-pointer items-center gap-1 rounded-lg border border-line bg-ink/60 px-2.5 py-1.5 text-xs text-gray-400 transition-colors hover:border-cyan/50 hover:text-cyan"
+                  className="ml-auto flex shrink-0 cursor-pointer items-center gap-1 rounded-lg border border-line bg-ink/60 px-2.5 py-1.5 text-xs text-gray-400 transition-colors hover:border-accent/50 hover:text-accent"
                 >
                   {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
                   {copied ? L.copied : L.copy}
@@ -470,20 +463,19 @@ export default function Contact() {
                 <InfoRow icon={Activity}>
                   {L.activity} {relativeTime(lastActivity, lang)}
                   <span className="relative ml-1 flex h-1.5 w-1.5">
-                    <span className="absolute h-full w-full animate-ping rounded-full bg-cyan opacity-75" />
-                    <span className="relative h-1.5 w-1.5 rounded-full bg-cyan" />
+                    <span className="relative h-1.5 w-1.5 rounded-full bg-accent" />
                   </span>
                 </InfoRow>
               )}
             </ul>
 
             <div className="flex flex-wrap gap-3">
-              <GlowButton href="/cv-lois.pdf" download className="text-xs">
+              <Button href="/cv-lois.pdf" download className="text-xs">
                 <FileDown size={15} /> {L.cv}
-              </GlowButton>
-              <GlowButton href="/lois-clerc.vcf" download variant="ghost" className="text-xs">
+              </Button>
+              <Button href="/lois-clerc.vcf" download variant="ghost" className="text-xs">
                 <UserPlus size={15} /> {L.vcard}
-              </GlowButton>
+              </Button>
             </div>
             {/* QR code — généré par mon propre projet qr_app 😎 */}
             <div className="mt-auto flex items-center gap-4 rounded-2xl border border-line bg-ink/50 p-4">
@@ -496,7 +488,7 @@ export default function Contact() {
                 className="h-22 w-22 rounded-lg"
               />
               <p className="text-xs leading-relaxed text-gray-400">
-                <QrCode size={13} className="mb-1 text-cyan" />
+                <QrCode size={13} className="mb-1 text-accent" />
                 {L.qr}
               </p>
             </div>
@@ -505,10 +497,10 @@ export default function Contact() {
 
         {/* ── team radio : le formulaire ── */}
         <ScrollReveal direction="left" delay={0.1} className="lg:col-span-3">
-          <form ref={formRef} onSubmit={onSubmit} noValidate className="border-beam h-full rounded-3xl">
-            <div className="border-beam-inner flex h-full flex-col gap-5 p-8">
-              <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.3em] text-gray-500">
-                <Radio size={13} className="animate-pulse text-f1" /> {L.radio}
+          <form ref={formRef} onSubmit={onSubmit} noValidate className="h-full rounded-2xl border border-line bg-panel">
+            <div className="flex h-full flex-col gap-5 p-8">
+              <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] text-gray-500">
+                <Radio size={13} className="text-f1" /> {L.radio}
               </p>
 
               {/* choix du canal (sujet) */}
@@ -521,8 +513,8 @@ export default function Contact() {
                     aria-pressed={subjectIdx === i}
                     className={`cursor-pointer rounded-full border px-3.5 py-1.5 text-xs transition-colors ${
                       subjectIdx === i
-                        ? 'border-transparent bg-gradient-to-r from-neon to-cyan text-white'
-                        : 'border-line bg-panel/60 text-gray-400 hover:text-white'
+                        ? 'border-white bg-white text-ink'
+                        : 'border-line bg-panel text-gray-400 hover:text-white'
                     }`}
                   >
                     {s}
@@ -555,7 +547,7 @@ export default function Contact() {
 
               <div className="mt-auto flex flex-wrap items-center justify-between gap-4">
                 <p className="text-[11px] text-gray-400">{L.privacy}</p>
-                <GlowButton type="submit" disabled={status === 'sending'}>
+                <Button type="submit" disabled={status === 'sending'}>
                   {status === 'sending' ? (
                     <>
                       <LoaderCircle size={16} className="animate-spin" /> {L.sending}
@@ -565,7 +557,7 @@ export default function Contact() {
                       <Send size={16} /> {L.send}
                     </>
                   )}
-                </GlowButton>
+                </Button>
               </div>
 
               {status === 'sent' && (
@@ -574,9 +566,9 @@ export default function Contact() {
                 </p>
               )}
               {status === 'error' && (
-                <p className="flex flex-wrap items-center gap-2 rounded-xl border border-f1/40 bg-f1/10 px-4 py-3 text-sm text-orange-300">
+                <p className="flex flex-wrap items-center gap-2 rounded-xl border border-f1/40 bg-f1/10 px-4 py-3 text-sm text-accent">
                   <AlertTriangle size={16} /> {L.error}
-                  <button type="button" onClick={mailtoFallback} className="cursor-pointer font-semibold text-cyan underline-offset-2 hover:underline">
+                  <button type="button" onClick={mailtoFallback} className="cursor-pointer font-semibold text-accent underline-offset-2 hover:underline">
                     {L.mailFallback}
                   </button>
                 </p>
@@ -588,16 +580,16 @@ export default function Contact() {
 
       {/* ── la procédure au stand : après votre message ── */}
       <ScrollReveal delay={0.1} className="mt-12">
-        <p className="mb-4 text-center font-mono text-[11px] tracking-[0.3em] text-gray-500">
+        <p className="mb-4 font-mono text-[11px] tracking-[0.15em] text-gray-500">
           {L.procTitle}
         </p>
         <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-3">
           {L.procedure.map((step, i) => (
-            <div key={step.title} className="relative rounded-2xl border border-line bg-panel/60 p-5 text-center">
-              <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-f1 to-orange-600 px-2.5 py-0.5 font-mono text-[10px] font-bold text-white">
+            <div key={step.title} className="relative rounded-2xl border border-line bg-panel p-5 text-center">
+              <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 rounded-full bg-f1 px-2.5 py-0.5 font-mono text-[10px] font-bold text-white">
                 {i + 1}
               </span>
-              <step.icon size={18} className="mx-auto mb-2 text-cyan" />
+              <step.icon size={18} className="mx-auto mb-2 text-accent" />
               <h3 className="mb-1 text-sm font-semibold text-white">{step.title}</h3>
               <p className="text-xs leading-relaxed text-gray-400">{step.text}</p>
             </div>
@@ -607,7 +599,7 @@ export default function Contact() {
 
       {/* ── mini FAQ ── */}
       <ScrollReveal delay={0.15} className="mt-12">
-        <p className="mb-4 text-center font-mono text-[11px] tracking-[0.3em] text-gray-500">
+        <p className="mb-4 font-mono text-[11px] tracking-[0.15em] text-gray-500">
           {L.faqTitle}
         </p>
         <div className="mx-auto grid max-w-3xl gap-3">

@@ -5,8 +5,7 @@ import {
 } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
-import TiltCard from '../components/TiltCard.jsx'
-import SpotlightCard from '../components/SpotlightCard.jsx'
+import Card from '../components/Card.jsx'
 import { useLang } from '../i18n.jsx'
 
 // Le garage à outils : chaque techno de l'offre avec son usage réel
@@ -26,7 +25,7 @@ const STRINGS = {
     kicker: 'Expérience',
     title: 'Mon écurie : Unistellar',
     subtitle:
-      "En parallèle d'Epitech, je suis développeur mobile iOS & Android en alternance : l'école m'apprend à apprendre, l'entreprise m'apprend le métier. Comme un pilote, je progresse au contact de l'équipe — chaque sprint est un Grand Prix. Et chez Unistellar, viser les étoiles 🔭 c'est littéralement le métier.",
+      "En parallèle d'Epitech, je suis développeur mobile iOS & Android en alternance : l'école m'apprend à apprendre, l'entreprise m'apprend le métier. Comme un pilote, je progresse au contact de l'équipe — chaque sprint est un Grand Prix. Et chez Unistellar, viser les étoiles c'est littéralement le métier.",
     sector: 'Astronomie grand public — télescopes connectés',
     city: 'Marseille · présentiel',
     badge: 'Développeur Mobile iOS & Android — Alternance',
@@ -88,7 +87,7 @@ const STRINGS = {
     kicker: 'Experience',
     title: 'My team: Unistellar',
     subtitle:
-      "Alongside Epitech, I'm an iOS & Android mobile developer apprentice: school teaches me how to learn, the company teaches me the craft. Like a driver, I improve with the team — every sprint is a Grand Prix. And at Unistellar, reaching for the stars 🔭 literally is the business.",
+      "Alongside Epitech, I'm an iOS & Android mobile developer apprentice: school teaches me how to learn, the company teaches me the craft. Like a driver, I improve with the team — every sprint is a Grand Prix. And at Unistellar, reaching for the stars literally is the business.",
     sector: 'Consumer astronomy — smart telescopes',
     city: 'Marseille · on-site',
     badge: 'iOS & Android Mobile Developer — Apprenticeship',
@@ -159,8 +158,8 @@ function Stint({ type, label, delay }) {
       transition={{ delay, type: 'spring', damping: 15 }}
       className={`flex h-12 flex-1 flex-col items-center justify-center gap-0.5 rounded-lg border ${
         company
-          ? 'border-f1/40 bg-gradient-to-b from-f1/70 to-[#7f0300]'
-          : 'border-cyan/40 bg-gradient-to-b from-cyan/60 to-[#0e7490]'
+          ? 'border-f1/50 bg-f1/80'
+          : 'border-line bg-[#2a2a2e]'
       }`}
       title={company ? 'Unistellar' : 'Epitech'}
     >
@@ -172,11 +171,7 @@ function Stint({ type, label, delay }) {
 
 function MonoTitle({ children }) {
   return (
-    <p className="mb-4 flex items-center justify-center gap-3 text-center font-mono text-[11px] tracking-[0.3em] text-gray-500">
-      <span className="h-px w-8 bg-gradient-to-r from-transparent to-f1/60" />
-      {children}
-      <span className="h-px w-8 bg-gradient-to-l from-transparent to-f1/60" />
-    </p>
+    <p className="mb-4 flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] text-gray-500">{children}</p>
   )
 }
 
@@ -192,14 +187,13 @@ export default function Experience() {
 
       {/* ── carte écurie ── */}
       <ScrollReveal>
-        <TiltCard>
-          <div className="relative overflow-hidden rounded-3xl border border-line bg-panel/70 backdrop-blur">
-            <div className="checkered h-2 w-full opacity-80" />
+        <div>
+          <div className="relative overflow-hidden rounded-2xl border border-line bg-panel">
             <div className="p-8 sm:p-10">
               <div className="flex flex-wrap items-start justify-between gap-6">
                 <div className="flex items-center gap-4">
-                  <span className="animate-pulse-glow flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-f1 to-orange-600">
-                    <Telescope size={26} className="text-white" />
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-line">
+                    <Telescope size={22} strokeWidth={1.75} className="text-accent" />
                   </span>
                   <div>
                     <h3 className="text-xl font-bold text-white">
@@ -209,14 +203,14 @@ export default function Experience() {
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-2.5">
-                  <span className="flex items-center gap-2 rounded-full border border-f1/50 bg-f1/10 px-4 py-1.5 text-xs font-semibold text-orange-300">
+                  <span className="flex items-center gap-2 rounded-md border border-line px-3 py-1 text-xs text-gray-300">
                     <Flag size={13} /> {L.badge}
                   </span>
                   <a
                     href="https://www.unistellar.com/fr/"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1.5 rounded-full border border-line bg-ink/60 px-3.5 py-1.5 text-xs text-cyan transition-colors hover:border-cyan/50"
+                    className="flex items-center gap-1.5 rounded-full border border-line bg-ink/60 px-3.5 py-1.5 text-xs text-accent transition-colors hover:border-accent/50"
                   >
                     {L.website} <ExternalLink size={11} />
                   </a>
@@ -228,16 +222,16 @@ export default function Experience() {
               </p>
             </div>
           </div>
-        </TiltCard>
+        </div>
       </ScrollReveal>
 
       {/* ── la stratégie de course : le rythme en relais ── */}
       <ScrollReveal className="mt-14">
         <MonoTitle>
-          <CalendarClock size={13} className="text-cyan" /> {L.strategyTitle}
+          <CalendarClock size={13} className="text-accent" /> {L.strategyTitle}
         </MonoTitle>
         <div className="grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl border border-line bg-panel/60 p-6">
+          <div className="rounded-2xl border border-line bg-panel p-6">
             <p className="mb-1 text-sm font-semibold text-white">{L.year1}</p>
             <p className="mb-4 text-xs text-gray-400">{L.year1Desc}</p>
             <div className="flex gap-1.5">
@@ -246,7 +240,7 @@ export default function Experience() {
               ))}
             </div>
           </div>
-          <div className="rounded-3xl border border-line bg-panel/60 p-6">
+          <div className="rounded-2xl border border-line bg-panel p-6">
             <p className="mb-1 text-sm font-semibold text-white">{L.year2}</p>
             <p className="mb-4 text-xs text-gray-400">{L.year2Desc}</p>
             <div className="flex gap-1.5">
@@ -258,10 +252,10 @@ export default function Experience() {
         </div>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-5 text-xs text-gray-400">
           <span className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded bg-gradient-to-b from-f1/70 to-[#7f0300]" /> {L.legendCompany}
+            <span className="h-3 w-3 rounded-sm bg-f1/80" /> {L.legendCompany}
           </span>
           <span className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded bg-gradient-to-b from-cyan/60 to-[#0e7490]" /> {L.legendSchool}
+            <span className="h-3 w-3 rounded-sm bg-[#2a2a2e]" /> {L.legendSchool}
           </span>
         </div>
       </ScrollReveal>
@@ -269,7 +263,7 @@ export default function Experience() {
       {/* ── missions ── */}
       <ScrollReveal className="mt-14">
         <MonoTitle>
-          <Rocket size={13} className="text-cyan" /> {L.missionsTitle}
+          <Rocket size={13} className="text-accent" /> {L.missionsTitle}
         </MonoTitle>
         <div className="grid gap-5 sm:grid-cols-3">
           {L.missions.map((m) => (
@@ -285,22 +279,22 @@ export default function Experience() {
       {/* ── l'échange de valeur ── */}
       <ScrollReveal className="mt-14">
         <MonoTitle>
-          <BookOpen size={13} className="text-cyan" /> {L.exchangeTitle}
+          <BookOpen size={13} className="text-accent" /> {L.exchangeTitle}
         </MonoTitle>
         <div className="grid gap-5 md:grid-cols-2">
-          <SpotlightCard className="p-7" color="rgba(34, 211, 238, 0.16)">
+          <Card className="p-7">
             <h4 className="mb-4 flex items-center gap-2 font-semibold text-white">
-              <GraduationCap size={17} className="text-cyan" /> {L.learnTitle}
+              <GraduationCap size={17} className="text-accent" /> {L.learnTitle}
             </h4>
             <ul className="space-y-2.5">
               {L.learn.map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-gray-300">
-                  <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-cyan/70" /> {item}
+                  <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-accent/70" /> {item}
                 </li>
               ))}
             </ul>
-          </SpotlightCard>
-          <SpotlightCard className="p-7" color="rgba(225, 6, 0, 0.15)">
+          </Card>
+          <Card className="p-7">
             <h4 className="mb-4 flex items-center gap-2 font-semibold text-white">
               <Rocket size={17} className="text-f1" /> {L.bringTitle}
             </h4>
@@ -311,16 +305,16 @@ export default function Experience() {
                 </li>
               ))}
             </ul>
-          </SpotlightCard>
+          </Card>
         </div>
       </ScrollReveal>
 
       {/* ── objectifs de saison ── */}
       <ScrollReveal className="mt-14">
         <MonoTitle>
-          <Flag size={13} className="text-cyan" /> {L.goalsTitle}
+          <Flag size={13} className="text-accent" /> {L.goalsTitle}
         </MonoTitle>
-        <p className="mb-6 text-center text-xs text-gray-400">{L.goalsSub}</p>
+        <p className="mb-6 text-xs text-gray-400">{L.goalsSub}</p>
         <ol className="mx-auto max-w-2xl space-y-3">
           {L.goals.map((goal, i) => (
             <motion.li
@@ -331,19 +325,19 @@ export default function Experience() {
               transition={{ delay: i * 0.1 }}
               className={`flex items-center gap-4 rounded-2xl border p-4 ${
                 goal.finish
-                  ? 'border-[#ffd700]/40 bg-[#ffd700]/5'
-                  : 'border-line bg-panel/60'
+                  ? 'border-f1/40'
+                  : 'border-line bg-panel'
               }`}
             >
               <span
                 className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
-                  goal.finish ? 'bg-gradient-to-br from-[#ffd700] to-orange-500' : 'border border-line bg-ink/60'
+                  goal.finish ? 'bg-f1' : 'border border-line bg-ink/60'
                 }`}
               >
-                <goal.icon size={16} className={goal.finish ? 'text-ink' : 'text-cyan'} />
+                <goal.icon size={16} className={goal.finish ? 'text-white' : 'text-gray-400'} />
               </span>
               <span className="flex-1 text-sm text-gray-200">{goal.text}</span>
-              <span className="font-mono text-[10px] text-gray-400">{goal.finish ? '🏁' : `T${i + 1}`}</span>
+              <span className="font-mono text-[10px] text-gray-400">{goal.finish ? <span className="checkered inline-block h-3 w-3 rounded-sm" aria-label="arrivée" /> : `T${i + 1}`}</span>
             </motion.li>
           ))}
         </ol>
@@ -352,15 +346,15 @@ export default function Experience() {
       {/* ── le garage à outils ── */}
       <ScrollReveal className="mt-14">
         <MonoTitle>
-          <Boxes size={13} className="text-cyan" /> {L.garageTitle}
+          <Boxes size={13} className="text-accent" /> {L.garageTitle}
         </MonoTitle>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {TOOLS.map((tool, i) => (
             <ScrollReveal key={tool.name} delay={i * 0.05}>
-              <SpotlightCard className="h-full p-4 text-center" color="rgba(124, 58, 237, 0.18)">
+              <Card className="h-full p-4 text-center">
                 <p className="text-sm font-semibold text-white">{tool.name}</p>
                 <p className="mt-1 text-[11px] text-gray-500">{tool[lang]}</p>
-              </SpotlightCard>
+              </Card>
             </ScrollReveal>
           ))}
         </div>

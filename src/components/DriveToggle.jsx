@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useLang } from '../i18n.jsx'
+import F1Car from './F1Car.jsx'
 
 // Bouton d'activation du Mode Piste (+ raccourci clavier P).
 // Le jeu (DriveMode) est chargé en lazy : il ne pèse rien tant qu'on ne joue pas.
@@ -46,12 +47,11 @@ export default function DriveToggle() {
         onClick={toggle}
         aria-pressed={active}
         title={L.title}
-        className="btn-uiverse fixed bottom-5 left-5 z-[90] hidden cursor-pointer items-center gap-2 overflow-hidden rounded-2xl border border-line bg-panel/80 px-4 py-2.5 text-xs font-semibold text-gray-200 backdrop-blur transition-colors [--glow:var(--color-f1)] hover:border-f1/60 sm:flex"
+        className="fixed bottom-5 left-5 z-[90] hidden cursor-pointer items-center gap-2.5 rounded-lg border border-line bg-panel px-3.5 py-2 text-xs font-medium text-gray-300 backdrop-blur transition-colors hover:border-f1/60 hover:text-white sm:flex"
       >
-        <span className="-scale-x-100 text-sm" aria-hidden>🏎️</span>
+        <F1Car className="h-3 w-auto text-f1" />
         {active ? L.on : L.off}
-        <kbd className="rounded border border-line bg-ink/70 px-1.5 py-0.5 font-mono text-[10px] text-gray-400">P</kbd>
-        <span className="checkered absolute inset-x-0 bottom-0 h-0.5 opacity-70" />
+        <kbd className="rounded border border-line px-1.5 font-mono text-[10px] text-gray-500">P</kbd>
       </button>
 
       {active && (

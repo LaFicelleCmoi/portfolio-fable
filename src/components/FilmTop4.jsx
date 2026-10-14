@@ -46,7 +46,7 @@ const T = {
 }
 
 const INPUT_CLS =
-  'rounded-lg border border-line bg-panel/60 px-2.5 py-1.5 text-xs text-white outline-none transition-colors focus:border-cyan'
+  'rounded-lg border border-line bg-panel px-2.5 py-1.5 text-xs text-white outline-none transition-colors focus:border-accent'
 
 // déclenche le téléchargement d'une image encodée en data URL
 function triggerDownload(dataUrl, filename) {
@@ -80,11 +80,11 @@ function FilmSlot({ idx, film, onFile, onField, L }) {
         role="button"
         tabIndex={0}
         title={L.drop}
-        className="group relative aspect-[2/3] w-16 shrink-0 cursor-pointer overflow-hidden rounded-lg border border-dashed border-line bg-panel/60 focus:outline-none focus-visible:border-cyan"
+        className="group relative aspect-[2/3] w-16 shrink-0 cursor-pointer overflow-hidden rounded-lg border border-dashed border-line bg-panel focus:outline-none focus-visible:border-accent"
       >
         {film.img && <img src={film.img} alt="" className="h-full w-full object-cover" />}
         <span className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-ink/70 text-center text-[8px] text-gray-200 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-          <Upload size={13} className="text-cyan" /> {L.drop}
+          <Upload size={13} className="text-accent" /> {L.drop}
         </span>
         <input
           ref={inputRef}
@@ -222,7 +222,7 @@ export default function FilmTop4({ lang, label }) {
             rel="noreferrer"
             title={`${film.title} (${film.year}) — Letterboxd`}
             aria-label={`${film.title} (${film.year}) — ${L.view}`}
-            className="group/film block overflow-hidden rounded-lg border border-line bg-ink/60 transition-all hover:border-[#40bcf4]/60 hover:shadow-[0_0_14px_rgba(64,188,244,0.3)]"
+            className="group/film block overflow-hidden rounded-lg border border-line bg-ink/60 transition-all hover:border-[#40bcf4]/60"
           >
             <img
               src={film.img}
@@ -237,7 +237,7 @@ export default function FilmTop4({ lang, label }) {
       {editMode && (
         <button
           onClick={() => setOpen(true)}
-          className="btn-uiverse mt-3 inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-line bg-ink/60 px-3 py-1.5 text-[11px] text-cyan transition-colors hover:border-cyan/50 [--glow:var(--color-cyan)]"
+          className="mt-3 inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-line bg-ink/60 px-3 py-1.5 text-[11px] text-accent transition-colors hover:border-accent/50"
         >
           <Pencil size={11} /> {L.edit}
         </button>
@@ -261,9 +261,8 @@ export default function FilmTop4({ lang, label }) {
               exit={{ scale: 0.92, y: 20, opacity: 0 }}
               transition={{ type: 'spring', damping: 22, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-line bg-panel shadow-2xl shadow-black/60"
+              className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-line bg-panel shadow-2xl shadow-black/60"
             >
-              <div className="checkered h-2 w-full opacity-80" />
               <button
                 onClick={() => setOpen(false)}
                 aria-label={L.close}
@@ -285,7 +284,7 @@ export default function FilmTop4({ lang, label }) {
                 <div className="mt-6 flex flex-wrap gap-3">
                   <button
                     onClick={doExport}
-                    className="btn-uiverse inline-flex cursor-pointer items-center gap-2 rounded-xl bg-gradient-to-r from-neon to-cyan px-4 py-2 text-xs font-semibold text-white"
+                    className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-white px-4 py-2 text-xs font-semibold text-ink"
                   >
                     <Download size={14} /> {L.export}
                   </button>

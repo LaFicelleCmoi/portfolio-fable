@@ -2,10 +2,9 @@ import { useMemo } from 'react'
 import { RefreshCw } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
-import SpotlightCard from '../components/SpotlightCard.jsx'
+import Card from '../components/Card.jsx'
 import DonutChart from '../components/DonutChart.jsx'
 import StatRing from '../components/StatRing.jsx'
-import ShinyText from '../components/ShinyText.jsx'
 import useGithubRepos from '../hooks/useGithubRepos.js'
 import { PROJECT_DETAILS } from '../data/projectDetails.js'
 import { useLang } from '../i18n.jsx'
@@ -55,7 +54,7 @@ const STRINGS = {
   },
 }
 
-const RING_COLORS = { active: '#22d3ee', demo: '#b455ff', doc: '#f472b6' }
+const RING_COLORS = { active: '#e10600', demo: '#a1a1aa', doc: '#52525b' }
 
 export default function DataSection() {
   const { lang } = useLang()
@@ -96,15 +95,15 @@ export default function DataSection() {
 
       <ScrollReveal>
         <p className="mb-10 flex items-center justify-center gap-2 text-center text-sm text-gray-500">
-          <RefreshCw size={14} className="text-cyan" />
-          <ShinyText>{L.live}</ShinyText>
+          <RefreshCw size={14} className="text-accent" />
+          {L.live}
         </p>
       </ScrollReveal>
 
       <div className="grid gap-6 lg:grid-cols-5">
         {/* donut des langages */}
         <ScrollReveal direction="right" className="lg:col-span-3">
-          <SpotlightCard className="h-full p-7">
+          <Card className="h-full p-7">
             <h3 className="mb-6 text-sm font-semibold tracking-wide text-gray-300 uppercase">
               {L.donutTitle}
             </h3>
@@ -114,12 +113,12 @@ export default function DataSection() {
               centerSub={L.repos}
               ariaLabel={L.donutAria(stats.total)}
             />
-          </SpotlightCard>
+          </Card>
         </ScrollReveal>
 
         {/* jauges : des pourcentages réels */}
         <ScrollReveal direction="left" delay={0.1} className="lg:col-span-2">
-          <SpotlightCard className="flex h-full items-center justify-around gap-4 p-7 max-lg:flex-row lg:flex-col" color="rgba(34, 211, 238, 0.16)">
+          <Card className="flex h-full items-center justify-around gap-4 p-7 max-lg:flex-row lg:flex-col">
             {L.rings.map((ring) => (
               <StatRing
                 key={ring.key}
@@ -129,7 +128,7 @@ export default function DataSection() {
                 color={RING_COLORS[ring.key]}
               />
             ))}
-          </SpotlightCard>
+          </Card>
         </ScrollReveal>
       </div>
     </section>

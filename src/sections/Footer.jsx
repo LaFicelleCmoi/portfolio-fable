@@ -1,6 +1,4 @@
 import { Github, Linkedin, Mail, ArrowUp, Heart, Zap } from 'lucide-react'
-import GradientText from '../components/GradientText.jsx'
-import Magnetic from '../components/Magnetic.jsx'
 import { useLang } from '../i18n.jsx'
 
 const LINKS = [
@@ -19,7 +17,7 @@ const STRINGS = {
     social: 'Les stands',
     backTop: 'Retour à la grille de départ',
     made: (heart) => <>Fait avec {heart} et beaucoup de ⚡ — React, TailwindCSS & Framer Motion.</>,
-    sync: 'Projets synchronisés automatiquement depuis GitHub 🚀 — propulsé à fond, comme en F1 🏁',
+    sync: 'Projets synchronisés automatiquement depuis GitHub — propulsé à fond, comme en F1',
   },
   en: {
     tagline: 'Mobile developer apprenticing at Unistellar — and driver of this portfolio.',
@@ -27,7 +25,7 @@ const STRINGS = {
     social: 'The pits',
     backTop: 'Back to the starting grid',
     made: (heart) => <>Made with {heart} and plenty of ⚡ — React, TailwindCSS & Framer Motion.</>,
-    sync: 'Projects auto-synced from GitHub 🚀 — flat out, like in F1 🏁',
+    sync: 'Projects auto-synced from GitHub — flat out, like in F1',
   },
 }
 
@@ -43,19 +41,19 @@ export default function Footer() {
       <div className="mx-auto grid max-w-5xl gap-10 px-6 py-12 sm:grid-cols-3">
         {/* signature */}
         <div>
-          <p className="mb-2 text-2xl font-bold">
-            <GradientText>Loïs</GradientText> <span aria-hidden>⚡</span>
+          <p className="mb-2 text-lg font-semibold text-white">
+            Loïs Clerc
           </p>
           <p className="text-sm leading-relaxed text-gray-400">{L.tagline}</p>
         </div>
 
         {/* liens de sections */}
         <nav aria-label={L.nav}>
-          <p className="mb-3 font-mono text-[11px] tracking-[0.3em] text-gray-500">{L.nav.toUpperCase()}</p>
+          <p className="mb-3 font-mono text-[11px] tracking-[0.15em] text-gray-500">{L.nav.toUpperCase()}</p>
           <ul className="grid grid-cols-2 gap-x-4 gap-y-2">
             {LINKS.map((l) => (
               <li key={l.id}>
-                <a href={`#${l.id}`} className="text-sm text-gray-400 transition-colors hover:text-cyan">
+                <a href={`#${l.id}`} className="text-sm text-gray-400 transition-colors hover:text-accent">
                   {l[lang]}
                 </a>
               </li>
@@ -65,39 +63,33 @@ export default function Footer() {
 
         {/* réseaux */}
         <div>
-          <p className="mb-3 font-mono text-[11px] tracking-[0.3em] text-gray-500">{L.social.toUpperCase()}</p>
+          <p className="mb-3 font-mono text-[11px] tracking-[0.15em] text-gray-500">{L.social.toUpperCase()}</p>
           <div className="flex gap-3">
-            <Magnetic>
               <a
                 href="https://github.com/LaFicelleCmoi"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub"
-                className="btn-uiverse flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-panel/70 text-gray-400 hover:text-cyan"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-panel text-gray-400 hover:text-accent"
               >
                 <Github size={17} />
               </a>
-            </Magnetic>
-            <Magnetic>
               <a
                 href="https://www.linkedin.com/in/lo%C3%AFs-clerc-a46583386/"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn"
-                className="btn-uiverse flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-panel/70 text-gray-400 hover:text-cyan"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-panel text-gray-400 hover:text-accent"
               >
                 <Linkedin size={17} />
               </a>
-            </Magnetic>
-            <Magnetic>
               <a
                 href="mailto:lois.clerc@epitech.eu"
                 aria-label="Email"
-                className="btn-uiverse flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-panel/70 text-gray-400 hover:text-cyan"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-panel text-gray-400 hover:text-accent"
               >
                 <Mail size={17} />
               </a>
-            </Magnetic>
           </div>
           <a
             href="#accueil"
@@ -111,10 +103,10 @@ export default function Footer() {
       <div className="border-t border-line/60 py-5 text-center">
         <p className="text-sm text-gray-300">
           © {new Date().getFullYear()}{' '}
-          {L.made(<Heart size={13} className="inline animate-pulse text-f1" fill="currentColor" aria-label="amour" />)}
+          {L.made(<Heart size={13} className="inline text-f1" fill="currentColor" aria-label="amour" />)}
         </p>
         <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-gray-400">
-          <Zap size={12} className="text-cyan" /> {L.sync}
+          <Zap size={12} className="text-accent" /> {L.sync}
         </p>
       </div>
     </footer>

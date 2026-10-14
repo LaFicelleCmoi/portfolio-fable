@@ -2,7 +2,7 @@
 export default function Loader() {
   return (
     <div className="flex flex-col items-center gap-4 py-16" role="status" aria-label="Chargement">
-      <div className="flex gap-2.5 rounded-2xl border border-line bg-panel/80 px-4 py-3 shadow-xl shadow-black/40">
+      <div className="flex gap-2.5 rounded-2xl border border-line bg-panel px-4 py-3">
         {[0, 1, 2, 3, 4].map((i) => (
           <span
             key={i}
@@ -11,7 +11,7 @@ export default function Loader() {
           />
         ))}
       </div>
-      <p className="font-mono text-[11px] tracking-[0.3em] text-gray-500">FORMATION LAP…</p>
+      <p className="font-mono text-[11px] tracking-[0.15em] text-gray-500">FORMATION LAP…</p>
     </div>
   )
 }

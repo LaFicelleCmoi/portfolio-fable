@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Star, Github, ExternalLink, Clock, Trophy, GraduationCap } from 'lucide-react'
-import GlowButton from './GlowButton.jsx'
+import Button from './Button.jsx'
 import { useLang } from '../i18n.jsx'
-import { getProjectText, PODIUM_STYLE, categoryOf, CATEGORY_ICONS, CATEGORY_LABELS } from '../data/projectDetails.js'
+import { getProjectText, PODIUM_STYLE, categoryOf, CATEGORY_LABELS } from '../data/projectDetails.js'
 
 const LANG_COLORS = {
   JavaScript: '#f7df1e', TypeScript: '#3178c6', Python: '#3776ab',
@@ -94,10 +94,9 @@ export default function ProjectModal({ repo, rank, onClose }) {
             exit={{ scale: 0.9, y: 20, opacity: 0 }}
             transition={{ type: 'spring', damping: 22, stiffness: 300 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-xl overflow-hidden rounded-3xl border border-line bg-panel shadow-2xl shadow-black/60"
+            className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-line bg-panel shadow-2xl shadow-black/60"
           >
             {/* bande damier F1 */}
-            <div className="checkered h-2 w-full opacity-80" />
 
             <button
               onClick={onClose}
@@ -122,7 +121,7 @@ export default function ProjectModal({ repo, rank, onClose }) {
               </div>
               <div className="mb-5 flex flex-wrap items-center gap-3 text-xs text-gray-400">
                 <span className="rounded-full border border-line bg-ink/60 px-2.5 py-0.5">
-                  {CATEGORY_ICONS[category]} {CATEGORY_LABELS[lang][category] ?? category}
+                  {CATEGORY_LABELS[lang][category] ?? category}
                 </span>
                 {repo.language && (
                   <span className="flex items-center gap-1.5">
@@ -149,8 +148,8 @@ export default function ProjectModal({ repo, rank, onClose }) {
 
               {/* rétrospective : l'analyse des progrès demandée par le sujet */}
               {details?.learned && (
-                <div className="mb-6 rounded-2xl border border-neon/30 bg-neon/5 p-4">
-                  <p className="mb-1.5 flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] text-neon">
+                <div className="mb-6 rounded-2xl border border-accent/30 bg-accent/5 p-4">
+                  <p className="mb-1.5 flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] text-accent">
                     <GraduationCap size={13} /> {L.debrief}
                   </p>
                   <p className="text-sm leading-relaxed text-gray-300">{details.learned}</p>
@@ -171,13 +170,13 @@ export default function ProjectModal({ repo, rank, onClose }) {
 
               {/* actions */}
               <div className="flex flex-wrap gap-3">
-                <GlowButton href={repo.url} target="_blank" rel="noreferrer">
+                <Button href={repo.url} target="_blank" rel="noreferrer">
                   <Github size={16} /> {L.code}
-                </GlowButton>
+                </Button>
                 {repo.homepage && (
-                  <GlowButton href={repo.homepage} target="_blank" rel="noreferrer" variant="ghost">
+                  <Button href={repo.homepage} target="_blank" rel="noreferrer" variant="ghost">
                     <ExternalLink size={16} /> {DEMO_LABELS[lang][category] ?? DEMO_LABELS[lang].default}
-                  </GlowButton>
+                  </Button>
                 )}
               </div>
             </div>

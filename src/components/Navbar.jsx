@@ -1,24 +1,22 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Home, User, Briefcase, Code2, FolderGit2, Mail, Languages, Gauge, Joystick } from 'lucide-react'
-import Magnetic from './Magnetic.jsx'
 import { useLang } from '../i18n.jsx'
 
 const LINKS = [
-  { id: 'accueil', icon: Home, fr: 'Accueil', en: 'Home' },
-  { id: 'apropos', icon: User, fr: 'À propos', en: 'About' },
-  { id: 'experience', icon: Briefcase, fr: 'Alternance', en: 'Apprenticeship' },
-  { id: 'competences', icon: Code2, fr: 'Compétences', en: 'Skills' },
-  { id: 'projets', icon: FolderGit2, fr: 'Projets', en: 'Projects' },
-  { id: 'data', icon: Gauge, fr: 'Data', en: 'Data' },
-  { id: 'horspiste', icon: Joystick, fr: 'Hors piste', en: 'Off track' },
-  { id: 'contact', icon: Mail, fr: 'Contact', en: 'Contact' },
+  { id: 'apropos', fr: 'À propos', en: 'About' },
+  { id: 'experience', fr: 'Alternance', en: 'Apprenticeship' },
+  { id: 'competences', fr: 'Compétences', en: 'Skills' },
+  { id: 'projets', fr: 'Projets', en: 'Projects' },
+  { id: 'data', fr: 'Data', en: 'Data' },
+  { id: 'horspiste', fr: 'Hors piste', en: 'Off track' },
+  { id: 'contact', fr: 'Contact', en: 'Contact' },
 ]
 
-// Navigation "dock" thème F1 : la bulle active est une livrée rouge F1
-// avec un damier d'arrivée, et elle "roule" d'un onglet à l'autre 🏎️
+// Barre de navigation : nom à gauche, sections à droite.
+// La section visible est soulignée en rouge ; le trait glisse d'un lien à l'autre.
 export default function Navbar() {
-  const [active, setActive] = useState('accueil')
+  const [active, setActive] = useState(null)
+  const [scrolled, setScrolled] = useState(false)
   const { lang, toggle } = useLang()
 
   useEffect(() => {
@@ -28,79 +26,70 @@ export default function Navbar() {
       },
       { rootMargin: '-45% 0px -45% 0px' }
     )
-    LINKS.forEach(({ id }) => {
+    ;['accueil', ...LINKS.map((l) => l.id)].forEach((id) => {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     })
-    return () => observer.disconnect()
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', onScroll)
+    }
   }, [])
 
+  const switchLabel = lang === 'fr' ? 'Switch to English' : 'Passer en français'
+
   return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ type: 'spring', damping: 18, delay: 0.3 }}
-      className="fixed top-4 left-1/2 z-50 -translate-x-1/2"
+    <nav
       aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+        scrolled ? 'border-line bg-ink/85 backdrop-blur-md' : 'border-transparent'
+      }`}
     >
-      {/* liseré lumineux sous le dock (hors du ul : un ul ne contient que des li) */}
-      <span aria-hidden className="pointer-events-none absolute inset-x-8 bottom-0 h-px bg-gradient-to-r from-transparent via-neon/70 to-transparent" />
-      <ul className="flex max-w-[calc(100vw-12px)] items-center gap-0 rounded-2xl border border-line bg-panel/70 px-1.5 py-2 shadow-2xl shadow-black/50 backdrop-blur-xl sm:gap-1 sm:px-2">
-        {LINKS.map(({ id, icon: Icon, ...labels }) => (
-          <li key={id}>
-            <Magnetic strength={0.2}>
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-6">
+        <a href="#accueil" className="text-sm font-semibold tracking-tight text-white">
+          Loïs Clerc
+        </a>
+        <ul className="flex items-center gap-1 overflow-x-auto text-[13px] [scrollbar-width:none]">
+          {LINKS.map((link) => (
+            <li key={link.id} className="max-md:hidden">
               <a
-                href={`#${id}`}
-                aria-label={labels[lang]}
-                className={`relative flex items-center gap-2 rounded-xl px-2 py-2 text-sm whitespace-nowrap transition-colors sm:px-4 ${
-                  active === id ? 'text-white' : 'text-gray-400 hover:text-gray-200'
+                href={`#${link.id}`}
+                aria-current={active === link.id ? 'true' : undefined}
+                className={`relative block px-2.5 py-1.5 transition-colors ${
+                  active === link.id ? 'text-white' : 'text-gray-500 hover:text-gray-200'
                 }`}
               >
-                {active === id && (
+                {link[lang]}
+                {active === link.id && (
                   <motion.span
-                    layoutId="nav-pill"
-                    className="absolute inset-0 overflow-hidden rounded-xl shadow-[0_0_18px_rgba(225,6,0,0.55)]"
-                    transition={{ type: 'spring', damping: 22, stiffness: 320 }}
-                  >
-                    {/* livrée rouge F1 */}
-                    <span className="absolute inset-0 bg-gradient-to-r from-f1 via-[#c00500] to-[#7f0300]" />
-                    {/* damier de ligne d'arrivée sur le bord droit */}
-                    <span className="checkered absolute inset-y-0 right-0 w-2.5 opacity-90" />
-                    {/* reflet vitesse */}
-                    <span className="absolute inset-x-0 top-0 h-1/2 bg-white/15" />
-                  </motion.span>
-                )}
-                <Icon size={16} className="relative z-10" />
-                <span className="relative z-10 hidden lg:inline">{labels[lang]}</span>
-                {/* petite F1 qui apparaît sur l'onglet actif */}
-                {active === id && (
-                  <motion.span
-                    initial={{ x: -14, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.15, type: 'spring', damping: 15 }}
-                    className="relative z-10 hidden -scale-x-100 text-xs lg:inline"
-                    aria-hidden
-                  >
-                    🏎️
-                  </motion.span>
+                    layoutId="nav-underline"
+                    className="absolute inset-x-2.5 -bottom-[11px] h-px bg-f1"
+                    transition={{ type: 'spring', damping: 30, stiffness: 380 }}
+                  />
                 )}
               </a>
-            </Magnetic>
+            </li>
+          ))}
+          <li className="md:hidden">
+            <a href="#contact" className="block px-2.5 py-1.5 text-gray-300">
+              {lang === 'fr' ? 'Contact' : 'Contact'}
+            </a>
           </li>
-        ))}
-        {/* bascule de langue */}
-        <li className="ml-0.5 border-l border-line pl-1 sm:ml-1 sm:pl-1.5">
-          <button
-            onClick={toggle}
-            aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
-            title={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
-            className="flex cursor-pointer items-center gap-1.5 rounded-xl px-2 py-2 text-xs font-semibold text-gray-400 transition-colors hover:text-white sm:px-2.5"
-          >
-            <Languages size={15} />
-            <span className="hidden sm:inline">{lang === 'fr' ? 'EN' : 'FR'}</span>
-          </button>
-        </li>
-      </ul>
-    </motion.nav>
+          <li className="ml-2 border-l border-line pl-3">
+            <button
+              onClick={toggle}
+              aria-label={switchLabel}
+              title={switchLabel}
+              className="cursor-pointer font-mono text-xs text-gray-500 transition-colors hover:text-white"
+            >
+              {lang === 'fr' ? 'EN' : 'FR'}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
   )
 }

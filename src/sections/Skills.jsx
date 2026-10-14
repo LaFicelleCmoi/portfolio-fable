@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import { Code2, Server, Brain, Wrench, Timer } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
-import TiltCard from '../components/TiltCard.jsx'
 import { useLang } from '../i18n.jsx'
 
 // Auto-évaluation : niveau + preuves tirées de mes projets (exigence du sujet portfolio)
@@ -11,7 +10,6 @@ const SKILL_GROUPS = [
     icon: Code2,
     fr: 'Front-end',
     en: 'Front-end',
-    color: 'from-neon to-pink',
     skills: [
       { name: 'JavaScript / React', level: 80, proof: 'f1-2026, Marioparty, easyjob' },
       { name: 'HTML / CSS', level: 85, proof: 'got, T-ENT-500, portfolios' },
@@ -22,7 +20,6 @@ const SKILL_GROUPS = [
     icon: Server,
     fr: 'Back-end',
     en: 'Back-end',
-    color: 'from-cyan to-neon',
     skills: [
       { name: 'Node.js', level: 70, proof: 'BERNSTEIN, breinstein, t-dev' },
       { name: 'Python', level: 75, proof: 'Alice, qr_app, Pendu' },
@@ -33,7 +30,6 @@ const SKILL_GROUPS = [
     icon: Brain,
     fr: 'IA & Data',
     en: 'AI & Data',
-    color: 'from-pink to-cyan',
     skills: [
       { name: 'Machine Learning', level: 55, proof: 'T-AIA-600 (Alice au pays des merveilles)' },
       { name: { fr: 'Traitement de données', en: 'Data processing' }, level: 60, proof: 'Alice, Smart-Fridge' },
@@ -43,7 +39,6 @@ const SKILL_GROUPS = [
     icon: Wrench,
     fr: 'DevOps & Outils',
     en: 'DevOps & Tools',
-    color: 'from-neon to-cyan',
     skills: [
       { name: 'Git / GitHub', level: 85, proof: { fr: '30+ dépôts publics', en: '30+ public repos' } },
       { name: 'Docker', level: 65, proof: 'Docker, t-dev' },
@@ -82,24 +77,20 @@ function SkillBar({ name, level, proof, best, L, lang }) {
         <span className="text-sm font-medium text-gray-200">{pick(name, lang)}</span>
         <span className="flex items-center gap-2">
           {best && (
-            <span className="flex items-center gap-1 rounded-full bg-[#b455ff]/15 px-2 py-0.5 font-mono text-[10px] tracking-wide text-[#b455ff]">
+            <span className="flex items-center gap-1 rounded-full bg-f1/10 px-2 py-0.5 font-mono text-[10px] tracking-wide text-accent">
               <Timer size={10} /> {L.best}
             </span>
           )}
           <span className="font-mono text-xs text-gray-500">{level}%</span>
         </span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-line">
+      <div className="h-1 overflow-hidden rounded-full bg-line">
         <motion.div
-          className={`h-full rounded-full ${
-            best
-              ? 'bg-gradient-to-r from-[#7a2fd6] to-[#b455ff] shadow-[0_0_10px_rgba(180,85,255,0.7)]'
-              : 'bg-gradient-to-r from-neon to-cyan'
-          }`}
+          className={`h-full rounded-full ${best ? 'bg-f1' : 'bg-gray-400'}`}
           initial={{ width: 0 }}
           whileInView={{ width: `${level}%` }}
           viewport={{ once: true }}
-          transition={{ duration: 1.1, ease: 'easeOut' }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         />
       </div>
       <p className="mt-1 text-xs text-gray-500">
@@ -122,12 +113,9 @@ export default function Skills() {
       <div className="grid gap-6 sm:grid-cols-2">
         {SKILL_GROUPS.map((group, gi) => (
           <ScrollReveal key={group.fr} delay={gi * 0.08}>
-            <TiltCard className="h-full">
-              <div className="h-full rounded-3xl border border-line bg-panel/70 p-7 backdrop-blur transition-colors hover:border-neon/50">
+            <div className="h-full rounded-2xl border border-line bg-panel p-7">
                 <div className="mb-6 flex items-center gap-3">
-                  <span className={`rounded-xl bg-gradient-to-r ${group.color} p-2.5`}>
-                    <group.icon size={19} className="text-white" />
-                  </span>
+                  <group.icon size={18} strokeWidth={1.75} className="text-gray-500" />
                   <h3 className="text-lg font-semibold text-white">{group[lang]}</h3>
                 </div>
                 <div className="space-y-5">
@@ -141,8 +129,7 @@ export default function Skills() {
                     />
                   ))}
                 </div>
-              </div>
-            </TiltCard>
+            </div>
           </ScrollReveal>
         ))}
       </div>

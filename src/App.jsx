@@ -1,6 +1,5 @@
 import { lazy } from 'react'
 import Navbar from './components/Navbar.jsx'
-import CursorGlow from './components/CursorGlow.jsx'
 import RaceProgress from './components/RaceProgress.jsx'
 import PitButton from './components/PitButton.jsx'
 import DriveToggle from './components/DriveToggle.jsx'
@@ -22,7 +21,6 @@ const Footer = lazy(() => import('./sections/Footer.jsx'))
 export default function App() {
   return (
     <>
-      <CursorGlow />
       <RaceProgress />
       <Navbar />
       <main>

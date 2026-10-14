@@ -1,26 +1,16 @@
-import GradientText from './GradientText.jsx'
 import ScrollReveal from './ScrollReveal.jsx'
-import { useLang } from '../i18n.jsx'
 
-// En-tête de section façon télémétrie F1 : chaque section est un "secteur" du circuit
+// En-tête de section, aligné à gauche : numéro de secteur en mono, titre, chapeau.
 export default function SectionHeader({ sector, kicker, title, children }) {
-  const { lang } = useLang()
   return (
-    <ScrollReveal>
-      <div className="mb-3 flex items-center justify-center gap-3">
-        <span className="h-px w-10 bg-gradient-to-r from-transparent to-f1/70" />
-        <span className="font-mono text-[11px] tracking-[0.3em] text-gray-500">
-          {lang === 'fr' ? 'SECTEUR' : 'SECTOR'} {sector}
-        </span>
-        <span className="text-xs uppercase tracking-[0.35em] text-cyan">{kicker}</span>
-        <span className="h-px w-10 bg-gradient-to-l from-transparent to-f1/70" />
-      </div>
-      <h2 className="title-glow mb-4 text-center text-4xl font-bold [text-wrap:balance]">
-        <GradientText>{title}</GradientText>
-      </h2>
-      {children && (
-        <p className="mx-auto mb-14 max-w-2xl text-center text-sm text-gray-400">{children}</p>
-      )}
+    <ScrollReveal className="mb-12 max-w-2xl">
+      <p className="mb-3 flex items-center gap-3 font-mono text-xs text-gray-500">
+        <span className="text-accent">{sector}</span>
+        <span className="h-px w-6 bg-line" />
+        {kicker}
+      </p>
+      <h2 className="text-3xl font-semibold tracking-tight text-white [text-wrap:balance] sm:text-4xl">{title}</h2>
+      {children && <p className="mt-4 text-[15px] leading-relaxed text-gray-400">{children}</p>}
     </ScrollReveal>
   )
 }

@@ -1,8 +1,6 @@
-import { GraduationCap, MapPin, Mail, Github, Sparkles } from 'lucide-react'
-import BlurText from '../components/BlurText.jsx'
+import { GraduationCap, MapPin, Mail, Github } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
-import Marquee from '../components/Marquee.jsx'
 import { useLang } from '../i18n.jsx'
 
 const TECHS = [
@@ -32,7 +30,7 @@ const STRINGS = {
       {
         date: 'Saison en cours',
         title: 'Alternance chez Unistellar — Développeur Mobile iOS & Android',
-        text: "Télescopes connectés et jumelles Envision pilotés depuis mobile : Swift/SwiftUI, Kotlin/Jetpack Compose, BLE & Wi-Fi, Firebase et GitLab CI. Détails dans la section Alternance 🏎️",
+        text: "Télescopes connectés et jumelles Envision pilotés depuis mobile : Swift/SwiftUI, Kotlin/Jetpack Compose, BLE & Wi-Fi, Firebase et GitLab CI. Détails dans la section Alternance",
       },
       {
         date: 'Prochaines saisons',
@@ -63,7 +61,7 @@ const STRINGS = {
       {
         date: 'Current season',
         title: 'Apprenticeship at Unistellar — iOS & Android Mobile Developer',
-        text: 'Smart telescopes and Envision binoculars driven from mobile: Swift/SwiftUI, Kotlin/Jetpack Compose, BLE & Wi-Fi, Firebase and GitLab CI. Details in the Apprenticeship section 🏎️',
+        text: 'Smart telescopes and Envision binoculars driven from mobile: Swift/SwiftUI, Kotlin/Jetpack Compose, BLE & Wi-Fi, Firebase and GitLab CI. Details in the Apprenticeship section',
       },
       {
         date: 'Next seasons',
@@ -86,25 +84,25 @@ export default function About() {
 
       <div className="grid gap-10 md:grid-cols-2">
         <ScrollReveal direction="right">
-          <div className="border-beam rounded-3xl">
-            <div className="border-beam-inner p-8">
+          <div className="rounded-2xl border border-line bg-panel">
+            <div className="p-8">
               <p className="text-lg leading-relaxed text-gray-300">
-                <BlurText key={lang} text={L.bio} />
+                {L.bio}
               </p>
               <ul className="mt-8 space-y-3 text-sm text-gray-400">
                 <li className="flex items-center gap-3">
-                  <GraduationCap size={16} className="text-neon" /> {L.school}
+                  <GraduationCap size={16} className="text-gray-500" /> {L.school}
                 </li>
                 <li className="flex items-center gap-3">
-                  <MapPin size={16} className="text-neon" /> {L.location}
+                  <MapPin size={16} className="text-gray-500" /> {L.location}
                 </li>
                 <li className="flex items-center gap-3">
-                  <Mail size={16} className="text-neon" />
-                  <a href="mailto:lois.clerc@epitech.eu" className="hover:text-cyan">lois.clerc@epitech.eu</a>
+                  <Mail size={16} className="text-gray-500" />
+                  <a href="mailto:lois.clerc@epitech.eu" className="transition-colors hover:text-white">lois.clerc@epitech.eu</a>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Github size={16} className="text-neon" />
-                  <a href="https://github.com/LaFicelleCmoi" target="_blank" rel="noreferrer" className="hover:text-cyan">
+                  <Github size={16} className="text-gray-500" />
+                  <a href="https://github.com/LaFicelleCmoi" target="_blank" rel="noreferrer" className="transition-colors hover:text-white">
                     github.com/LaFicelleCmoi
                   </a>
                 </li>
@@ -117,22 +115,25 @@ export default function About() {
           <ol className="relative space-y-8 border-l border-line pl-6">
             {L.timeline.map((item) => (
               <li key={item.title} className="relative">
-                <span className="absolute -left-[31px] flex h-2.5 w-2.5 rounded-full bg-gradient-to-r from-neon to-cyan shadow-[0_0_12px_var(--color-neon)]" />
-                <p className="text-xs uppercase tracking-widest text-cyan">{item.date}</p>
+                <span className="absolute -left-[31px] flex h-2 w-2 rounded-full border border-gray-500 bg-ink" />
+                <p className="font-mono text-xs text-gray-500">{item.date}</p>
                 <h3 className="mt-1 font-semibold text-white">{item.title}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-gray-400">{item.text}</p>
               </li>
             ))}
           </ol>
-          <p className="mt-8 flex items-start gap-2 rounded-2xl border border-line bg-panel/50 p-4 text-sm text-gray-400">
-            <Sparkles size={16} className="mt-0.5 shrink-0 text-pink" />
-            {L.philosophy}
-          </p>
+          <p className="mt-8 border-l-2 border-f1 pl-4 text-sm leading-relaxed text-gray-400">{L.philosophy}</p>
         </ScrollReveal>
       </div>
 
       <ScrollReveal delay={0.2} className="mt-16">
-        <Marquee items={TECHS} />
+        <ul className="flex flex-wrap gap-2">
+          {TECHS.map((t) => (
+            <li key={t} className="rounded-md border border-line px-2.5 py-1 font-mono text-xs text-gray-400">
+              {t}
+            </li>
+          ))}
+        </ul>
       </ScrollReveal>
     </section>
   )

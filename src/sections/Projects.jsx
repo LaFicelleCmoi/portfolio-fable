@@ -5,15 +5,13 @@ import {
 } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
-import TiltCard from '../components/TiltCard.jsx'
 import Loader from '../components/Loader.jsx'
-import ShinyText from '../components/ShinyText.jsx'
 import ProjectModal from '../components/ProjectModal.jsx'
 import useGithubRepos from '../hooks/useGithubRepos.js'
 import { relativeTime } from '../utils/time.js'
 import { useLang } from '../i18n.jsx'
 import {
-  getProjectText, PODIUM_STYLE, DEFAULT_ORDER, categoryOf, CATEGORY_ICONS, CATEGORY_LABELS,
+  getProjectText, PODIUM_STYLE, DEFAULT_ORDER, categoryOf, CATEGORY_LABELS,
 } from '../data/projectDetails.js'
 
 const ORDER_KEY = 'project-order'
@@ -39,7 +37,7 @@ const STRINGS = {
     fallback: 'Projet personnel — voir le code sur GitHub.',
     loadError: 'Impossible de charger les projets',
     seeGithub: 'voir directement sur GitHub',
-    noResult: '🏎️ Tout droit dans le mur : aucun projet ne combine ces deux filtres. Essaie une autre combinaison !',
+    noResult: 'Tout droit dans le mur : aucun projet ne combine ces deux filtres. Essaie une autre combinaison !',
     dragAria: (name) => `Déplacer ${name} dans le classement`,
     dragTitle: 'Glisser pour reclasser',
     openAria: (name) => `Ouvrir la fiche du projet ${name}`,
@@ -58,7 +56,7 @@ const STRINGS = {
     fallback: 'Personal project — see the code on GitHub.',
     loadError: 'Could not load projects',
     seeGithub: 'view directly on GitHub',
-    noResult: "🏎️ Straight into the wall: no project matches both filters. Try another combination!",
+    noResult: "Straight into the wall: no project matches both filters. Try another combination!",
     dragAria: (name) => `Move ${name} in the standings`,
     dragTitle: 'Drag to reorder',
     openAria: (name) => `Open details for ${name}`,
@@ -109,16 +107,16 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
           <GripVertical size={14} />
         </button>
       )}
-      <TiltCard className="h-full">
+      <div className="h-full">
         <div
           onClick={() => !dragging.current && onOpen(repo)}
-          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onOpen(repo)}
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === '') && onOpen(repo)}
           role="button"
           tabIndex={0}
-          className="group flex h-full cursor-pointer flex-col rounded-3xl border border-line bg-panel/70 p-6 backdrop-blur transition-all hover:border-cyan/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]"
+          className="group flex h-full cursor-pointer flex-col rounded-2xl border border-line bg-panel p-6 transition-all hover:border-accent/50"
         >
           <div className={`mb-3 flex items-start justify-between gap-2 ${draggable ? 'pr-7' : ''}`}>
-            <h3 className="flex items-center gap-2 font-semibold text-white transition-colors group-hover:text-cyan">
+            <h3 className="flex items-center gap-2 font-semibold text-white transition-colors group-hover:text-accent">
               {podium && (
                 <span
                   className="flex shrink-0 items-center gap-1 rounded-md px-1.5 py-0.5 font-mono text-[11px] font-bold"
@@ -141,7 +139,7 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
           </p>
           {/* dernière modification, synchronisée avec GitHub */}
           <p className="mb-4 flex items-center gap-1.5 text-[11px] text-gray-400">
-            <History size={11} className="text-cyan/70" />
+            <History size={11} className="text-accent/70" />
             {L.updated} {relativeTime(repo.updatedAt, lang)}
           </p>
           <div className="flex items-center justify-between">
@@ -162,7 +160,7 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
                   rel="noreferrer"
                   aria-label={L.demoAria(repo.name)}
                   onClick={(e) => e.stopPropagation()}
-                  className="rounded-lg p-2 text-gray-400 hover:text-cyan"
+                  className="rounded-lg p-2 text-gray-400 hover:text-accent"
                 >
                   <ExternalLink size={16} />
                 </a>
@@ -173,14 +171,14 @@ function ProjectCard({ repo, index, rank, onOpen, draggable, onReorder, register
                 rel="noreferrer"
                 aria-label={L.codeAria(repo.name)}
                 onClick={(e) => e.stopPropagation()}
-                className="rounded-lg p-2 text-gray-400 hover:text-neon"
+                className="rounded-lg p-2 text-gray-400 hover:text-accent"
               >
                 <Github size={16} />
               </a>
             </div>
           </div>
         </div>
-      </TiltCard>
+      </div>
     </motion.div>
   )
 }
@@ -262,38 +260,38 @@ export default function Projects() {
       <SectionHeader sector="04" kicker={L.kicker} title={L.title} />
       <ScrollReveal>
         <p className="mb-10 flex items-center justify-center gap-2 text-center text-sm text-gray-500">
-          <RefreshCw size={14} className="text-cyan" />
-          <ShinyText>{L.sync}</ShinyText>
+          <RefreshCw size={14} className="text-accent" />
+          {L.sync}
         </p>
       </ScrollReveal>
 
       {/* filtres : catégories (projets similaires regroupés) puis langages */}
       {!loading && !error && (
         <ScrollReveal className="mb-6 space-y-3">
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className={`btn-uiverse relative cursor-pointer rounded-full border px-4 py-1.5 text-sm transition-colors [--glow:var(--color-f1)] ${
+                className={`relative cursor-pointer rounded-full border px-4 py-1.5 text-sm transition-colors ${
                   category === cat
-                    ? 'border-transparent bg-gradient-to-r from-f1 to-orange-600 text-white'
-                    : 'border-line bg-panel/60 text-gray-400 hover:text-white'
+                    ? 'border-white bg-white text-ink'
+                    : 'border-line bg-panel text-gray-400 hover:text-white'
                 }`}
               >
-                {CATEGORY_ICONS[cat] ?? '📦'} {CATEGORY_LABELS[lang][cat] ?? cat}
+                {CATEGORY_LABELS[lang][cat] ?? cat}
               </button>
             ))}
           </div>
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap gap-2">
             {languages.map((l) => (
               <button
                 key={l}
                 onClick={() => setLanguage(l)}
-                className={`btn-uiverse relative cursor-pointer rounded-full border px-3 py-1 text-xs transition-colors ${
+                className={`relative cursor-pointer rounded-full border px-3 py-1 text-xs transition-colors ${
                   language === l
-                    ? 'border-transparent bg-gradient-to-r from-neon to-cyan text-white'
-                    : 'border-line bg-panel/60 text-gray-500 hover:text-white'
+                    ? 'border-white bg-white text-ink'
+                    : 'border-line bg-panel text-gray-500 hover:text-white'
                 }`}
               >
                 {l === 'Tous' ? CATEGORY_LABELS[lang].Tous : l}
@@ -312,7 +310,7 @@ export default function Projects() {
           </span>
           <button
             onClick={resetOrder}
-            className="flex cursor-pointer items-center gap-1 rounded-full border border-line bg-panel/60 px-3 py-1 transition-colors hover:text-white"
+            className="flex cursor-pointer items-center gap-1 rounded-full border border-line bg-panel px-3 py-1 transition-colors hover:text-white"
           >
             <RotateCcw size={11} /> {L.reset}
           </button>
@@ -323,7 +321,7 @@ export default function Projects() {
       {error && (
         <p className="text-center text-sm text-gray-500">
           {L.loadError} ({error}) —{' '}
-          <a href="https://github.com/LaFicelleCmoi?tab=repositories" target="_blank" rel="noreferrer" className="text-cyan underline">
+          <a href="https://github.com/LaFicelleCmoi?tab=repositories" target="_blank" rel="noreferrer" className="text-accent underline">
             {L.seeGithub}
           </a>
         </p>
