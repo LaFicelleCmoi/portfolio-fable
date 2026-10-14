@@ -1,7 +1,7 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence, useDragControls } from 'framer-motion'
 import {
-  Star, ExternalLink, Github, RefreshCw, Trophy, MousePointerClick, GripVertical, RotateCcw, Hand, History,
+  ChevronDown, Star, ExternalLink, Github, RefreshCw, Trophy, MousePointerClick, GripVertical, RotateCcw, Hand, History,
 } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
@@ -37,6 +37,8 @@ const STRINGS = {
     fallback: 'Projet personnel — voir le code sur GitHub.',
     loadError: 'Impossible de charger les projets',
     seeGithub: 'voir directement sur GitHub',
+    more: (n) => `Voir les ${n} autres projets`,
+    less: 'Réduire la liste',
     noResult: 'Tout droit dans le mur : aucun projet ne combine ces deux filtres. Essaie une autre combinaison !',
     dragAria: (name) => `Déplacer ${name} dans le classement`,
     dragTitle: 'Glisser pour reclasser',
@@ -56,6 +58,8 @@ const STRINGS = {
     fallback: 'Personal project — see the code on GitHub.',
     loadError: 'Could not load projects',
     seeGithub: 'view directly on GitHub',
+    more: (n) => `Show the other ${n} projects`,
+    less: 'Show fewer',
     noResult: "Straight into the wall: no project matches both filters. Try another combination!",
     dragAria: (name) => `Move ${name} in the standings`,
     dragTitle: 'Drag to reorder',
@@ -197,6 +201,17 @@ export default function Projects() {
       return DEFAULT_ORDER
     }
   })
+  // la grille complète fait ~40 cartes : on montre d'abord une sélection (6 sur mobile, 9 au-delà)
+  const [expanded, setExpanded] = useState(false)
+  const [limit, setLimit] = useState(9)
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 640px)')
+    const sync = () => setLimit(mq.matches ? 9 : 6)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+  const sectionRef = useRef(null)
   const cardRefs = useRef({})
   const registerRef = (name, el) => {
     cardRefs.current[name] = el
@@ -231,6 +246,15 @@ export default function Projects() {
       (language === 'Tous' || r.language === language)
   )
 
+  const visible = expanded ? filtered : filtered.slice(0, limit)
+  const hidden = filtered.length - visible.length
+
+  const toggleExpanded = () => {
+    // en repliant, on remonte en haut de la section pour ne pas se retrouver dans le vide
+    if (expanded) sectionRef.current?.scrollIntoView({ behavior: 'smooth' })
+    setExpanded((v) => !v)
+  }
+
   // dépose la carte sur une autre → elle prend sa place dans le classement
   const handleReorder = (repo, info) => {
     const x = info.point.x - window.scrollX
@@ -256,10 +280,10 @@ export default function Projects() {
   }
 
   return (
-    <section className="relative mx-auto max-w-6xl px-6 py-28">
+    <section ref={sectionRef} className="relative mx-auto max-w-6xl px-6 py-20 sm:py-28">
       <SectionHeader sector="04" kicker={L.kicker} title={L.title} />
       <ScrollReveal>
-        <p className="mb-10 flex items-center justify-center gap-2 text-center text-sm text-gray-500">
+        <p className="mb-10 flex items-center gap-2 text-sm text-gray-500">
           <RefreshCw size={14} className="text-accent" />
           {L.sync}
         </p>
@@ -268,12 +292,12 @@ export default function Projects() {
       {/* filtres : catégories (projets similaires regroupés) puis langages */}
       {!loading && !error && (
         <ScrollReveal className="mb-6 space-y-3">
-          <div className="flex flex-wrap gap-2">
+          <div className="-mx-6 flex gap-2 overflow-x-auto px-6 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className={`relative cursor-pointer rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                className={`relative shrink-0 cursor-pointer rounded-full border px-4 py-1.5 text-sm whitespace-nowrap transition-colors ${
                   category === cat
                     ? 'border-white bg-white text-ink'
                     : 'border-line bg-panel text-gray-400 hover:text-white'
@@ -283,12 +307,12 @@ export default function Projects() {
               </button>
             ))}
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="-mx-6 flex gap-2 overflow-x-auto px-6 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
             {languages.map((l) => (
               <button
                 key={l}
                 onClick={() => setLanguage(l)}
-                className={`relative cursor-pointer rounded-full border px-3 py-1 text-xs transition-colors ${
+                className={`relative shrink-0 cursor-pointer rounded-full border px-3 py-1 text-xs whitespace-nowrap transition-colors ${
                   language === l
                     ? 'border-white bg-white text-ink'
                     : 'border-line bg-panel text-gray-500 hover:text-white'
@@ -303,7 +327,7 @@ export default function Projects() {
 
       {/* mode stands : réorganisation du classement */}
       {draggable && (
-        <ScrollReveal className="mb-8 flex flex-wrap items-center justify-center gap-3 text-xs text-gray-500">
+        <ScrollReveal className="mb-8 flex flex-wrap items-center gap-3 text-xs text-gray-500 max-sm:hidden">
           <span className="flex items-center gap-1.5">
             <Hand size={13} className="text-f1" />
             {L.dragHint}
@@ -329,7 +353,7 @@ export default function Projects() {
 
       <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
-          {filtered.map((repo, i) => (
+          {visible.map((repo, i) => (
             <ProjectCard
               key={repo.name}
               repo={repo}
@@ -345,6 +369,19 @@ export default function Projects() {
           ))}
         </AnimatePresence>
       </motion.div>
+
+      {(hidden > 0 || (expanded && filtered.length > limit)) && (
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={toggleExpanded}
+            aria-expanded={expanded}
+            className="group inline-flex cursor-pointer items-center gap-2 rounded-lg border border-line px-5 py-2.5 text-sm text-gray-300 transition-colors hover:border-gray-500 hover:text-white"
+          >
+            {expanded ? L.less : L.more(hidden)}
+            <ChevronDown size={15} className={`transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
+          </button>
+        </div>
+      )}
 
       {!loading && !error && filtered.length === 0 && (
         <p className="mt-6 text-center text-sm text-gray-500">{L.noResult}</p>

@@ -13,7 +13,7 @@ export default function StatRing({ pct, label, sub, color = 'var(--color-f1)' })
 
   return (
     <div ref={ref} className="flex flex-col items-center gap-3 text-center">
-      <div className="relative h-28 w-28">
+      <div className="relative h-20 w-20 sm:h-28 sm:w-28">
         <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
           <circle cx="50" cy="50" r={R} fill="none" stroke="var(--color-line)" strokeWidth="8" />
           <motion.circle
@@ -31,14 +31,14 @@ export default function StatRing({ pct, label, sub, color = 'var(--color-f1)' })
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="flex items-center text-xl font-bold text-white">
-            <Counter value={inView ? Math.round(pct) : 0} digits={String(Math.round(pct)).length} fontSize={20} />%
+          <span className="flex items-center text-lg font-bold text-white">
+            <Counter value={inView ? Math.round(pct) : 0} digits={String(Math.round(pct)).length} fontSize={18} />%
             <span className="sr-only">{Math.round(pct)}%</span>
           </span>
         </div>
       </div>
       <div>
-        <p className="text-sm font-semibold text-gray-200">{label}</p>
+        <p className="text-xs font-semibold text-gray-200 sm:text-sm">{label}</p>
         <p className="font-mono text-[11px] text-gray-400">{sub}</p>
       </div>
     </div>

@@ -47,7 +47,7 @@ export default function DriveToggle() {
         onClick={toggle}
         aria-pressed={active}
         title={L.title}
-        className="fixed bottom-5 left-5 z-[90] hidden cursor-pointer items-center gap-2.5 rounded-lg border border-line bg-panel px-3.5 py-2 text-xs font-medium text-gray-300 backdrop-blur transition-colors hover:border-f1/60 hover:text-white sm:flex"
+        className="fixed bottom-5 left-5 z-[90] hidden cursor-pointer items-center gap-2.5 rounded-lg sm:pointer-fine:flex border border-line bg-panel px-3.5 py-2 text-xs font-medium text-gray-300 backdrop-blur transition-colors hover:border-f1/60 hover:text-white"
       >
         <F1Car className="h-4 w-auto" />
         {active ? L.on : L.off}

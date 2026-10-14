@@ -113,7 +113,7 @@ export default function OffTrack() {
   const L = STRINGS[lang]
 
   return (
-    <section className="relative mx-auto max-w-5xl px-6 py-28">
+    <section className="relative mx-auto max-w-5xl px-6 py-20 sm:py-28">
       <SectionHeader sector="06" kicker={L.kicker} title={L.title}>
         {L.subtitle}
       </SectionHeader>

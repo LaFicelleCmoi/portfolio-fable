@@ -105,7 +105,7 @@ export default function Skills() {
   const L = STRINGS[lang]
 
   return (
-    <section className="relative mx-auto max-w-6xl px-6 py-28">
+    <section className="relative mx-auto max-w-6xl px-6 py-20 sm:py-28">
       <SectionHeader sector="03" kicker={L.kicker} title={L.title}>
         {L.subtitle}
       </SectionHeader>

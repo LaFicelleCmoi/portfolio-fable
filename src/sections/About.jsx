@@ -109,7 +109,7 @@ export default function About() {
   const L = STRINGS[lang]
 
   return (
-    <section className="relative mx-auto max-w-5xl px-6 py-28">
+    <section className="relative mx-auto max-w-5xl px-6 py-20 sm:py-28">
       <SectionHeader sector="01" kicker={L.kicker} title={L.title} />
 
       <div className="grid gap-10 md:grid-cols-2">

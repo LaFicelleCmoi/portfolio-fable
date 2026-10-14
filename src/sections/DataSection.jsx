@@ -88,13 +88,13 @@ export default function DataSection() {
   const ringValues = { active: stats.active, demo: stats.demo, doc: stats.doc }
 
   return (
-    <section className="relative mx-auto max-w-5xl px-6 py-28">
+    <section className="relative mx-auto max-w-5xl px-6 py-20 sm:py-28">
       <SectionHeader sector="05" kicker={L.kicker} title={L.title}>
         {L.subtitle}
       </SectionHeader>
 
       <ScrollReveal>
-        <p className="mb-10 flex items-center justify-center gap-2 text-center text-sm text-gray-500">
+        <p className="mb-10 flex items-center gap-2 text-sm text-gray-500">
           <RefreshCw size={14} className="text-accent" />
           {L.live}
         </p>
@@ -118,7 +118,7 @@ export default function DataSection() {
 
         {/* jauges : des pourcentages réels */}
         <ScrollReveal direction="left" delay={0.1} className="lg:col-span-2">
-          <Card className="flex h-full items-center justify-around gap-4 p-7 max-lg:flex-row lg:flex-col">
+          <Card className="flex h-full items-start justify-around gap-2 p-5 sm:items-center sm:gap-4 sm:p-7 max-lg:flex-row lg:flex-col">
             {L.rings.map((ring) => (
               <StatRing
                 key={ring.key}

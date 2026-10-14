@@ -68,7 +68,7 @@ export default function Hero() {
             width="56"
             height="56"
           />
-          <p className="flex items-center gap-2 font-mono text-xs text-gray-400">
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-1.5 font-mono text-xs text-gray-400">
             <span className="h-1.5 w-1.5 rounded-full bg-f1" aria-hidden />
             {L.badge}
             {/* le nom de l'écurie s'affiche sur un panneau à palettes, une seule fois au chargement */}
