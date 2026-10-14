@@ -1,5 +1,6 @@
 import { GraduationCap, MapPin, Mail, Github } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
+import ScrollRevealText from '../components/reactbits/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
 import { useLang } from '../i18n.jsx'
 
@@ -86,9 +87,9 @@ export default function About() {
         <ScrollReveal direction="right">
           <div className="rounded-2xl border border-line bg-panel">
             <div className="p-8">
-              <p className="text-lg leading-relaxed text-gray-300">
+              <ScrollRevealText key={lang} className="text-lg leading-relaxed text-gray-200">
                 {L.bio}
-              </p>
+              </ScrollRevealText>
               <ul className="mt-8 space-y-3 text-sm text-gray-400">
                 <li className="flex items-center gap-3">
                   <GraduationCap size={16} className="text-gray-500" /> {L.school}

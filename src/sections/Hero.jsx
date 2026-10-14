@@ -1,6 +1,9 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowDown, FileDown, Github } from 'lucide-react'
 import Button from '../components/Button.jsx'
+import Counter from '../components/reactbits/Counter.jsx'
+import SplitFlapText from '../components/reactbits/SplitFlapText.jsx'
 import { useLang } from '../i18n.jsx'
 
 // Pour passer à une vraie photo : dépose-la dans public/ (ex. public/photo.jpg)
@@ -9,14 +12,15 @@ const PHOTO = 'https://avatars.githubusercontent.com/u/232385998?v=4'
 
 // Les chiffres clés, présentés comme une ligne de chrono (secteurs S1–S3)
 const STATS = [
-  { value: '30+', fr: 'projets GitHub', en: 'GitHub projects' },
-  { value: '6', fr: 'langages', en: 'languages' },
-  { value: '3+', fr: "années d'études", en: 'years of study' },
+  { value: 30, plus: true, fr: 'projets GitHub', en: 'GitHub projects' },
+  { value: 6, fr: 'langages', en: 'languages' },
+  { value: 3, plus: true, fr: "années d'études", en: 'years of study' },
 ]
 
 const STRINGS = {
   fr: {
-    badge: 'Alternance chez Unistellar · Marseille',
+    badge: 'Alternance chez',
+    city: 'Marseille',
     role: 'Développeur mobile & full-stack',
     tagline: "Étudiant à Epitech, je développe des apps mobiles iOS et Android en alternance chez Unistellar — et, à côté, des projets web, data et IA que je mène de l'idée à la mise en ligne.",
     cv: 'Télécharger mon CV',
@@ -25,7 +29,8 @@ const STRINGS = {
     photoAlt: 'Photo de profil de Loïs',
   },
   en: {
-    badge: 'Apprentice at Unistellar · Marseille',
+    badge: 'Apprentice at',
+    city: 'Marseille',
     role: 'Mobile & full-stack developer',
     tagline: 'Epitech student building iOS and Android apps as an apprentice at Unistellar — and, on the side, web, data and AI projects I take from idea to production.',
     cv: 'Download my resume',
@@ -45,6 +50,12 @@ const rise = (i) => ({
 export default function Hero() {
   const { lang } = useLang()
   const L = STRINGS[lang]
+  // les compteurs partent de 0 et roulent jusqu'à leur valeur une fois la page affichée
+  const [rolled, setRolled] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setRolled(true), 700)
+    return () => clearTimeout(t)
+  }, [])
 
   return (
     <section id="accueil" className="relative flex min-h-[100svh] items-center">
@@ -60,6 +71,19 @@ export default function Hero() {
           <p className="flex items-center gap-2 font-mono text-xs text-gray-400">
             <span className="h-1.5 w-1.5 rounded-full bg-f1" aria-hidden />
             {L.badge}
+            {/* le nom de l'écurie s'affiche sur un panneau à palettes, une seule fois au chargement */}
+            <SplitFlapText
+              words={['', 'UNISTELLAR']}
+              loop={false}
+              cycleDelay={500}
+              flipsPerChar={5}
+              stagger={0.05}
+              fontSize={14}
+              tileRadius={3}
+              gap={2}
+              padTo={10}
+            />
+            <span className="text-gray-600">·</span> {L.city}
           </p>
         </motion.div>
 
@@ -90,7 +114,11 @@ export default function Hero() {
           {STATS.map((s, i) => (
             <div key={s.en} className="pt-4 pr-4">
               <dt className="font-mono text-[11px] text-gray-500">S{i + 1}</dt>
-              <dd className="mt-1 text-2xl font-semibold text-white tabular-nums">{s.value}</dd>
+              <dd className="mt-1 flex h-7 items-center text-2xl font-semibold text-white">
+                <Counter value={rolled ? s.value : 0} digits={String(s.value).length} fontSize={24} />
+                {s.plus && <span aria-hidden>+</span>}
+                <span className="sr-only">{`${s.value}${s.plus ? '+' : ''}`}</span>
+              </dd>
               <dd className="text-xs text-gray-500">{s[lang]}</dd>
             </div>
           ))}
