@@ -4,6 +4,8 @@ import { Pencil, X, Upload, Download, RotateCcw, Check } from 'lucide-react'
 import {
   DEFAULT_FILMS, loadFilms, saveFilms, clearFilms, hasLocalFilms, slugify,
 } from '../data/films.js'
+import TiltedCard from './reactbits/TiltedCard.jsx'
+import Noise from './reactbits/Noise.jsx'
 
 // Affiche le Top 4 Letterboxd (posters cliquables) — et, en mode édition
 // (?edit=films dans l'URL, réservé à moi), un éditeur : glisser-déposer d'affiches
@@ -213,25 +215,27 @@ export default function FilmTop4({ lang, label }) {
         )}
       </p>
 
-      <div className="grid grid-cols-4 gap-2">
+      {/* affiches inclinables sous un léger grain de pellicule */}
+      <div className="relative grid grid-cols-4 gap-2">
         {films.map((film, i) => (
-          <a
-            key={i}
-            href={film.url}
-            target="_blank"
-            rel="noreferrer"
-            title={`${film.title} (${film.year}) — Letterboxd`}
-            aria-label={`${film.title} (${film.year}) — ${L.view}`}
-            className="group/film block overflow-hidden rounded-lg border border-line bg-ink/60 transition-all hover:border-[#40bcf4]/60"
-          >
-            <img
-              src={film.img}
-              alt={`${L.poster} : ${film.title}`}
-              loading="lazy"
-              className="aspect-[2/3] h-full w-full object-cover transition-transform duration-300 group-hover/film:scale-105"
-            />
-          </a>
+          <TiltedCard key={i} caption={`${film.title} · ${film.year}`}>
+            <a
+              href={film.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${film.title} (${film.year}) — ${L.view}`}
+              className="block overflow-hidden rounded-lg border border-line bg-ink/60 transition-colors hover:border-[#40bcf4]/60"
+            >
+              <img
+                src={film.img}
+                alt={`${L.poster} : ${film.title}`}
+                loading="lazy"
+                className="aspect-[2/3] h-full w-full object-cover"
+              />
+            </a>
+          </TiltedCard>
         ))}
+        <Noise opacity={0.07} fps={12} zIndex={10} />
       </div>
 
       {editMode && (

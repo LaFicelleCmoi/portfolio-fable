@@ -1,12 +1,12 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import CountUp from './CountUp.jsx'
+import Counter from './reactbits/Counter.jsx'
 
 // Jauge circulaire animée : un pourcentage réel, calculé en direct
 const R = 40
 const C = 2 * Math.PI * R
 
-export default function StatRing({ pct, label, sub, color = '#22d3ee' }) {
+export default function StatRing({ pct, label, sub, color = 'var(--color-f1)' }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true })
   const target = C * (1 - Math.min(pct, 100) / 100)
@@ -28,12 +28,12 @@ export default function StatRing({ pct, label, sub, color = '#22d3ee' }) {
             initial={{ strokeDashoffset: C }}
             animate={inView ? { strokeDashoffset: target } : {}}
             transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-            style={{ filter: `drop-shadow(0 0 6px ${color}66)` }}
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-xl font-bold text-white">
-            <CountUp to={Math.round(pct)} suffix="%" />
+          <span className="flex items-center text-xl font-bold text-white">
+            <Counter value={inView ? Math.round(pct) : 0} digits={String(Math.round(pct)).length} fontSize={20} />%
+            <span className="sr-only">{Math.round(pct)}%</span>
           </span>
         </div>
       </div>
