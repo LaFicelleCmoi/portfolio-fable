@@ -1,14 +1,42 @@
-import { GraduationCap, MapPin, Mail, Github } from 'lucide-react'
+import { GraduationCap, MapPin, Mail, Github, Database, Workflow } from 'lucide-react'
+import {
+  SiReact, SiJavascript, SiTypescript, SiPython, SiOpenjdk, SiNodedotjs, SiDocker, SiJenkins,
+  SiGithub, SiHtml5, SiTailwindcss, SiFirebase, SiSupabase, SiFlutter, SiFigma,
+} from 'react-icons/si'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import ScrollRevealText from '../components/reactbits/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
+import LogoLoop from '../components/reactbits/LogoLoop.jsx'
 import { useLang } from '../i18n.jsx'
 
+// Ma stack, en logos monochromes (Simple Icons ; Lucide quand la marque n'existe pas)
 const TECHS = [
-  'React', 'JavaScript', 'TypeScript', 'Python', 'Java', 'Node.js',
-  'Docker', 'Jenkins', 'Git & GitHub', 'HTML / CSS', 'TailwindCSS', 'SQL',
-  'Firebase', 'Supabase', 'n8n', 'Flutter', 'Figma',
-]
+  { name: 'React', icon: SiReact },
+  { name: 'JavaScript', icon: SiJavascript },
+  { name: 'TypeScript', icon: SiTypescript },
+  { name: 'Python', icon: SiPython },
+  { name: 'Java', icon: SiOpenjdk },
+  { name: 'Node.js', icon: SiNodedotjs },
+  { name: 'Docker', icon: SiDocker },
+  { name: 'Jenkins', icon: SiJenkins },
+  { name: 'Git & GitHub', icon: SiGithub },
+  { name: 'HTML / CSS', icon: SiHtml5 },
+  { name: 'TailwindCSS', icon: SiTailwindcss },
+  { name: 'SQL', icon: Database },
+  { name: 'Firebase', icon: SiFirebase },
+  { name: 'Supabase', icon: SiSupabase },
+  { name: 'n8n', icon: Workflow },
+  { name: 'Flutter', icon: SiFlutter },
+  { name: 'Figma', icon: SiFigma },
+].map(({ name, icon: Icon }) => ({
+  title: name,
+  node: (
+    <span className="flex items-center gap-2 text-gray-500 transition-colors hover:text-gray-200">
+      <Icon size={18} aria-hidden />
+      <span className="font-mono text-sm">{name}</span>
+    </span>
+  ),
+}))
 
 const STRINGS = {
   fr: {
@@ -128,13 +156,16 @@ export default function About() {
       </div>
 
       <ScrollReveal delay={0.2} className="mt-16">
-        <ul className="flex flex-wrap gap-2">
-          {TECHS.map((t) => (
-            <li key={t} className="rounded-md border border-line px-2.5 py-1 font-mono text-xs text-gray-400">
-              {t}
-            </li>
-          ))}
-        </ul>
+        <LogoLoop
+          logos={TECHS}
+          speed={40}
+          gap={40}
+          logoHeight={18}
+          pauseOnHover
+          fadeOut
+          fadeOutColor="#0a0a0b"
+          ariaLabel={lang === 'fr' ? 'Technologies que j’utilise' : 'Technologies I use'}
+        />
       </ScrollReveal>
     </section>
   )
