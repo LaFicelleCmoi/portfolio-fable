@@ -1,7 +1,7 @@
 import { GraduationCap, MapPin, Mail, Github, Database, Workflow } from 'lucide-react'
 import {
   SiReact, SiJavascript, SiTypescript, SiPython, SiOpenjdk, SiNodedotjs, SiDocker, SiJenkins,
-  SiSwift, SiKotlin, SiGithub, SiHtml5, SiTailwindcss, SiFirebase, SiSupabase, SiFlutter, SiFigma,
+  SiSwift, SiKotlin, SiGithub, SiHtml5, SiTailwindcss, SiFirebase, SiSupabase, SiFigma,
 } from 'react-icons/si'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import ScrollRevealText from '../components/reactbits/ScrollReveal.jsx'
@@ -28,7 +28,6 @@ const TECHS = [
   { name: 'Firebase', icon: SiFirebase },
   { name: 'Supabase', icon: SiSupabase },
   { name: 'n8n', icon: Workflow },
-  { name: 'Flutter', icon: SiFlutter },
   { name: 'Figma', icon: SiFigma },
 ].map(({ name, icon: Icon }) => ({
   title: name,
