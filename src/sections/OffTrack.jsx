@@ -1,4 +1,5 @@
-import { ExternalLink, Github, Flag, Goal, Gamepad2, Clapperboard, Blocks } from 'lucide-react'
+import { ExternalLink, Github, Flag, Gamepad2, Clapperboard, Blocks } from 'lucide-react'
+import { TbBallFootball, TbBallBasketball } from 'react-icons/tb'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
 import Card from '../components/Card.jsx'
@@ -29,10 +30,21 @@ const STRINGS = {
         ],
       },
       {
-        icon: Goal,
-        title: 'Football',
-        text: 'Ligue des Champions, Coupe du Monde et Ligue des Nations suivies de près — au point de coder mes propres trackers.',
+        icon: TbBallBasketball,
+        title: 'Basket',
+        text: "NBA, WNBA et EuroLeague : même recette que pour le foot, adaptée aux quart-temps — scores en direct, classements, leaders statistiques.",
         links: [
+          { label: 'HoopsHub', site: 'https://nba-hub-ten.vercel.app/', code: 'https://github.com/LaFicelleCmoi/NBA-HUB' },
+        ],
+      },
+      {
+        icon: TbBallFootball,
+        title: 'Football',
+        text: "Les 5 grands championnats, la Ligue des Champions, la Coupe du Monde et la Ligue des Nations suivis de près — au point de coder mes propres trackers, jusqu'à une app Android native.",
+        span: true,
+        links: [
+          { label: 'LeagueHub', site: 'https://league-hub-teal.vercel.app/', code: 'https://github.com/LaFicelleCmoi/LeagueHub' },
+          { label: 'LeagueHub Android', code: 'https://github.com/LaFicelleCmoi/LeagueHub-Mobile' },
           { label: 'LDC', site: 'https://ldc-2026-2027.vercel.app/', code: 'https://github.com/LaFicelleCmoi/LDC-2026-2027-' },
           { label: 'CDM & Nations', site: 'https://cdm-hazel.vercel.app/', code: 'https://github.com/LaFicelleCmoi/cdm' },
         ],
@@ -49,6 +61,7 @@ const STRINGS = {
         icon: Clapperboard,
         title: 'Cinéma',
         text: 'Grand consommateur de films, journal de visionnage tenu sérieusement sur Letterboxd.',
+        span: true,
         letterboxd: true,
         top4: true,
       },
@@ -76,10 +89,21 @@ const STRINGS = {
         ],
       },
       {
-        icon: Goal,
-        title: 'Football',
-        text: 'Champions League, World Cup and Nations League followed closely — to the point of coding my own trackers.',
+        icon: TbBallBasketball,
+        title: 'Basketball',
+        text: 'NBA, WNBA and EuroLeague: the same recipe as for football, adapted to quarters — live scores, standings, stat leaders.',
         links: [
+          { label: 'HoopsHub', site: 'https://nba-hub-ten.vercel.app/', code: 'https://github.com/LaFicelleCmoi/NBA-HUB' },
+        ],
+      },
+      {
+        icon: TbBallFootball,
+        title: 'Football',
+        text: "Europe's big 5 leagues, the Champions League, the World Cup and the Nations League followed closely — to the point of coding my own trackers, all the way to a native Android app.",
+        span: true,
+        links: [
+          { label: 'LeagueHub', site: 'https://league-hub-teal.vercel.app/', code: 'https://github.com/LaFicelleCmoi/LeagueHub' },
+          { label: 'LeagueHub Android', code: 'https://github.com/LaFicelleCmoi/LeagueHub-Mobile' },
           { label: 'UCL', site: 'https://ldc-2026-2027.vercel.app/', code: 'https://github.com/LaFicelleCmoi/LDC-2026-2027-' },
           { label: 'WC & Nations', site: 'https://cdm-hazel.vercel.app/', code: 'https://github.com/LaFicelleCmoi/cdm' },
         ],
@@ -96,6 +120,7 @@ const STRINGS = {
         icon: Clapperboard,
         title: 'Movies',
         text: 'Heavy film watcher, with a viewing diary seriously maintained on Letterboxd.',
+        span: true,
         letterboxd: true,
         top4: true,
       },
@@ -120,7 +145,7 @@ export default function OffTrack() {
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {L.tiles.map((tile, i) => (
-          <ScrollReveal key={tile.title} delay={i * 0.07} className={tile.span ? 'sm:col-span-2' : ''}>
+          <ScrollReveal key={tile.title} delay={i * 0.07} className={tile.span ? 'lg:col-span-2' : ''}>
             <Card className="h-full p-7">
               <div className="flex h-full flex-col">
                 <tile.icon size={20} strokeWidth={1.75} className="mb-5 text-gray-500" aria-hidden />

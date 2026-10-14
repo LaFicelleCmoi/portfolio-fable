@@ -4,7 +4,8 @@
 // Tout repo absent d'ici retombe sur sa description GitHub.
 
 export const CATEGORY_MAP = {
-  cdm: 'Foot', 'LDC-2026-2027-': 'Foot',
+  cdm: 'Foot', 'LDC-2026-2027-': 'Foot', LeagueHub: 'Foot', 'LeagueHub-Mobile': 'Foot',
+  'NBA-HUB': 'Basket',
   Marioparty: 'Jeux', Pendu: 'Jeux', 'Jeu-2D': 'Jeux', 'F1-Retro-Game': 'Jeux', 'Auto-Clicker': 'Jeux',
   'f1-2026': 'Web', easyjob: 'Web', got: 'Web', 'T-ENT-500': 'Web', 'Site-Web': 'Web',
   'f1-portfolio': 'Web', TEPITECH: 'Web', epitech: 'Web', btelgeuse: 'Web',
@@ -16,18 +17,18 @@ export const CATEGORY_MAP = {
 }
 
 export const CATEGORY_ICONS = {
-  'Tous': '🏁', 'Foot': '⚽', 'Jeux': '🎮', 'Web': '🌐', 'IA & Python': '🧠',
+  'Tous': '🏁', 'Foot': '⚽', 'Basket': '🏀', 'Jeux': '🎮', 'Web': '🌐', 'IA & Python': '🧠',
   'Temps réel': '⚡', 'DevOps': '🐳', 'IoT': '🔌', 'Autres': '📦',
 }
 
 // libellés d'affichage des catégories (les clés internes restent en français)
 export const CATEGORY_LABELS = {
   fr: {
-    Tous: 'Tous', Foot: 'Foot', Jeux: 'Jeux', Web: 'Web', 'IA & Python': 'IA & Python',
+    Tous: 'Tous', Foot: 'Foot', Basket: 'Basket', Jeux: 'Jeux', Web: 'Web', 'IA & Python': 'IA & Python',
     'Temps réel': 'Temps réel', DevOps: 'DevOps', IoT: 'IoT', Autres: 'Autres',
   },
   en: {
-    Tous: 'All', Foot: 'Football', Jeux: 'Games', Web: 'Web', 'IA & Python': 'AI & Python',
+    Tous: 'All', Foot: 'Football', Basket: 'Basketball', Jeux: 'Games', Web: 'Web', 'IA & Python': 'AI & Python',
     'Temps réel': 'Real-time', DevOps: 'DevOps', IoT: 'IoT', Autres: 'Other',
   },
 }
@@ -71,6 +72,33 @@ export const PROJECT_DETAILS = {
       tagline: 'Live Champions League tracker with an OBS overlay for streaming.',
       details: 'Live tracker and simulator for the 2026-27 Champions League, with an OBS overlay built for streaming. 100% vanilla (HTML/CSS/JS), no build step, no npm: static deployment on Vercel. A dashboard of today\'s matches (live, upcoming, finished), a club explorer, and data from ESPN\'s public API. Fan project, not affiliated with UEFA.',
       learned: 'Shipping without a build or framework: when vanilla is enough, nothing beats its deployment simplicity.',
+    },
+  },
+  LeagueHub: {
+    tagline: 'Les 5 grands championnats européens : classements, scores en direct, forme des clubs.',
+    details: "Les cinq grands championnats européens réunis (Premier League, La Liga, Serie A, Bundesliga, Ligue 1) : classements, scores en direct, forme des clubs, club favori et tracker des coupes nationales, avec une passerelle vers le tracker Ligue des Champions.",
+    tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vercel'],
+    en: {
+      tagline: "Europe's big 5 leagues: standings, live scores, club form.",
+      details: "Europe's five major leagues in one place (Premier League, La Liga, Serie A, Bundesliga, Ligue 1): standings, live scores, club form, a favourite club and a domestic cups tracker, with a bridge to the Champions League tracker.",
+    },
+  },
+  'LeagueHub-Mobile': {
+    tagline: 'LeagueHub en app Android native : championnats, Ligue des Champions et simulateur.',
+    details: "Déclinaison Android native de LeagueHub et du tracker Ligue des Champions : les 5 grands championnats et la LDC, scores en direct, classements recalculés en temps réel et simulateur. Réutilise la logique des deux projets web. Données issues de l'API publique non officielle d'ESPN ; projet de fan, non affilié aux ligues ni à l'UEFA.",
+    tech: ['Kotlin', 'Android', 'API ESPN'],
+    en: {
+      tagline: 'LeagueHub as a native Android app: leagues, Champions League and simulator.',
+      details: "Native Android take on LeagueHub and the Champions League tracker: the big 5 leagues and the UCL, live scores, standings recomputed in real time and a simulator. Reuses the logic of both web projects. Data from ESPN's unofficial public API; fan project, not affiliated with the leagues or UEFA.",
+    },
+  },
+  'NBA-HUB': {
+    tagline: 'HoopsHub : NBA, WNBA et EuroLeague au même endroit, scores en direct.',
+    details: "NBA, WNBA et EuroLeague au même endroit : scores en direct avec quart-temps et prolongations, classements avec zones de qualification, résultats, calendrier, leaders statistiques, actualités et pages équipe. Le concept de LeagueHub adapté au basket, entièrement en français, horaires à l'heure de Paris, sans clé d'API.",
+    tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
+    en: {
+      tagline: 'HoopsHub: NBA, WNBA and EuroLeague in one place, with live scores.',
+      details: 'NBA, WNBA and EuroLeague in one place: live scores with quarters and overtime, standings with qualification zones, results, schedule, stat leaders, news and team pages. The LeagueHub concept adapted to basketball, fully in French, Paris time zone, no API key required.',
     },
   },
   cdm: {
