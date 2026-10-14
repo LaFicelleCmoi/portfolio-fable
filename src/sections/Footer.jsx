@@ -14,7 +14,7 @@ const LINKS = [
 
 const STRINGS = {
   fr: {
-    tagline: 'Développeur full-stack en apprentissage chez EZdrive — et pilote de ce portfolio.',
+    tagline: 'Développeur mobile en alternance chez Unistellar — et pilote de ce portfolio.',
     nav: 'Le circuit',
     social: 'Les stands',
     backTop: 'Retour à la grille de départ',
@@ -22,7 +22,7 @@ const STRINGS = {
     sync: 'Projets synchronisés automatiquement depuis GitHub 🚀 — propulsé à fond, comme en F1 🏁',
   },
   en: {
-    tagline: 'Full-stack developer apprenticing at EZdrive — and driver of this portfolio.',
+    tagline: 'Mobile developer apprenticing at Unistellar — and driver of this portfolio.',
     nav: 'The circuit',
     social: 'The pits',
     backTop: 'Back to the starting grid',

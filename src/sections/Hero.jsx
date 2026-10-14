@@ -23,7 +23,7 @@ const STATS = [
 
 const STRINGS = {
   fr: {
-    badge: 'En apprentissage chez EZdrive ⚡ — Transformation Numérique & Data',
+    badge: 'En alternance chez Unistellar 🔭 — Développeur Mobile iOS & Android',
     hello: "Bonjour, moi c'est",
     tagline1: 'Je transforme des idées en',
     taglineAccent: 'code qui marche',
@@ -39,7 +39,7 @@ const STRINGS = {
     photoAlt: 'Photo de profil de Loïs',
   },
   en: {
-    badge: 'Apprentice at EZdrive ⚡ — Digital Transformation & Data',
+    badge: 'Apprentice at Unistellar 🔭 — iOS & Android Mobile Developer',
     hello: "Hi, I'm",
     tagline1: 'I turn ideas into',
     taglineAccent: 'code that works',

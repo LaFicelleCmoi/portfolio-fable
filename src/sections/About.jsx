@@ -31,8 +31,8 @@ const STRINGS = {
       },
       {
         date: 'Saison en cours',
-        title: 'Apprentissage chez EZdrive — Transformation Numérique & Data',
-        text: "Ingénieur junior au sein du Groupe SURAYA (recharge électrique dans les DROM et l'Océan Indien) : apps mobiles, automatisations n8n, Firebase/Supabase et cloud. Détails dans la section Alternance 🏎️",
+        title: 'Alternance chez Unistellar — Développeur Mobile iOS & Android',
+        text: "Télescopes connectés et jumelles Envision pilotés depuis mobile : Swift/SwiftUI, Kotlin/Jetpack Compose, BLE & Wi-Fi, Firebase et GitLab CI. Détails dans la section Alternance 🏎️",
       },
       {
         date: 'Prochaines saisons',
@@ -62,8 +62,8 @@ const STRINGS = {
       },
       {
         date: 'Current season',
-        title: 'Apprenticeship at EZdrive — Digital Transformation & Data',
-        text: 'Junior engineer within Groupe SURAYA (EV charging across the French overseas territories and the Indian Ocean): mobile apps, n8n automations, Firebase/Supabase and cloud. Details in the Apprenticeship section 🏎️',
+        title: 'Apprenticeship at Unistellar — iOS & Android Mobile Developer',
+        text: 'Smart telescopes and Envision binoculars driven from mobile: Swift/SwiftUI, Kotlin/Jetpack Compose, BLE & Wi-Fi, Firebase and GitLab CI. Details in the Apprenticeship section 🏎️',
       },
       {
         date: 'Next seasons',

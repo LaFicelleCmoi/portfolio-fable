@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import {
-  CalendarClock, Smartphone, Workflow, CloudUpload, Flag, Zap, GraduationCap,
+  CalendarClock, Smartphone, Workflow, CloudUpload, Flag, Telescope, GraduationCap,
   ExternalLink, BookOpen, Rocket, Trophy, Boxes, CheckCircle2,
 } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
@@ -11,138 +11,138 @@ import { useLang } from '../i18n.jsx'
 
 // Le garage à outils : chaque techno de l'offre avec son usage réel
 const TOOLS = [
-  { name: 'GitLab & GitHub', fr: 'Code, reviews & CI', en: 'Code, reviews & CI' },
-  { name: 'Figma', fr: 'Prototypage produit', en: 'Product prototyping' },
-  { name: 'Firebase', fr: 'Données temps réel', en: 'Real-time data' },
-  { name: 'Supabase', fr: 'Base de données & auth', en: 'Database & auth' },
-  { name: 'n8n', fr: 'Automatisations métier', en: 'Business automations' },
-  { name: 'APIs REST', fr: 'Intégrations', en: 'Integrations' },
-  { name: 'Swift · Kotlin · Flutter', fr: 'Apps mobiles', en: 'Mobile apps' },
-  { name: 'Cursor', fr: 'Dev assisté par IA', en: 'AI-assisted dev' },
+  { name: 'Swift · SwiftUI', fr: 'App iOS', en: 'iOS app' },
+  { name: 'Kotlin · Jetpack Compose', fr: 'App Android', en: 'Android app' },
+  { name: 'BLE & Wi-Fi', fr: 'Dialogue avec les instruments', en: 'Talking to the instruments' },
+  { name: 'Firebase', fr: 'Backend & analytics', en: 'Backend & analytics' },
+  { name: 'GitLab CI', fr: 'Intégration continue', en: 'Continuous integration' },
+  { name: 'XCTest · JUnit', fr: 'Tests unitaires & UI', en: 'Unit & UI tests' },
+  { name: 'Git', fr: 'Code & reviews', en: 'Code & reviews' },
+  { name: 'Claude Code', fr: 'Dev assisté par IA', en: 'AI-assisted dev' },
 ]
 
 const STRINGS = {
   fr: {
     kicker: 'Expérience',
-    title: 'Mon écurie : EZdrive',
+    title: 'Mon écurie : Unistellar',
     subtitle:
-      "En parallèle d'Epitech, je suis apprenti ingénieur en transformation numérique et data : l'école m'apprend à apprendre, l'entreprise m'apprend le métier. Comme un pilote, je progresse au contact de l'équipe — chaque sprint est un Grand Prix. Et chez EZdrive, l'électrique ⚡ c'est littéralement le métier.",
-    sector: 'Recharge électrique — DROM & Océan Indien',
-    city: 'Marseille · télétravail partiel',
-    badge: 'Ingénieur Transformation Numérique & Data Junior — Apprentissage',
+      "En parallèle d'Epitech, je suis développeur mobile iOS & Android en alternance : l'école m'apprend à apprendre, l'entreprise m'apprend le métier. Comme un pilote, je progresse au contact de l'équipe — chaque sprint est un Grand Prix. Et chez Unistellar, viser les étoiles 🔭 c'est littéralement le métier.",
+    sector: 'Astronomie grand public — télescopes connectés',
+    city: 'Marseille · présentiel',
+    badge: 'Développeur Mobile iOS & Android — Alternance',
     pitch:
-      "EZdrive construit l'écosystème souverain de la recharge électrique dans les DROM et l'Océan Indien. J'y accompagne la transformation numérique : innovation, automatisation et gestion avancée des données.",
-    website: 'Découvrir EZdrive',
+      "Unistellar conçoit des télescopes connectés (eVscope) et les jumelles à réalité augmentée Envision — trois fois primés au CES — pilotés depuis des applications iOS et Android. J'y développe ces apps aux côtés du développeur mobile senior.",
+    website: 'Découvrir Unistellar',
     strategyTitle: 'LA STRATÉGIE DE COURSE — MON RYTHME',
     year1: '1ʳᵉ année',
     year1Desc: '4 relais en entreprise, 2 relais à l\'école — et on répète le cycle.',
     year2: '2ᵉ année',
-    year2Desc: 'Arrêt au stand Epitech chaque lundi, le reste de la semaine en piste chez EZdrive.',
+    year2Desc: 'Arrêt au stand Epitech chaque lundi, le reste de la semaine en piste chez Unistellar.',
     weekShort: ['L', 'M', 'M', 'J', 'V'],
-    legendCompany: 'Entreprise (EZdrive)',
+    legendCompany: 'Entreprise (Unistellar)',
     legendSchool: 'École (Epitech)',
     missionsTitle: 'MES MISSIONS',
     missions: [
       {
         icon: Smartphone,
-        title: 'Apps mobiles & SaaS',
-        text: "Publication du code des applications mobiles sur les environnements iOS et Play Store, construction de mini-apps et de modules SaaS.",
+        title: 'Nouvelles fonctionnalités',
+        text: "Développement de features sur les apps iOS (Swift, SwiftUI) et Android (Kotlin, Jetpack Compose) qui pilotent télescopes et jumelles Envision.",
       },
       {
         icon: Workflow,
-        title: 'Automatisation & data',
-        text: "Création d'automatisations n8n, intégration d'APIs REST, de bases de données et de modèles autour de Firebase et Supabase.",
+        title: 'Qualité & tests',
+        text: "Stabilisation sur la diversité des smartphones, tablettes et versions d'OS ; écriture et exécution des tests unitaires, fonctionnels et UI.",
       },
       {
         icon: CloudUpload,
-        title: 'Cloud & produit',
-        text: "Déploiement d'environnements cloud, prototypage Figma, cérémonies agiles et participation aux nouveaux produits numériques (outils CPO/eMSP).",
+        title: 'Architecture & UX',
+        text: "Évolutions d'architecture et d'expérience utilisateur avec le développeur senior, communication BLE / Wi-Fi avec les instruments, Firebase et GitLab CI.",
       },
     ],
     exchangeTitle: "L'ÉCHANGE DE VALEUR",
     learnTitle: "Ce que j'apprends",
     learn: [
-      'Publier des apps mobiles en production (iOS & Android)',
-      'Industrialiser la data : n8n, Firebase, Supabase',
-      'La rigueur produit : agilité, priorisation, qualité',
-      'Le cloud en conditions réelles',
+      'Le natif sur les deux plateformes : SwiftUI & Jetpack Compose',
+      'Faire dialoguer une app et un instrument en BLE / Wi-Fi',
+      'La rigueur qualité : tests unitaires, fonctionnels et UI',
+      "Un produit hardware + software utilisé dans le monde entier",
     ],
     bringTitle: "Ce que j'apporte",
     bring: [
       'Un profil full-stack forgé par 30+ projets persos',
-      'Des automatisations livrées vite et bien',
-      'Une culture outils moderne : Cursor, CI/CD, Git propre',
+      'Des features livrées vite et bien',
+      'Une culture outils moderne : Claude Code, CI/CD, Git propre',
       "Un œil neuf — et l'envie d'apprendre de l'équipe",
     ],
     goalsTitle: 'OBJECTIFS DE LA SAISON',
     goalsSub: 'Les jalons de ma fiche de poste, transformés en tour de circuit.',
     goals: [
-      { icon: Smartphone, text: "Gérer les releases des apps sur l'App Store et le Play Store" },
-      { icon: Workflow, text: "Déployer des automatisations n8n dans toute l'équipe" },
-      { icon: Boxes, text: 'Construire des mini-apps et des modules SaaS' },
-      { icon: Trophy, text: 'Décrocher le rôle de référent technique produit', finish: true },
+      { icon: Smartphone, text: 'Livrer mes premières features sur iOS et Android' },
+      { icon: Workflow, text: 'Couvrir les écrans clés de tests UI automatisés' },
+      { icon: Boxes, text: 'Maîtriser la communication BLE / Wi-Fi avec les instruments' },
+      { icon: Trophy, text: 'Devenir autonome sur les deux plateformes', finish: true },
     ],
     garageTitle: 'LE GARAGE À OUTILS',
   },
   en: {
     kicker: 'Experience',
-    title: 'My team: EZdrive',
+    title: 'My team: Unistellar',
     subtitle:
-      "Alongside Epitech, I'm an apprentice engineer in digital transformation & data: school teaches me how to learn, the company teaches me the craft. Like a driver, I improve with the team — every sprint is a Grand Prix. And at EZdrive, electric ⚡ literally is the business.",
-    sector: 'EV charging — French overseas territories & Indian Ocean',
-    city: 'Marseille · partial remote',
-    badge: 'Junior Digital Transformation & Data Engineer — Apprenticeship',
+      "Alongside Epitech, I'm an iOS & Android mobile developer apprentice: school teaches me how to learn, the company teaches me the craft. Like a driver, I improve with the team — every sprint is a Grand Prix. And at Unistellar, reaching for the stars 🔭 literally is the business.",
+    sector: 'Consumer astronomy — smart telescopes',
+    city: 'Marseille · on-site',
+    badge: 'iOS & Android Mobile Developer — Apprenticeship',
     pitch:
-      'EZdrive builds the sovereign EV-charging ecosystem for the French overseas territories and the Indian Ocean. I support its digital transformation: innovation, automation and advanced data management.',
-    website: 'Discover EZdrive',
+      'Unistellar designs smart telescopes (eVscope) and the Envision augmented-reality binoculars — three-time CES innovation award winner — driven from iOS and Android apps. I build those apps alongside the senior mobile developer.',
+    website: 'Discover Unistellar',
     strategyTitle: 'RACE STRATEGY — MY RHYTHM',
     year1: '1st year',
     year1Desc: '4 stints at the company, 2 stints at school — then the cycle repeats.',
     year2: '2nd year',
-    year2Desc: 'Pit stop at Epitech every Monday, the rest of the week on track at EZdrive.',
+    year2Desc: 'Pit stop at Epitech every Monday, the rest of the week on track at Unistellar.',
     weekShort: ['M', 'T', 'W', 'T', 'F'],
-    legendCompany: 'Company (EZdrive)',
+    legendCompany: 'Company (Unistellar)',
     legendSchool: 'School (Epitech)',
     missionsTitle: 'MY MISSIONS',
     missions: [
       {
         icon: Smartphone,
-        title: 'Mobile apps & SaaS',
-        text: 'Managing mobile app releases on the iOS and Play Store environments, building mini-apps and SaaS modules.',
+        title: 'New features',
+        text: 'Building features for the iOS (Swift, SwiftUI) and Android (Kotlin, Jetpack Compose) apps that drive the telescopes and Envision binoculars.',
       },
       {
         icon: Workflow,
-        title: 'Automation & data',
-        text: 'Building n8n automations, integrating REST APIs, databases and models around Firebase and Supabase.',
+        title: 'Quality & testing',
+        text: 'Stabilising the apps across many phones, tablets and OS versions; writing and running unit, functional and UI tests.',
       },
       {
         icon: CloudUpload,
-        title: 'Cloud & product',
-        text: 'Deploying cloud environments, Figma prototyping, agile ceremonies and contributing to new digital products (CPO/eMSP tools).',
+        title: 'Architecture & UX',
+        text: 'Architecture and user-experience improvements with the senior developer, BLE / Wi-Fi communication with the instruments, Firebase and GitLab CI.',
       },
     ],
     exchangeTitle: 'THE VALUE EXCHANGE',
     learnTitle: "What I'm learning",
     learn: [
-      'Shipping mobile apps to production (iOS & Android)',
-      'Industrialising data: n8n, Firebase, Supabase',
-      'Product discipline: agility, prioritisation, quality',
-      'Cloud in real conditions',
+      'Native on both platforms: SwiftUI & Jetpack Compose',
+      'Making an app talk to an instrument over BLE / Wi-Fi',
+      'Quality discipline: unit, functional and UI tests',
+      'A hardware + software product used worldwide',
     ],
     bringTitle: 'What I bring',
     bring: [
       'A full-stack profile forged by 30+ personal projects',
-      'Automations shipped fast and clean',
-      'A modern tooling culture: Cursor, CI/CD, clean Git',
+      'Features shipped fast and clean',
+      'A modern tooling culture: Claude Code, CI/CD, clean Git',
       'Fresh eyes — and a hunger to learn from the team',
     ],
     goalsTitle: 'SEASON GOALS',
     goalsSub: 'The milestones of my job description, turned into a lap of the circuit.',
     goals: [
-      { icon: Smartphone, text: 'Manage app releases on the App Store and Play Store' },
-      { icon: Workflow, text: 'Roll out n8n automations across the team' },
-      { icon: Boxes, text: 'Build mini-apps and SaaS modules' },
-      { icon: Trophy, text: 'Earn the product technical-referent role', finish: true },
+      { icon: Smartphone, text: 'Ship my first features on iOS and Android' },
+      { icon: Workflow, text: 'Cover the key screens with automated UI tests' },
+      { icon: Boxes, text: 'Master BLE / Wi-Fi communication with the instruments' },
+      { icon: Trophy, text: 'Become autonomous on both platforms', finish: true },
     ],
     garageTitle: 'THE TOOL GARAGE',
   },
@@ -162,9 +162,9 @@ function Stint({ type, label, delay }) {
           ? 'border-f1/40 bg-gradient-to-b from-f1/70 to-[#7f0300]'
           : 'border-cyan/40 bg-gradient-to-b from-cyan/60 to-[#0e7490]'
       }`}
-      title={company ? 'EZdrive' : 'Epitech'}
+      title={company ? 'Unistellar' : 'Epitech'}
     >
-      {company ? <Zap size={13} className="text-white" /> : <GraduationCap size={13} className="text-white" />}
+      {company ? <Telescope size={13} className="text-white" /> : <GraduationCap size={13} className="text-white" />}
       {label && <span className="font-mono text-[9px] font-bold text-white/80">{label}</span>}
     </motion.div>
   )
@@ -199,11 +199,11 @@ export default function Experience() {
               <div className="flex flex-wrap items-start justify-between gap-6">
                 <div className="flex items-center gap-4">
                   <span className="animate-pulse-glow flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-f1 to-orange-600">
-                    <Zap size={26} className="text-white" />
+                    <Telescope size={26} className="text-white" />
                   </span>
                   <div>
                     <h3 className="text-xl font-bold text-white">
-                      EZdrive <span className="text-sm font-medium text-gray-400">(Groupe SURAYA)</span>
+                      Unistellar <span className="text-sm font-medium text-gray-400">(CES Innovation Awards)</span>
                     </h3>
                     <p className="text-sm text-gray-400">{L.sector} · {L.city}</p>
                   </div>
@@ -213,7 +213,7 @@ export default function Experience() {
                     <Flag size={13} /> {L.badge}
                   </span>
                   <a
-                    href="https://ezdrive.fr"
+                    href="https://www.unistellar.com/fr/"
                     target="_blank"
                     rel="noreferrer"
                     className="flex items-center gap-1.5 rounded-full border border-line bg-ink/60 px-3.5 py-1.5 text-xs text-cyan transition-colors hover:border-cyan/50"
