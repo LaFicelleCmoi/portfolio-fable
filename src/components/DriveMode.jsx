@@ -20,24 +20,24 @@ const fmtTime = (ms) => {
 
 const HUD_STRINGS = {
   fr: {
-    title: '🏎️ MODE PISTE 🇫🇷',
+    title: 'MODE PISTE',
     speed: 'VITESSE',
     lap: 'TOUR',
     dist: 'DIST.',
     keys: '↑ ↓ ← → conduire · Échap quitter',
-    finishHint: "La ligne d'arrivée est en bas de page 🏁",
-    finish: (lap) => `🏁 Ligne d'arrivée — tour en ${lap} ! Remonte tout en haut pour relancer un tour.`,
-    newLap: '🟢 Nouveau tour lancé — fonce !',
+    finishHint: "La ligne d'arrivée est en bas de page",
+    finish: (lap) => `Ligne d'arrivée — tour en ${lap} ! Remonte tout en haut pour relancer un tour.`,
+    newLap: 'Nouveau tour lancé — fonce !',
   },
   en: {
-    title: '🏎️ TRACK MODE 🇫🇷',
+    title: 'TRACK MODE',
     speed: 'SPEED',
     lap: 'LAP',
     dist: 'DIST.',
     keys: '↑ ↓ ← → drive · Esc to quit',
-    finishHint: 'The finish line is at the bottom of the page 🏁',
-    finish: (lap) => `🏁 Finish line — lap in ${lap}! Head back to the top to start a new lap.`,
-    newLap: '🟢 New lap started — floor it!',
+    finishHint: 'The finish line is at the bottom of the page',
+    finish: (lap) => `Finish line — lap in ${lap}! Head back to the top to start a new lap.`,
+    newLap: 'New lap started — floor it!',
   },
 }
 
@@ -91,7 +91,8 @@ export default function DriveMode({ onClose, registerClose }) {
     let entered = false
     const keys = { up: false, down: false, left: false, right: false }
     const trail = [] // traces de pneus {x, y, life, w}
-    const sparks = [] // étincelles d'échappement {x, y, vx, vy, life}
+    const sparks = [] // étincelles des patins en titane {x, y, vx, vy, life}
+    const smoke = [] // fumée de pneus en dérive {x, y, r, life}
     const t0 = performance.now()
     let started = t0
     let dist = 0
@@ -140,73 +141,152 @@ export default function DriveMode({ onClose, registerClose }) {
       }
     }
 
+    // ── la monoplace, vue de dessus (nez vers +x) ──
+    // Proportions d'une F1 2026 : nez long et fin, pontons sculptés, halo, ailerons à
+    // deux plans. Livrée noir carbone + rouge F1, casque bleu-blanc-rouge.
+    const RED = '#e10600'
+    const CARBON = '#121214'
+    const path = (pts) => {
+      const p2 = new Path2D()
+      pts.forEach(([x, y], i) => (i ? p2.lineTo(x, y) : p2.moveTo(x, y)))
+      p2.closePath()
+      return p2
+    }
+    // forme symétrique : on décrit le flanc gauche (y < 0), le droit est son miroir
+    const mirrored = (half) => path([...half, ...half.slice().reverse().map(([x, y]) => [x, -y])])
+    const FLOOR = mirrored([[-21, -6], [-12, -10.5], [6, -9], [12, -4], [14, -3]])
+    const SIDEPODS = mirrored([[-15, -5], [-11, -8.6], [-2, -8.8], [4, -7.6], [7, -4.5]])
+    const BODY = mirrored([[-23, -2.2], [-14, -4.6], [-4, -5], [6, -4], [12, -2.6], [22, -1.6], [26, -0.9]])
+    const COCKPIT = new Path2D()
+    COCKPIT.ellipse(0.5, 0, 5.2, 2.9, 0, 0, Math.PI * 2)
+    const SHADOW = new Path2D()
+    SHADOW.ellipse(0, 0, 30, 15, 0, 0, Math.PI * 2)
+
     const drawCar = (cx, cy) => {
+      const braking = keys.down && car.speed > 40
       ctx.save()
       ctx.translate(cx, cy)
       ctx.rotate(car.angle)
-      // ombre
-      ctx.fillStyle = 'rgba(0,0,0,0.35)'
+      ctx.scale(1.3, 1.3)
+
+      // ombre portée douce
+      ctx.save()
+      ctx.translate(2, 3)
+      const sh = ctx.createRadialGradient(0, 0, 4, 0, 0, 30)
+      sh.addColorStop(0, 'rgba(0,0,0,0.45)')
+      sh.addColorStop(1, 'rgba(0,0,0,0)')
+      ctx.fillStyle = sh
+      ctx.fill(SHADOW)
+      ctx.restore()
+
+      // bras de suspension
+      ctx.strokeStyle = '#2b2b30'
+      ctx.lineWidth = 1
       ctx.beginPath()
-      ctx.ellipse(1, 3, 26, 13, 0, 0, Math.PI * 2)
-      ctx.fill()
-      // pneus (les avants braquent)
-      ctx.fillStyle = '#111'
-      const wheel = (wx, wy, rot) => {
+      for (const sy of [-1, 1]) {
+        ctx.moveTo(-8, sy * 4); ctx.lineTo(-17, sy * 11)
+        ctx.moveTo(-14, sy * 3); ctx.lineTo(-17, sy * 11)
+        ctx.moveTo(9, sy * 2.4); ctx.lineTo(16, sy * 10)
+        ctx.moveTo(14, sy * 1.8); ctx.lineTo(16, sy * 10)
+      }
+      ctx.stroke()
+
+      // pneus slicks : bande de roulement + liseré de flanc ; les avants braquent
+      const tyre = (wx, wy, w, h, rot) => {
         ctx.save()
         ctx.translate(wx, wy)
         ctx.rotate(rot)
-        ctx.fillRect(-5, -3, 10, 6)
+        ctx.fillStyle = '#0b0b0c'
+        ctx.beginPath()
+        ctx.roundRect(-w / 2, -h / 2, w, h, 1.6)
+        ctx.fill()
+        ctx.fillStyle = 'rgba(255,255,255,0.08)'
+        ctx.fillRect(-w / 2 + 1, -h / 2 + 0.8, w - 2, 0.8)
+        ctx.fillStyle = RED // marquage de gomme (tendre)
+        ctx.fillRect(-w / 2 + 1.5, wy < 0 ? -h / 2 : h / 2 - 0.7, w - 3, 0.7)
         ctx.restore()
       }
-      wheel(-15, -11, 0)
-      wheel(-15, 11, 0)
-      wheel(14, -10, car.steerVisual * 0.5)
-      wheel(14, 10, car.steerVisual * 0.5)
-      // livrée tricolore 🇫🇷 : bleu à l'avant, blanc au centre, rouge à l'arrière
-      // aileron arrière — rouge
-      ctx.fillStyle = '#ef4135'
-      ctx.fillRect(-24, -11, 5, 22)
-      // corps effilé — blanc
-      ctx.fillStyle = '#f2f4f8'
+      tyre(-17, -11.5, 11, 7, 0)
+      tyre(-17, 11.5, 11, 7, 0)
+      const steer = car.steerVisual * 0.5
+      tyre(16, -10.5, 9, 5.5, steer)
+      tyre(16, 10.5, 9, 5.5, steer)
+
+      // fond plat carbone, pontons, coque
+      ctx.fillStyle = CARBON
+      ctx.fill(FLOOR)
+      ctx.fillStyle = '#8f0400'
+      ctx.fill(SIDEPODS)
+      const body = ctx.createLinearGradient(0, -5, 0, 5)
+      body.addColorStop(0, '#b10500')
+      body.addColorStop(0.45, '#ff2a1f') // arête éclairée
+      body.addColorStop(0.55, RED)
+      body.addColorStop(1, '#9e0400')
+      ctx.fillStyle = body
+      ctx.fill(BODY)
+      // capot moteur carbone + liseré tricolore le long de l'épine dorsale
+      ctx.fillStyle = CARBON
       ctx.beginPath()
-      ctx.moveTo(-20, -7)
-      ctx.lineTo(4, -5)
-      ctx.lineTo(24, -2)
-      ctx.lineTo(24, 2)
-      ctx.lineTo(4, 5)
-      ctx.lineTo(-20, 7)
+      ctx.moveTo(-22, -1.2); ctx.lineTo(-6, -2.2); ctx.lineTo(-6, 2.2); ctx.lineTo(-22, 1.2)
       ctx.closePath()
       ctx.fill()
-      // arrière du corps — rouge
-      ctx.fillStyle = '#ef4135'
+      ctx.fillStyle = '#0055a4'; ctx.fillRect(8, -0.5, 6, 1)
+      ctx.fillStyle = '#f2f4f8'; ctx.fillRect(14, -0.5, 4, 1)
+      ctx.fillStyle = RED; ctx.fillRect(18, -0.5, 4, 1)
+
+      // cockpit, casque bleu-blanc-rouge, prise d'air au-dessus du pilote
+      ctx.fillStyle = '#050506'
+      ctx.fill(COCKPIT)
+      ctx.fillStyle = CARBON
       ctx.beginPath()
-      ctx.moveTo(-20, -7)
-      ctx.lineTo(-10, -6.4)
-      ctx.lineTo(-10, 6.4)
-      ctx.lineTo(-20, 7)
-      ctx.closePath()
+      ctx.ellipse(-5.2, 0, 2.6, 2, 0, 0, Math.PI * 2)
       ctx.fill()
-      // museau — bleu de France
-      ctx.fillStyle = '#0055a4'
+      ctx.save()
       ctx.beginPath()
-      ctx.moveTo(8, -4.6)
-      ctx.lineTo(24, -2)
-      ctx.lineTo(24, 2)
-      ctx.lineTo(8, 4.6)
-      ctx.closePath()
-      ctx.fill()
-      // aileron avant — bleu
-      ctx.fillStyle = '#0055a4'
-      ctx.fillRect(22, -9, 3, 18)
-      // cockpit + casque bleu
-      ctx.fillStyle = '#1a1a1a'
+      ctx.arc(0.5, 0, 2.3, 0, Math.PI * 2)
+      ctx.clip()
+      ctx.fillStyle = '#0055a4'; ctx.fillRect(-2, -2.3, 5, 1.6)
+      ctx.fillStyle = '#f2f4f8'; ctx.fillRect(-2, -0.7, 5, 1.4)
+      ctx.fillStyle = '#ef4135'; ctx.fillRect(-2, 0.7, 5, 1.6)
+      ctx.restore()
+      // halo de titane
+      ctx.strokeStyle = '#3a3a40'
+      ctx.lineWidth = 1.1
       ctx.beginPath()
-      ctx.ellipse(-2, 0, 6, 3.5, 0, 0, Math.PI * 2)
-      ctx.fill()
-      ctx.fillStyle = '#0055a4'
-      ctx.beginPath()
-      ctx.arc(-2, 0, 2.2, 0, Math.PI * 2)
-      ctx.fill()
+      ctx.ellipse(1, 0, 4.4, 3.4, 0, -Math.PI * 0.62, Math.PI * 0.62)
+      ctx.moveTo(5.4, 0); ctx.lineTo(7.6, 0)
+      ctx.stroke()
+
+      // aileron avant : deux plans carbone, dérives rouges
+      ctx.fillStyle = CARBON
+      ctx.fillRect(23, -12, 2.4, 24)
+      ctx.fillStyle = '#26262a'
+      ctx.fillRect(21.2, -11.2, 1.6, 22.4)
+      ctx.fillStyle = RED
+      ctx.fillRect(21, -12.5, 4.6, 1.3)
+      ctx.fillRect(21, 11.2, 4.6, 1.3)
+
+      // aileron arrière : plan principal + volet DRS (ouvert quand on accélère à fond)
+      const drsOpen = keys.up && car.speed > 600
+      ctx.fillStyle = CARBON
+      ctx.fillRect(-27, -10.5, 3.2, 21)
+      ctx.fillStyle = drsOpen ? '#4a4a50' : '#202024'
+      ctx.fillRect(-28.6, -10.5, drsOpen ? 0.8 : 1.6, 21)
+      ctx.fillStyle = RED
+      ctx.fillRect(-29, -11.4, 5.4, 1.3)
+      ctx.fillRect(-29, 10.1, 5.4, 1.3)
+
+      // feu arrière : clignote quand on freine
+      const lit = braking || Math.floor(performance.now() / 250) % 2 === 0
+      ctx.fillStyle = lit ? '#ff2d20' : '#4a0a08'
+      ctx.fillRect(-30.2, -1, 1.4, 2)
+      if (braking) {
+        const glow = ctx.createRadialGradient(-30, 0, 0, -30, 0, 9)
+        glow.addColorStop(0, 'rgba(255,45,32,0.55)')
+        glow.addColorStop(1, 'rgba(255,45,32,0)')
+        ctx.fillStyle = glow
+        ctx.fillRect(-40, -9, 18, 18)
+      }
       ctx.restore()
     }
 
@@ -266,12 +346,23 @@ export default function DriveMode({ onClose, registerClose }) {
           { x: car.x - Math.cos(car.angle - 0.5) * off, y: car.y - Math.sin(car.angle - 0.5) * off, life: 0.55 + skid * 0.4, w }
         )
         if (trail.length > 900) trail.splice(0, trail.length - 900)
+        // fumée des pneus arrière quand ça glisse
+        if (skid > 0.45 && smoke.length < 120) {
+          for (const side of [-1, 1]) {
+            smoke.push({
+              x: car.x - Math.cos(car.angle) * 17 - Math.sin(car.angle) * 11 * side,
+              y: car.y - Math.sin(car.angle) * 17 + Math.cos(car.angle) * 11 * side,
+              r: 2 + Math.random() * 2,
+              life: 0.7,
+            })
+          }
+        }
       }
       // gerbe d'étincelles pendant l'entrée en scène et la sortie en trombe
       if (now - born < 650 || closingRef.current) {
         sparks.push({
-          x: car.x - Math.cos(car.angle) * 26,
-          y: car.y - Math.sin(car.angle) * 26,
+          x: car.x - Math.cos(car.angle) * 22,
+          y: car.y - Math.sin(car.angle) * 22,
           vx: -vx * 0.2 + (Math.random() - 0.5) * 90,
           vy: -vy * 0.2 + (Math.random() - 0.5) * 90,
           life: 0.55,
@@ -280,8 +371,8 @@ export default function DriveMode({ onClose, registerClose }) {
       // étincelles à l'accélération
       if (keys.up && Math.abs(car.speed) > 150) {
         sparks.push({
-          x: car.x - Math.cos(car.angle) * 26,
-          y: car.y - Math.sin(car.angle) * 26,
+          x: car.x - Math.cos(car.angle) * 22,
+          y: car.y - Math.sin(car.angle) * 22,
           vx: -vx * 0.15 + (Math.random() - 0.5) * 60,
           vy: -vy * 0.15 + (Math.random() - 0.5) * 60,
           life: 0.5,
@@ -320,8 +411,19 @@ export default function DriveMode({ onClose, registerClose }) {
         s.x += s.vx * dt
         s.y += s.vy * dt
         ctx.globalAlpha = s.life
-        ctx.fillStyle = ['#0055a4', '#f2f4f8', '#ef4135'][(Math.random() * 3) | 0]
+        ctx.fillStyle = ['#ffd27a', '#ff9a2e', '#fff3d6'][(Math.random() * 3) | 0]
         ctx.fillRect(s.x - 1.5, s.y - sy - 1.5, 3, 3)
+      }
+      for (let i = smoke.length - 1; i >= 0; i--) {
+        const p = smoke[i]
+        p.life -= dt * 0.9
+        if (p.life <= 0) { smoke.splice(i, 1); continue }
+        p.r += dt * 14
+        ctx.globalAlpha = p.life * 0.12
+        ctx.fillStyle = '#c8c8cc'
+        ctx.beginPath()
+        ctx.arc(p.x, p.y - sy, p.r, 0, Math.PI * 2)
+        ctx.fill()
       }
       ctx.globalAlpha = 1
       for (let i = trail.length - 1; i >= 0; i--) if (trail[i].life <= 0) trail.splice(i, 1)
@@ -374,7 +476,7 @@ export default function DriveMode({ onClose, registerClose }) {
           <span className="text-lg font-bold text-white">{hud.speed}</span> km/h
         </p>
         <p>
-          <span className="text-gray-500">{T.lap}</span> <span className="text-cyan">{hud.time}</span>
+          <span className="text-gray-500">{T.lap}</span> <span className="text-accent">{hud.time}</span>
           <span className="ml-3 text-gray-500">{T.dist}</span> {hud.dist} m
         </p>
         <p className="mt-2 text-[10px] text-gray-500">{T.keys}</p>
@@ -383,7 +485,7 @@ export default function DriveMode({ onClose, registerClose }) {
 
       {/* annonces de course */}
       {banner && (
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 rounded-2xl border border-f1/60 bg-ink/90 px-5 py-3 text-center text-sm font-semibold text-white shadow-[0_0_30px_rgba(225,6,0,0.4)] backdrop-blur">
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 rounded-2xl border border-f1/60 bg-ink/90 px-5 py-3 text-center text-sm font-semibold text-white backdrop-blur">
           {banner}
         </div>
       )}

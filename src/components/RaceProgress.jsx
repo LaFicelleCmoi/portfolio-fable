@@ -10,8 +10,8 @@ export default function RaceProgress() {
   return (
     <div className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5" aria-hidden>
       <motion.div style={{ scaleX: progress }} className="absolute inset-0 origin-left bg-f1" />
-      <motion.span style={{ left }} className="absolute top-0.5 -translate-x-full text-f1">
-        <F1Car className="h-2.5 w-auto" />
+      <motion.span style={{ left }} className="absolute top-0.5 -translate-x-full">
+        <F1Car className="h-3.5 w-auto" />
       </motion.span>
     </div>
   )

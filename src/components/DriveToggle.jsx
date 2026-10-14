@@ -49,7 +49,7 @@ export default function DriveToggle() {
         title={L.title}
         className="fixed bottom-5 left-5 z-[90] hidden cursor-pointer items-center gap-2.5 rounded-lg border border-line bg-panel px-3.5 py-2 text-xs font-medium text-gray-300 backdrop-blur transition-colors hover:border-f1/60 hover:text-white sm:flex"
       >
-        <F1Car className="h-3 w-auto text-f1" />
+        <F1Car className="h-4 w-auto" />
         {active ? L.on : L.off}
         <kbd className="rounded border border-line px-1.5 font-mono text-[10px] text-gray-500">P</kbd>
       </button>
