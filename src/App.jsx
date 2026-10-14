@@ -6,6 +6,7 @@ import DriveToggle from './components/DriveToggle.jsx'
 import Kerb from './components/Kerb.jsx'
 import LazySection from './components/LazySection.jsx'
 import Hero from './sections/Hero.jsx'
+import Starfield from './components/Starfield.jsx'
 
 // Sections sous la ligne de flottaison : code-splitting + montage à l'approche
 // du scroll (voir LazySection) — le chargement initial ne paie que le Hero.
@@ -21,6 +22,7 @@ const Footer = lazy(() => import('./sections/Footer.jsx'))
 export default function App() {
   return (
     <>
+      <Starfield />
       <RaceProgress />
       <Navbar />
       <main>
