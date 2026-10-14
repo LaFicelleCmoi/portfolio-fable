@@ -6,6 +6,8 @@ import { useEffect, useRef } from 'react'
 // - trois plans d'étoiles en parallaxe (scroll + pointeur), teintes stellaires réelles
 // - aigrettes de diffraction sur les étoiles les plus brillantes, comme en astrophoto
 // - nébuleuse (Hα rouge, OIII turquoise, bandes de poussière) générée en bruit fractal
+// - Saturne près du Hero, galaxie spirale au milieu de la page (révélée elle aussi)
+// - traînées de vitesse quand on défile vite, satellite qui passe avec un reflet solaire
 // - Voie lactée en diagonale, scintillement, étoile filante de temps en temps
 // Un seul canvas fixe, ~30 i/s, en pause onglet caché ; image figée (mais toujours
 // révélée au scroll) si l'OS réduit les animations.
@@ -161,6 +163,112 @@ function drawMilkyWay(ctx, w, h, cy) {
   ctx.restore()
 }
 
+// ── objets du ciel profond, pré-rendus une fois ──
+const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5
+
+// Saturne : globe ombré à bandes, anneaux A et B séparés par la division de Cassini.
+// La moitié arrière des anneaux passe derrière le globe, la moitié avant devant.
+function makeSaturn(R) {
+  const c = document.createElement('canvas')
+  c.width = Math.ceil(R * 5)
+  c.height = Math.ceil(R * 2.8)
+  const g = c.getContext('2d')
+  g.translate(c.width / 2, c.height / 2)
+  g.rotate(-0.36)
+  const RINGS = [
+    [1.24, 1.5, 'rgba(190,170,135,0.28)'], // anneau C, sombre et translucide
+    [1.52, 1.94, 'rgba(232,212,170,0.85)'], // anneau B, le plus brillant
+    [2.02, 2.26, 'rgba(210,190,150,0.6)'], // anneau A (après Cassini)
+    [2.29, 2.33, 'rgba(200,180,140,0.35)'],
+  ]
+  const rings = (front) => {
+    for (const [r0, r1, color] of RINGS) {
+      g.save()
+      g.scale(1, 0.3)
+      g.beginPath()
+      g.arc(0, 0, R * r1, front ? 0 : Math.PI, front ? Math.PI : Math.PI * 2)
+      g.arc(0, 0, R * r0, front ? Math.PI : Math.PI * 2, front ? 0 : Math.PI, true)
+      g.closePath()
+      g.fillStyle = color
+      g.fill()
+      g.restore()
+    }
+  }
+  rings(false)
+  // globe
+  g.save()
+  g.beginPath()
+  g.arc(0, 0, R, 0, Math.PI * 2)
+  g.clip()
+  const body = g.createRadialGradient(-R * 0.35, -R * 0.4, R * 0.1, 0, 0, R)
+  body.addColorStop(0, '#f4e4bd')
+  body.addColorStop(0.55, '#d9b97f')
+  body.addColorStop(0.9, '#9a7444')
+  body.addColorStop(1, '#5a4120')
+  g.fillStyle = body
+  g.fillRect(-R, -R, R * 2, R * 2)
+  // bandes nuageuses
+  for (const [y, hgt, a] of [[-0.62, 0.1, 0.22], [-0.35, 0.16, 0.16], [-0.05, 0.08, 0.12], [0.22, 0.14, 0.18], [0.5, 0.1, 0.2]]) {
+    g.fillStyle = `rgba(120,82,40,${a})`
+    g.fillRect(-R, y * R, R * 2, hgt * R)
+  }
+  // ombre de la nuit + ombre des anneaux sur le globe
+  const night = g.createLinearGradient(-R * 0.4, -R * 0.4, R, R)
+  night.addColorStop(0, 'rgba(0,0,0,0)')
+  night.addColorStop(1, 'rgba(0,0,8,0.78)')
+  g.fillStyle = night
+  g.fillRect(-R, -R, R * 2, R * 2)
+  g.fillStyle = 'rgba(0,0,0,0.35)'
+  g.fillRect(-R, R * 0.12, R * 2, R * 0.08)
+  g.restore()
+  rings(true)
+  return c
+}
+
+// Galaxie spirale vue de biais, façon Andromède : bulbe chaud, bras bleutés,
+// quelques régions HII rosées. Points en mode additif, puis aplatie et inclinée.
+function makeGalaxy(S) {
+  const disc = document.createElement('canvas')
+  disc.width = disc.height = S
+  const d = disc.getContext('2d')
+  d.translate(S / 2, S / 2)
+  d.globalCompositeOperation = 'lighter'
+  const core = d.createRadialGradient(0, 0, 0, 0, 0, S * 0.16)
+  core.addColorStop(0, 'rgba(255,236,205,0.75)')
+  core.addColorStop(0.35, 'rgba(255,215,170,0.22)')
+  core.addColorStop(1, 'rgba(255,200,160,0)')
+  d.fillStyle = core
+  d.fillRect(-S / 2, -S / 2, S, S)
+  const dots = Math.round(S * 14)
+  for (let i = 0; i < dots; i++) {
+    const t = Math.random() ** 0.85
+    const arm = i % 2
+    const theta = arm * Math.PI + t * 4.4 + (gauss() * 0.45) / (t + 0.35)
+    const rad = t * S * 0.46
+    const x = rad * Math.cos(theta) + gauss() * S * 0.018
+    const y = rad * Math.sin(theta) + gauss() * S * 0.018
+    const roll = Math.random()
+    d.fillStyle = t < 0.22 ? 'rgb(255,226,185)' : roll < 0.04 ? 'rgb(255,140,170)' : 'rgb(175,198,255)'
+    d.globalAlpha = rand(0.08, 0.3) * (1 - t * 0.5)
+    const sz = rand(0.6, 1.5)
+    d.fillRect(x, y, sz, sz)
+  }
+  for (let i = 0; i < S * 4; i++) {
+    d.fillStyle = 'rgb(255,230,195)'
+    d.globalAlpha = rand(0.1, 0.35)
+    d.fillRect(gauss() * S * 0.06, gauss() * S * 0.06, 1, 1)
+  }
+  const c = document.createElement('canvas')
+  c.width = S
+  c.height = Math.ceil(S * 0.62)
+  const g = c.getContext('2d')
+  g.translate(S / 2, c.height / 2)
+  g.rotate(-0.45)
+  g.scale(1, 0.4)
+  g.drawImage(disc, -S / 2, -S / 2)
+  return c
+}
+
 export default function Starfield() {
   const ref = useRef(null)
 
@@ -175,6 +283,13 @@ export default function Starfield() {
     let field = { stars: [], deep: [] }
     let nebula = null
     let nebulaTimer = 0
+    let saturn = null
+    let galaxy = null
+    let satellite = null
+    let nextSat = performance.now() + rand(12000, 22000)
+    // vitesse de scroll lissée : au-delà d'un seuil, les étoiles s'étirent en traînées
+    let lastScroll = window.scrollY
+    let vel = 0
     let shooting = null
     let nextShot = performance.now() + rand(4000, 9000)
     let raf = 0
@@ -195,6 +310,8 @@ export default function Starfield() {
       canvas.height = h * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       field = makeStars(w, h)
+      saturn = makeSaturn(w < 768 ? 24 : 44)
+      galaxy = makeGalaxy(Math.round(Math.min(440, Math.max(260, w * 0.3))))
       // la nébuleuse coûte quelques dizaines de ms : on la calcule hors du chemin critique
       clearTimeout(nebulaTimer)
       nebulaTimer = setTimeout(() => {
@@ -210,6 +327,10 @@ export default function Starfield() {
       mouse.x += (mouse.tx - mouse.x) * 0.06
       mouse.y += (mouse.ty - mouse.y) * 0.06
       ctx.clearRect(0, 0, w, h)
+      const dv = scroll - lastScroll
+      lastScroll = scroll
+      vel = still ? 0 : vel + (dv - vel) * 0.35
+      const streak = Math.abs(vel) > 6
 
       // nébuleuse : discrète en haut de page, pleinement révélée en bas
       if (nebula) {
@@ -223,6 +344,20 @@ export default function Starfield() {
       const gy = -((scroll * LAYERS[0].parallax) % h)
       drawMilkyWay(ctx, w, h, h * 0.55 + gy)
       drawMilkyWay(ctx, w, h, h * 0.55 + gy + h)
+
+      // galaxie : au milieu de la page, révélée elle aussi par la pose
+      if (galaxy) {
+        const anchor = (document.documentElement.scrollHeight - h) * 0.42
+        const gyc = h * 0.5 + (anchor - scroll) * 0.12 - mouse.y * 6
+        // dans la marge gauche, à cheval sur le bord de l'écran comme sur une photo cadrée serré
+        const margin = Math.max(0, (w - 1152) / 2)
+        const gx = (margin > 90 ? margin * 0.45 + galaxy.width * 0.05 : w * 0.3) - mouse.x * 6
+        if (gyc > -galaxy.height && gyc < h + galaxy.height) {
+          ctx.globalAlpha = 0.25 + 0.75 * e
+          ctx.drawImage(galaxy, gx - galaxy.width / 2, gyc - galaxy.height / 2)
+          ctx.globalAlpha = 1
+        }
+      }
 
       // étoiles faibles : elles apparaissent à mesure que la pose s'allonge
       if (e > 0.02) {
@@ -244,6 +379,18 @@ export default function Starfield() {
         if (s.twinkle && !still) a *= 0.55 + 0.45 * Math.sin((now / 1000) * s.twinkle * Math.PI + s.phase)
         ctx.globalAlpha = a
         ctx.fillStyle = `rgb(${s.tint})`
+        if (streak) {
+          // traînée de vitesse : plus l'étoile est proche, plus elle s'étire
+          const len = Math.max(-55, Math.min(55, vel * layer.parallax * 10))
+          ctx.globalAlpha = a * 0.7
+          ctx.strokeStyle = `rgb(${s.tint})`
+          ctx.lineWidth = Math.max(0.5, s.r * 1.1)
+          ctx.beginPath()
+          ctx.moveTo(x, y)
+          ctx.lineTo(x, y + len)
+          ctx.stroke()
+          continue
+        }
         if (s.r < 0.8) {
           ctx.fillRect(x, y, s.r * 1.6, s.r * 1.6)
           continue
@@ -270,8 +417,51 @@ export default function Starfield() {
       }
       ctx.globalAlpha = 1
 
-      // étoile filante : une traînée qui s'éteint en ~0,9 s
+      // Saturne, dans le vide à droite du Hero ; elle file vers le haut plus vite que les étoiles
+      if (saturn) {
+        const sx = (w >= 1024 ? w * 0.76 : w * 0.8) - mouse.x * 22
+        const sy = h * (w >= 1024 ? 0.4 : 0.16) - scroll * 0.22 - mouse.y * 22
+        if (sy > -saturn.height) {
+          ctx.globalAlpha = w >= 1024 ? 1 : 0.75
+          ctx.drawImage(saturn, sx - saturn.width / 2, sy - saturn.height / 2)
+          ctx.globalAlpha = 1
+        }
+      }
+
       if (still) return
+
+      // satellite : un point qui ne scintille pas, traverse en ~16 s, avec un reflet de
+      // panneau solaire (« flare ») à mi-parcours
+      if (!satellite && now > nextSat) {
+        const fromLeft = Math.random() < 0.5
+        satellite = { x0: fromLeft ? -10 : w + 10, y0: rand(h * 0.05, h * 0.5), dx: (fromLeft ? 1 : -1) * (w + 20), dy: rand(-0.15, 0.25) * h, born: now }
+      }
+      if (satellite) {
+        const t = (now - satellite.born) / 16000
+        if (t >= 1) {
+          satellite = null
+          nextSat = now + rand(25000, 45000)
+        } else {
+          const x = satellite.x0 + satellite.dx * t
+          const y = satellite.y0 + satellite.dy * t
+          const flare = Math.max(0, 1 - Math.abs(t - 0.55) / 0.035)
+          ctx.globalAlpha = 0.65 + 0.35 * flare
+          ctx.fillStyle = '#fff'
+          ctx.beginPath()
+          ctx.arc(x, y, 0.9 + flare * 1.6, 0, Math.PI * 2)
+          ctx.fill()
+          if (flare > 0) {
+            const halo = ctx.createRadialGradient(x, y, 0, x, y, 14 * flare)
+            halo.addColorStop(0, `rgba(255,255,255,${0.5 * flare})`)
+            halo.addColorStop(1, 'rgba(255,255,255,0)')
+            ctx.fillStyle = halo
+            ctx.fillRect(x - 14, y - 14, 28, 28)
+          }
+          ctx.globalAlpha = 1
+        }
+      }
+
+      // étoile filante : une traînée qui s'éteint en ~0,9 s
       if (!shooting && now > nextShot) {
         shooting = { x: rand(w * 0.1, w * 0.9), y: rand(0, h * 0.45), angle: rand(0.35, 0.6), born: now, speed: rand(700, 1000) }
       }
