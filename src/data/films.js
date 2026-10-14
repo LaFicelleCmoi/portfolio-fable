@@ -9,13 +9,22 @@ export const DEFAULT_FILMS = filmsData
 
 const STORAGE_KEY = 'top-films'
 
-// Charge les modifs locales (aperçu perso) si présentes, sinon le Top 4 committé.
+// Le brouillon local n'est utilisé qu'en mode édition (?edit dans l'URL) : en navigation
+// normale, tout le monde — moi compris — voit le Top 4 committé, jamais un vieux brouillon.
+const isEditing = () => {
+  try { return new URLSearchParams(window.location.search).has('edit') } catch { return false }
+}
+
+// Charge les modifs locales (aperçu perso) en mode édition, sinon le Top 4 committé.
+// Un brouillon identique à la version committée est jeté : il n'y a plus rien à publier.
 export function loadFilms() {
+  if (!isEditing()) return DEFAULT_FILMS
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (raw) {
       const parsed = JSON.parse(raw)
-      if (Array.isArray(parsed) && parsed.length) return parsed
+      if (JSON.stringify(parsed) === JSON.stringify(DEFAULT_FILMS)) clearFilms()
+      else if (Array.isArray(parsed) && parsed.length) return parsed
     }
   } catch { /* stockage indisponible/corrompu : on retombe sur le Top 4 committé */ }
   return DEFAULT_FILMS
@@ -32,6 +41,7 @@ export function clearFilms() {
 }
 
 export function hasLocalFilms() {
+  if (!isEditing()) return false
   try { return !!localStorage.getItem(STORAGE_KEY) } catch { return false }
 }
 
