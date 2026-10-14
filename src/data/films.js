@@ -1,14 +1,11 @@
-// Top 4 Letterboxd — source de vérité committée (celle que voient les visiteurs).
-// L'éditeur local (composant FilmTop4, activé par ?edit=films) superpose des
-// modifications stockées dans le navigateur pour l'aperçu ; son bouton « Exporter »
-// régénère ce fichier + télécharge les affiches, prêts à committer pour la mise en ligne.
+import filmsData from './films.json'
+
+// Top 4 Letterboxd — la source de vérité committée est films.json (pure donnée,
+// réécrite par le mode admin via api/content à chaque publication). L'éditeur
+// (composant FilmTop4) garde un brouillon dans le navigateur pour l'aperçu ; « Publier »
+// commite affiches + JSON dans le dépôt, Vercel redéploie et tout le monde voit la modif.
 // Affiches auto-hébergées dans public/ (servies à la racine du site).
-export const DEFAULT_FILMS = [
-  { title: 'Requiem for a Dream', year: 2000, img: '/requiem.jpg', url: 'https://letterboxd.com/film/requiem-for-a-dream/' },
-  { title: 'Apocalypse Now', year: 1979, img: '/apocalyspe.jpg', url: 'https://letterboxd.com/film/apocalypse-now/' },
-  { title: 'The Grand Budapest Hotel', year: 2014, img: '/hotel.jpg', url: 'https://letterboxd.com/film/the-grand-budapest-hotel/' },
-  { title: 'Spider-Man: Across the Spider-Verse', year: 2023, img: '/spiderman.jpg', url: 'https://letterboxd.com/film/spider-man-across-the-spider-verse/' },
-]
+export const DEFAULT_FILMS = filmsData
 
 const STORAGE_KEY = 'top-films'
 
