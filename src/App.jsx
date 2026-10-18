@@ -2,7 +2,7 @@ import { lazy } from 'react'
 import Navbar from './components/Navbar.jsx'
 import ScrollProgress from './components/ScrollProgress.jsx'
 import PitButton from './components/PitButton.jsx'
-import DriveToggle from './components/DriveToggle.jsx'
+import FlightToggle from './components/FlightToggle.jsx'
 import OrbitDivider from './components/OrbitDivider.jsx'
 import LazySection from './components/LazySection.jsx'
 import Hero from './sections/Hero.jsx'
@@ -57,7 +57,7 @@ export default function App() {
         </LazySection>
       </main>
       <PitButton />
-      <DriveToggle />
+      <FlightToggle />
     </>
   )
 }
