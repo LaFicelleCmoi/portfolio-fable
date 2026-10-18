@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Send, Github, Linkedin, Radio, CheckCircle2, LoaderCircle, AlertTriangle,
   Copy, Check, Clock, MapPin, FileDown, ChevronDown, QrCode, Briefcase,
-  UserPlus, Activity, CalendarCheck, Code2, Sparkles, Timer, Mail, ExternalLink,
+  UserPlus, Activity, CalendarCheck, Code2, Sparkles, Timer, Mail, ExternalLink, Globe,
 } from 'lucide-react'
+import { SiLetterboxd } from 'react-icons/si'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
 import Button from '../components/Button.jsx'
@@ -14,6 +15,26 @@ import { useLang } from '../i18n.jsx'
 
 const EMAIL = 'lois.clerc@epitech.eu'
 const LINKEDIN = 'https://www.linkedin.com/in/lo%C3%AFs-clerc-a46583386/'
+
+// Les canaux où me trouver (le libellé secondaire est traduit)
+const CHANNELS = [
+  {
+    name: 'LinkedIn', href: LINKEDIN, icon: Linkedin, color: '#5eaaf5',
+    sub: { fr: 'Parcours & réseau', en: 'Career & network' },
+  },
+  {
+    name: 'GitHub', href: 'https://github.com/LaFicelleCmoi', icon: Github, color: '#e5e7eb',
+    sub: { fr: '@LaFicelleCmoi · 30+ dépôts', en: '@LaFicelleCmoi · 30+ repos' },
+  },
+  {
+    name: 'Letterboxd', href: 'https://letterboxd.com/LaFicelleCmoi/', icon: SiLetterboxd, color: '#40bcf4',
+    sub: { fr: 'Mon journal de films', en: 'My film diary' },
+  },
+  {
+    name: 'Portfolio', href: 'https://portfolio-loisclerc.vercel.app/', icon: Globe, color: '#ff4a3d',
+    sub: { fr: 'Le lien à partager', en: 'The link to share' },
+  },
+]
 
 const STRINGS = {
   fr: {
@@ -58,8 +79,6 @@ const STRINGS = {
     response: 'Réponse sous 24 à 48 h',
     location: 'France — télétravail friendly',
     activity: 'Dernière activité GitHub :',
-    githubSub: '@LaFicelleCmoi — 30+ dépôts publics',
-    linkedinSub: 'Loïs Clerc — parcours & réseau',
     cv: 'Mon CV',
     vcard: 'Ajouter à vos contacts',
     qr: (
@@ -139,8 +158,6 @@ const STRINGS = {
     response: 'Reply within 24–48 h',
     location: 'France — remote friendly',
     activity: 'Latest GitHub activity:',
-    githubSub: '@LaFicelleCmoi — 30+ public repos',
-    linkedinSub: 'Loïs Clerc — career & network',
     cv: 'My resume',
     vcard: 'Add to your contacts',
     qr: (
@@ -410,38 +427,29 @@ export default function Contact() {
               <p className="text-sm text-green-300">{L.availability}</p>
             </div>
 
-            {/* réseaux mis en avant : les deux canaux directs pour me joindre */}
-            <div className="grid gap-3 sm:grid-cols-2">
+            {/* mes canaux : réseaux pro, code, et un peu de perso */}
+            <div className="grid grid-cols-2 gap-3">
+              {CHANNELS.map((c) => (
                 <a
-                  href="https://github.com/LaFicelleCmoi"
+                  key={c.name}
+                  href={c.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="group flex items-center gap-3 rounded-2xl border border-line bg-ink/60 px-4 py-3 transition-colors hover:border-white/50"
+                  className="group flex items-center gap-3 rounded-xl border border-line bg-ink/60 px-3 py-2.5 transition-colors hover:border-gray-500"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
-                    <Github size={20} />
+                  <span
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
+                    style={{ background: `${c.color}22`, color: c.color }}
+                  >
+                    <c.icon size={18} />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-white">GitHub</span>
-                    <span className="block truncate text-xs text-gray-400">{L.githubSub}</span>
+                    <span className="block text-sm font-semibold text-white">{c.name}</span>
+                    <span className="block truncate text-[11px] text-gray-400">{c.sub[lang]}</span>
                   </span>
-                  <ExternalLink size={14} className="shrink-0 text-gray-500 transition-colors group-hover:text-white" />
+                  <ExternalLink size={13} className="shrink-0 text-gray-600 transition-colors group-hover:text-white" />
                 </a>
-                <a
-                  href={LINKEDIN}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group flex items-center gap-3 rounded-2xl border border-line bg-ink/60 px-4 py-3 transition-colors hover:border-[#0a66c2]/80"
-                >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0a66c2]/20 text-[#5eaaf5]">
-                    <Linkedin size={20} />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-white">LinkedIn</span>
-                    <span className="block truncate text-xs text-gray-400">{L.linkedinSub}</span>
-                  </span>
-                  <ExternalLink size={14} className="shrink-0 text-gray-500 transition-colors group-hover:text-[#5eaaf5]" />
-                </a>
+              ))}
             </div>
 
             <ul className="space-y-3">
