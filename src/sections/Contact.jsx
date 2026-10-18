@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Send, Github, Linkedin, Radio, CheckCircle2, LoaderCircle, AlertTriangle,
   Copy, Check, Clock, MapPin, FileDown, ChevronDown, QrCode, Briefcase,
-  UserPlus, Activity, CalendarCheck, Code2, Sparkles, Timer, Mail, ExternalLink, Globe,
+  UserPlus, Activity, CalendarCheck, Code2, Sparkles, Timer, Mail, ExternalLink, Flag,
 } from 'lucide-react'
 import { SiLetterboxd } from 'react-icons/si'
 import ScrollReveal from '../components/ScrollReveal.jsx'
@@ -31,8 +31,8 @@ const CHANNELS = [
     sub: { fr: 'Mon journal de films', en: 'My film diary' },
   },
   {
-    name: 'Portfolio', href: 'https://portfolio-loisclerc.vercel.app/', icon: Globe, color: '#ff4a3d',
-    sub: { fr: 'Le lien à partager', en: 'The link to share' },
+    name: 'F1 2026', href: 'https://f1-2026-gamma.vercel.app/', icon: Flag, color: '#ff4a3d',
+    sub: { fr: 'Mon tracker de la saison', en: 'My season tracker' },
   },
 ]
 
