@@ -4,7 +4,7 @@
 @import "@fontsource/space-grotesk/500.css";
 @import "@fontsource/space-grotesk/700.css";
 
-/* Une seule couleur d'accent : le rouge F1. Tout le reste est en niveaux de gris.
+/* Une seule couleur d'accent : le rouge. Tout le reste est en niveaux de gris.
    --color-f1 sert aux aplats (barres, puces), --color-accent au texte et aux icônes
    (un cran plus clair pour rester lisible en petit sur fond noir). */
 @theme {
@@ -48,8 +48,8 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover { background: #3a3a3f; }
 
-/* ── motifs F1 ──────────────────────────────────── */
-/* feux de départ du loader : chaque feu s'allume en décalé, puis tout s'éteint */
+/* ── motifs ─────────────────────────────────────── */
+/* voyants du loader : chacun s'allume en décalé, puis tout s'éteint */
 @keyframes start-light {
   0%, 4% { background: var(--color-line); }
   22%, 78% { background: var(--color-f1); }
@@ -58,11 +58,6 @@ body {
 .start-light {
   background: var(--color-line);
   animation: start-light 2.8s ease-in-out infinite;
-}
-
-/* vibreur rouge/blanc entre les sections */
-.kerb {
-  background: repeating-linear-gradient(90deg, var(--color-f1) 0 16px, #e5e7eb 16px 32px);
 }
 
 .checkered {

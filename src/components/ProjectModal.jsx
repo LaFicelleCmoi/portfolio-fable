@@ -96,8 +96,6 @@ export default function ProjectModal({ repo, rank, onClose }) {
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-line bg-panel shadow-2xl shadow-black/60"
           >
-            {/* bande damier F1 */}
-
             <button
               onClick={onClose}
               aria-label={L.close}

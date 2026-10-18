@@ -52,16 +52,16 @@ const STRINGS = {
     kicker: 'Compétences',
     title: 'Ma télémétrie',
     subtitle:
-      "Auto-évaluation honnête : chaque compétence est reliée aux projets qui la prouvent, et le secteur violet signale mon meilleur temps — comme sur un écran de chrono F1. Les pourcentages reflètent ma progression, pas une perfection.",
-    best: 'MEILLEUR SECTEUR',
+      "Auto-évaluation honnête : chaque compétence est reliée aux projets qui la prouvent, et le point fort de chaque domaine est signalé en rouge. Les pourcentages reflètent ma progression, pas une perfection.",
+    best: 'POINT FORT',
     proof: 'Preuves :',
   },
   en: {
     kicker: 'Skills',
     title: 'My telemetry',
     subtitle:
-      'An honest self-assessment: every skill is tied to the projects that prove it, and the purple sector marks my best time — just like an F1 timing screen. The percentages reflect my progress, not perfection.',
-    best: 'BEST SECTOR',
+      'An honest self-assessment: every skill is tied to the projects that prove it, and the strongest skill in each area is flagged in red. The percentages reflect my progress, not perfection.',
+    best: 'STRONGEST',
     proof: 'Proof:',
   },
 }

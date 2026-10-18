@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, ArrowUp, Heart, Zap } from 'lucide-react'
+import { Github, Linkedin, Mail, ArrowUp, Heart, RefreshCw } from 'lucide-react'
 import { useLang } from '../i18n.jsx'
 
 const LINKS = [
@@ -12,20 +12,20 @@ const LINKS = [
 
 const STRINGS = {
   fr: {
-    tagline: 'Développeur mobile en alternance chez Unistellar — et pilote de ce portfolio.',
-    nav: 'Le circuit',
-    social: 'Les stands',
-    backTop: 'Retour à la grille de départ',
-    made: (heart) => <>Fait avec {heart} et beaucoup de ⚡ — React, TailwindCSS & Framer Motion.</>,
-    sync: 'Projets synchronisés automatiquement depuis GitHub — propulsé à fond, comme en F1',
+    tagline: 'Développeur mobile en alternance chez Unistellar, étudiant à Epitech.',
+    nav: 'Navigation',
+    social: 'Liaisons',
+    backTop: 'Retour au pas de tir',
+    made: (heart) => <>Fait avec {heart} — React, Tailwind CSS & Framer Motion.</>,
+    sync: 'Projets synchronisés automatiquement depuis GitHub',
   },
   en: {
-    tagline: 'Mobile developer apprenticing at Unistellar — and driver of this portfolio.',
-    nav: 'The circuit',
+    tagline: 'Mobile developer apprentice at Unistellar, Epitech student.',
+    nav: 'Navigation',
     social: 'The pits',
-    backTop: 'Back to the starting grid',
-    made: (heart) => <>Made with {heart} and plenty of ⚡ — React, TailwindCSS & Framer Motion.</>,
-    sync: 'Projects auto-synced from GitHub — flat out, like in F1',
+    backTop: 'Back to the launch pad',
+    made: (heart) => <>Made with {heart} — React, Tailwind CSS & Framer Motion.</>,
+    sync: 'Projects auto-synced from GitHub',
   },
 }
 
@@ -35,9 +35,6 @@ export default function Footer() {
 
   return (
     <footer className="relative mt-10 overflow-hidden border-t border-line">
-      {/* bande damier d'arrivée */}
-      <div className="checkered h-1.5 w-full opacity-60" />
-
       <div className="mx-auto grid max-w-5xl gap-10 px-6 py-12 sm:grid-cols-3">
         {/* signature */}
         <div>
@@ -106,7 +103,7 @@ export default function Footer() {
           {L.made(<Heart size={13} className="inline text-f1" fill="currentColor" aria-label="amour" />)}
         </p>
         <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-gray-400">
-          <Zap size={12} className="text-accent" /> {L.sync}
+          <RefreshCw size={12} className="text-accent" /> {L.sync}
         </p>
       </div>
     </footer>

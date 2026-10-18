@@ -17,8 +17,8 @@ const GISCUS = {
 }
 
 const STRINGS = {
-  fr: { title: 'PADDOCK — LIVRE D\'OR', subtitle: 'Un mot, un retour, un encouragement ? Signez le livre d\'or (via GitHub).' },
-  en: { title: 'PADDOCK — GUESTBOOK', subtitle: 'A word, some feedback, a cheer? Sign the guestbook (via GitHub).' },
+  fr: { title: 'LIVRE DE BORD', subtitle: 'Un mot, un retour, un encouragement ? Signez le livre d\'or (via GitHub).' },
+  en: { title: 'LOGBOOK', subtitle: 'A word, some feedback, a cheer? Sign the guestbook (via GitHub).' },
 }
 
 export default function Comments() {

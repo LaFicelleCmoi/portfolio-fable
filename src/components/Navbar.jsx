@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Github, Linkedin, Mail } from 'lucide-react'
 import { useLang } from '../i18n.jsx'
-import F1Car from './F1Car.jsx'
 
 // `sector` reprend la numérotation des en-têtes de section
 const LINKS = [
@@ -24,7 +23,7 @@ const SOCIALS = [
 const EASE = [0.22, 1, 0.36, 1]
 
 // Menu plein écran du mobile : sections numérotées en grand, arrivée en cascade,
-// et la monoplace qui traverse le vibreur en bas de l'écran à l'ouverture.
+// et une étoile filante qui traverse le bas de l'écran à l'ouverture.
 function MobileMenu({ active, lang, toggleLang, onNavigate }) {
   return (
     <motion.div
@@ -103,16 +102,17 @@ function MobileMenu({ active, lang, toggleLang, onNavigate }) {
             ))}
           </div>
         </div>
-        {/* la monoplace traverse le vibreur */}
+        {/* une étoile filante traverse le bas du menu */}
         <div className="relative mt-6 h-6 overflow-hidden" aria-hidden>
-          <div className="kerb absolute inset-x-0 bottom-0 h-1 rounded-full opacity-40" />
+          <div className="absolute inset-x-0 bottom-2 h-px bg-gradient-to-r from-transparent via-line to-transparent" />
           <motion.div
-            initial={{ x: '-20%' }}
-            animate={{ x: '520%' }}
-            transition={{ delay: 0.45, duration: 1.4, ease: [0.5, 0, 0.2, 1] }}
-            className="absolute bottom-1.5 left-0 w-1/5"
+            initial={{ x: '-30%', opacity: 0 }}
+            animate={{ x: '420%', opacity: [0, 1, 1, 0] }}
+            transition={{ delay: 0.45, duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
+            className="absolute bottom-[7px] left-0 flex w-1/4 items-center"
           >
-            <F1Car className="h-4 w-auto" />
+            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-white/80" />
+            <span className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_8px_2px_rgba(255,255,255,0.6)]" />
           </motion.div>
         </div>
       </motion.div>

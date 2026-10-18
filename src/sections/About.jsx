@@ -48,24 +48,24 @@ const STRINGS = {
     location: 'France',
     timeline: [
       {
-        date: 'Saisons 2023 – 2025',
+        date: '2023 – 2025',
         title: 'BTS CIEL',
         text: "Cybersécurité, Informatique et réseaux, Électronique. Premiers projets concrets : système d'arrosage automatique, jeu 2D en Java.",
       },
       {
-        date: 'Saison 2025 – en cours',
+        date: '2025 – en cours',
         title: 'Epitech',
         text: "Pédagogie par projets : développement web (React, Node), IA (projet Alice), DevOps (Docker, Kubernetes, Jenkins), travail en équipe et gestion de projet.",
       },
       {
-        date: 'Saison en cours',
+        date: 'En cours',
         title: 'Alternance chez Unistellar — Développeur Mobile iOS & Android',
         text: "Télescopes connectés et jumelles Envision pilotés depuis mobile : Swift/SwiftUI, Kotlin/Jetpack Compose, BLE & Wi-Fi, Firebase et GitLab CI. Détails dans la section Alternance",
       },
       {
-        date: 'Prochaines saisons',
+        date: 'Prochaine étape',
         title: 'Et après ?',
-        text: "Objectif : devenir développeur full-stack polyvalent, avec une appétence pour l'IA et l'automatisation. Comme en F1 : chaque saison, une monoplace plus rapide.",
+        text: "Objectif : devenir un développeur polyvalent, du mobile au full-stack, avec une appétence pour l'IA et l'automatisation. Viser haut, une mission après l'autre.",
       },
     ],
     philosophy:
@@ -79,24 +79,24 @@ const STRINGS = {
     location: 'France',
     timeline: [
       {
-        date: 'Seasons 2023 – 2025',
+        date: '2023 – 2025',
         title: 'BTS CIEL',
         text: 'Cybersecurity, IT & networks, electronics. First hands-on projects: an automatic watering system, a 2D game in Java.',
       },
       {
-        date: 'Season 2025 – ongoing',
+        date: '2025 – ongoing',
         title: 'Epitech',
         text: 'Project-based learning: web development (React, Node), AI (the Alice project), DevOps (Docker, Kubernetes, Jenkins), teamwork and project management.',
       },
       {
-        date: 'Current season',
+        date: 'Now',
         title: 'Apprenticeship at Unistellar — iOS & Android Mobile Developer',
         text: 'Smart telescopes and Envision binoculars driven from mobile: Swift/SwiftUI, Kotlin/Jetpack Compose, BLE & Wi-Fi, Firebase and GitLab CI. Details in the Apprenticeship section',
       },
       {
-        date: 'Next seasons',
+        date: 'Next step',
         title: "What's next?",
-        text: 'Goal: become a versatile full-stack developer with a taste for AI and automation. Like in F1: every season, a faster car.',
+        text: 'Goal: become a versatile developer, from mobile to full-stack, with a taste for AI and automation. Aim high, one mission at a time.',
       },
     ],
     philosophy:

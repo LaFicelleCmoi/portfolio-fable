@@ -1,4 +1,4 @@
-// Feux de départ F1 : les 5 feux s'allument, puis s'éteignent — lights out!
+// Acquisition du signal : cinq voyants s'allument tour à tour, puis s'éteignent
 export default function Loader() {
   return (
     <div className="flex flex-col items-center gap-4 py-16" role="status" aria-label="Chargement">
@@ -11,7 +11,7 @@ export default function Loader() {
           />
         ))}
       </div>
-      <p className="font-mono text-[11px] tracking-[0.15em] text-gray-500">FORMATION LAP…</p>
+      <p className="font-mono text-[11px] tracking-[0.15em] text-gray-500">ACQUISITION DU SIGNAL…</p>
     </div>
   )
 }

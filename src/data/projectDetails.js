@@ -39,9 +39,9 @@ export const categoryOf = (repo) => CATEGORY_MAP[repo.name] ?? 'Autres'
 // DEFAULT_ORDER est l'ordre de départ, réorganisable par glisser-déposer.
 export const DEFAULT_ORDER = ['f1-2026', 'Marioparty', 'Alice']
 export const PODIUM_STYLE = {
-  1: { label: 'P1', color: '#ffd700' },
-  2: { label: 'P2', color: '#c0c4cc' },
-  3: { label: 'P3', color: '#cd7f32' },
+  1: { label: '#1', color: '#ffd700' },
+  2: { label: '#2', color: '#c0c4cc' },
+  3: { label: '#3', color: '#cd7f32' },
 }
 
 // fiche dans la bonne langue (l'anglais surcharge le français quand il existe)

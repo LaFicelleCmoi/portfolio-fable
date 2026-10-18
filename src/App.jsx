@@ -1,9 +1,9 @@
 import { lazy } from 'react'
 import Navbar from './components/Navbar.jsx'
-import RaceProgress from './components/RaceProgress.jsx'
+import ScrollProgress from './components/ScrollProgress.jsx'
 import PitButton from './components/PitButton.jsx'
 import DriveToggle from './components/DriveToggle.jsx'
-import Kerb from './components/Kerb.jsx'
+import OrbitDivider from './components/OrbitDivider.jsx'
 import LazySection from './components/LazySection.jsx'
 import Hero from './sections/Hero.jsx'
 import Starfield from './components/Starfield.jsx'
@@ -23,34 +23,34 @@ export default function App() {
   return (
     <>
       <Starfield />
-      <RaceProgress />
+      <ScrollProgress />
       <Navbar />
       <main>
         <Hero />
         <LazySection id="apropos">
           <About />
         </LazySection>
-        <Kerb />
+        <OrbitDivider />
         <LazySection id="experience">
           <Experience />
         </LazySection>
-        <Kerb />
+        <OrbitDivider />
         <LazySection id="competences">
           <Skills />
         </LazySection>
-        <Kerb />
+        <OrbitDivider />
         <LazySection id="projets">
           <Projects />
         </LazySection>
-        <Kerb />
+        <OrbitDivider />
         <LazySection id="data">
           <DataSection />
         </LazySection>
-        <Kerb />
+        <OrbitDivider />
         <LazySection id="horspiste">
           <OffTrack />
         </LazySection>
-        <Kerb />
+        <OrbitDivider />
         <LazySection id="contact">
           <Contact />
           <Footer />

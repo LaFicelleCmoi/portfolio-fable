@@ -10,7 +10,7 @@ import { useLang } from '../i18n.jsx'
 // et remplace la valeur ci-dessous par '/photo.jpg'.
 const PHOTO = 'https://avatars.githubusercontent.com/u/232385998?v=4'
 
-// Les chiffres clés, présentés comme une ligne de chrono (secteurs S1–S3)
+// Les chiffres clés, en une ligne de télémétrie
 const STATS = [
   { value: 30, plus: true, fr: 'projets GitHub', en: 'GitHub projects' },
   { value: 6, fr: 'langages', en: 'languages' },
@@ -71,7 +71,7 @@ export default function Hero() {
           <p className="flex flex-wrap items-center gap-x-2 gap-y-1.5 font-mono text-xs text-gray-400">
             <span className="h-1.5 w-1.5 rounded-full bg-f1" aria-hidden />
             {L.badge}
-            {/* le nom de l'écurie s'affiche sur un panneau à palettes, une seule fois au chargement */}
+            {/* le nom de l'entreprise s'affiche sur un panneau à palettes, une seule fois au chargement */}
             <SplitFlapText
               words={['', 'UNISTELLAR']}
               loop={false}
@@ -113,7 +113,7 @@ export default function Hero() {
         <motion.dl {...rise(5)} className="mt-16 grid max-w-xl grid-cols-3 border-t border-line">
           {STATS.map((s, i) => (
             <div key={s.en} className="pt-4 pr-4">
-              <dt className="font-mono text-[11px] text-gray-500">S{i + 1}</dt>
+              <dt className="font-mono text-[11px] text-gray-500">{String(i + 1).padStart(2, '0')}</dt>
               <dd className="mt-1 flex h-7 items-center text-2xl font-semibold text-white">
                 <Counter value={rolled ? s.value : 0} digits={String(s.value).length} fontSize={24} />
                 {s.plus && <span aria-hidden>+</span>}

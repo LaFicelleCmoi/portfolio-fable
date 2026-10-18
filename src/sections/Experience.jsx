@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion'
 import {
   CalendarClock, Smartphone, Workflow, CloudUpload, Flag, Telescope, GraduationCap,
-  ExternalLink, BookOpen, Rocket, Trophy, Boxes, CheckCircle2,
+  ExternalLink, BookOpen, Rocket, Trophy, Boxes, CheckCircle2, Orbit,
 } from 'lucide-react'
 import ScrollReveal from '../components/ScrollReveal.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
 import Card from '../components/Card.jsx'
 import { useLang } from '../i18n.jsx'
 
-// Le garage à outils : chaque techno de l'offre avec son usage réel
+// La boîte à outils de bord : chaque techno de l'offre avec son usage réel
 const TOOLS = [
   { name: 'Swift · SwiftUI', fr: 'App iOS', en: 'iOS app' },
   { name: 'Kotlin · Jetpack Compose', fr: 'App Android', en: 'Android app' },
@@ -23,20 +23,20 @@ const TOOLS = [
 const STRINGS = {
   fr: {
     kicker: 'Expérience',
-    title: 'Mon écurie : Unistellar',
+    title: 'Ma mission : Unistellar',
     subtitle:
-      "En parallèle d'Epitech, je suis développeur mobile iOS & Android en alternance : l'école m'apprend à apprendre, l'entreprise m'apprend le métier. Comme un pilote, je progresse au contact de l'équipe — chaque sprint est un Grand Prix. Et chez Unistellar, viser les étoiles c'est littéralement le métier.",
+      "En parallèle d'Epitech, je suis développeur mobile iOS & Android en alternance : l'école m'apprend à apprendre, l'entreprise m'apprend le métier. Chaque sprint est une mission, chaque release un lancement — et chez Unistellar, viser les étoiles, c'est littéralement le métier.",
     sector: 'Astronomie grand public — télescopes connectés',
     city: 'Marseille · présentiel',
     badge: 'Développeur Mobile iOS & Android — Alternance',
     pitch:
       "Unistellar conçoit des télescopes connectés (eVscope) et les jumelles à réalité augmentée Envision — trois fois primés au CES — pilotés depuis des applications iOS et Android. J'y développe ces apps aux côtés du développeur mobile senior.",
     website: 'Découvrir Unistellar',
-    strategyTitle: 'LA STRATÉGIE DE COURSE — MON RYTHME',
+    strategyTitle: 'PLAN DE VOL — MON RYTHME',
     year1: '1ʳᵉ année',
-    year1Desc: '4 relais en entreprise, 2 relais à l\'école — et on répète le cycle.',
+    year1Desc: '4 semaines en entreprise, 2 à l\'école — et le cycle reprend.',
     year2: '2ᵉ année',
-    year2Desc: 'Arrêt au stand Epitech chaque lundi, le reste de la semaine en piste chez Unistellar.',
+    year2Desc: 'Epitech chaque lundi, le reste de la semaine en mission chez Unistellar.',
     weekShort: ['L', 'M', 'M', 'J', 'V'],
     legendCompany: 'Entreprise (Unistellar)',
     legendSchool: 'École (Epitech)',
@@ -73,32 +73,32 @@ const STRINGS = {
       'Une culture outils moderne : Claude Code, CI/CD, Git propre',
       "Un œil neuf — et l'envie d'apprendre de l'équipe",
     ],
-    goalsTitle: 'OBJECTIFS DE LA SAISON',
-    goalsSub: 'Les jalons de ma fiche de poste, transformés en tour de circuit.',
+    goalsTitle: 'OBJECTIFS DE MISSION',
+    goalsSub: 'Les jalons de ma fiche de poste, du décollage à la mise en orbite.',
     goals: [
       { icon: Smartphone, text: 'Livrer mes premières features sur iOS et Android' },
       { icon: Workflow, text: 'Couvrir les écrans clés de tests UI automatisés' },
       { icon: Boxes, text: 'Maîtriser la communication BLE / Wi-Fi avec les instruments' },
       { icon: Trophy, text: 'Devenir autonome sur les deux plateformes', finish: true },
     ],
-    garageTitle: 'LE GARAGE À OUTILS',
+    garageTitle: 'LA BOÎTE À OUTILS DE BORD',
   },
   en: {
     kicker: 'Experience',
-    title: 'My team: Unistellar',
+    title: 'My mission: Unistellar',
     subtitle:
-      "Alongside Epitech, I'm an iOS & Android mobile developer apprentice: school teaches me how to learn, the company teaches me the craft. Like a driver, I improve with the team — every sprint is a Grand Prix. And at Unistellar, reaching for the stars literally is the business.",
+      "Alongside Epitech, I'm an iOS & Android mobile developer apprentice: school teaches me how to learn, the company teaches me the craft. Every sprint is a mission, every release a launch — and at Unistellar, reaching for the stars literally is the business.",
     sector: 'Consumer astronomy — smart telescopes',
     city: 'Marseille · on-site',
     badge: 'iOS & Android Mobile Developer — Apprenticeship',
     pitch:
       'Unistellar designs smart telescopes (eVscope) and the Envision augmented-reality binoculars — three-time CES innovation award winner — driven from iOS and Android apps. I build those apps alongside the senior mobile developer.',
     website: 'Discover Unistellar',
-    strategyTitle: 'RACE STRATEGY — MY RHYTHM',
+    strategyTitle: 'FLIGHT PLAN — MY RHYTHM',
     year1: '1st year',
-    year1Desc: '4 stints at the company, 2 stints at school — then the cycle repeats.',
+    year1Desc: '4 weeks at the company, 2 at school — then the cycle repeats.',
     year2: '2nd year',
-    year2Desc: 'Pit stop at Epitech every Monday, the rest of the week on track at Unistellar.',
+    year2Desc: 'Epitech every Monday, the rest of the week on mission at Unistellar.',
     weekShort: ['M', 'T', 'W', 'T', 'F'],
     legendCompany: 'Company (Unistellar)',
     legendSchool: 'School (Epitech)',
@@ -135,19 +135,19 @@ const STRINGS = {
       'A modern tooling culture: Claude Code, CI/CD, clean Git',
       'Fresh eyes — and a hunger to learn from the team',
     ],
-    goalsTitle: 'SEASON GOALS',
-    goalsSub: 'The milestones of my job description, turned into a lap of the circuit.',
+    goalsTitle: 'MISSION OBJECTIVES',
+    goalsSub: 'The milestones of my job description, from lift-off to orbit.',
     goals: [
       { icon: Smartphone, text: 'Ship my first features on iOS and Android' },
       { icon: Workflow, text: 'Cover the key screens with automated UI tests' },
       { icon: Boxes, text: 'Master BLE / Wi-Fi communication with the instruments' },
       { icon: Trophy, text: 'Become autonomous on both platforms', finish: true },
     ],
-    garageTitle: 'THE TOOL GARAGE',
+    garageTitle: 'THE ONBOARD TOOLKIT',
   },
 }
 
-// Un relais du rythme d'alternance, façon stratégie pneus
+// Une semaine du rythme d'alternance : entreprise ou école
 function Stint({ type, label, delay }) {
   const company = type === 'e'
   return (
@@ -337,7 +337,7 @@ export default function Experience() {
                 <goal.icon size={16} className={goal.finish ? 'text-white' : 'text-gray-400'} />
               </span>
               <span className="flex-1 text-sm text-gray-200">{goal.text}</span>
-              <span className="font-mono text-[10px] text-gray-400">{goal.finish ? <span className="checkered inline-block h-3 w-3 rounded-sm" aria-label="arrivée" /> : `T${i + 1}`}</span>
+              <span className="font-mono text-[10px] text-gray-400">{goal.finish ? <Orbit size={13} className="text-accent" aria-label="orbite" /> : String(i + 1).padStart(2, '0')}</span>
             </motion.li>
           ))}
         </ol>

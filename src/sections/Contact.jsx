@@ -41,13 +41,13 @@ const STRINGS = {
       {
         icon: Sparkles,
         title: 'Curieux / Autre',
-        text: "Une question sur mon parcours, Epitech, l'alternance — ou juste envie de parler Grand Prix ?",
+        text: "Une question sur mon parcours, Epitech, l'alternance — ou juste envie de parler F1 ou astronomie ?",
         cta: 'Ouvrir le canal',
         subject: 2,
         template: 'Bonjour Loïs,\n\n[Votre question / message]\n\n[Prénom]',
       },
     ],
-    pitwall: 'PIT WALL — INFOS DIRECTES',
+    pitwall: 'CENTRE DE CONTRÔLE — INFOS DIRECTES',
     availability: (
       <>En alternance chez Unistellar — <span className="text-green-200">ouvert aux échanges</span></>
     ),
@@ -69,7 +69,7 @@ const STRINGS = {
       </>
     ),
     qrAlt: 'QR code vers ce portfolio',
-    radio: 'TEAM RADIO — CANAL OUVERT',
+    radio: 'LIAISON RADIO — CANAL OUVERT',
     subjectAria: 'Sujet du message',
     fields: { name: 'Votre nom', email: 'Votre email', message: 'Votre message' },
     errName: 'Votre nom (2 caractères minimum)',
@@ -78,12 +78,12 @@ const STRINGS = {
     privacy: "Vos infos ne servent qu'à vous répondre — rien d'autre, promis.",
     send: 'Envoyer',
     sending: 'Envoi…',
-    sent: 'Message transmis au stand — je vous réponds vite. Merci !',
+    sent: 'Message bien reçu au centre de contrôle — je vous réponds vite. Merci !',
     error: "Radio coupée, le message n'est pas parti.",
     mailFallback: 'Ouvrir votre client mail à la place →',
-    procTitle: 'APRÈS VOTRE MESSAGE — LA PROCÉDURE AU STAND',
+    procTitle: 'APRÈS VOTRE MESSAGE — LA PROCÉDURE',
     procedure: [
-      { icon: Radio, title: 'Message reçu', text: 'Votre message arrive directement sur mon pit wall (ma boîte mail).' },
+      { icon: Radio, title: 'Message reçu', text: 'Votre message arrive directement au centre de contrôle (ma boîte mail).' },
       { icon: Clock, title: 'Réponse < 48 h', text: 'Je réponds à tout le monde, généralement sous 24 à 48 h.' },
       { icon: CalendarCheck, title: "On s'organise", text: 'Si ça matche, on cale un call, une visio ou un café.' },
     ],
@@ -122,13 +122,13 @@ const STRINGS = {
       {
         icon: Sparkles,
         title: 'Curious / Other',
-        text: 'A question about my journey, Epitech, the apprenticeship — or just up for some Grand Prix talk?',
+        text: 'A question about my journey, Epitech, the apprenticeship — or just up for some F1 or astronomy talk?',
         cta: 'Open the channel',
         subject: 2,
         template: 'Hi Loïs,\n\n[Your question / message]\n\n[First name]',
       },
     ],
-    pitwall: 'PIT WALL — DIRECT INFO',
+    pitwall: 'MISSION CONTROL — DIRECT INFO',
     availability: (
       <>Apprentice at Unistellar — <span className="text-green-200">open to conversations</span></>
     ),
@@ -150,7 +150,7 @@ const STRINGS = {
       </>
     ),
     qrAlt: 'QR code to this portfolio',
-    radio: 'TEAM RADIO — CHANNEL OPEN',
+    radio: 'RADIO LINK — CHANNEL OPEN',
     subjectAria: 'Message subject',
     fields: { name: 'Your name', email: 'Your email', message: 'Your message' },
     errName: 'Your name (at least 2 characters)',
@@ -159,12 +159,12 @@ const STRINGS = {
     privacy: 'Your info is only used to reply to you — nothing else, promise.',
     send: 'Send',
     sending: 'Sending…',
-    sent: "Message delivered to the pit wall — I'll get back to you soon. Thanks!",
+    sent: "Message received at mission control — I'll get back to you soon. Thanks!",
     error: "Radio's down, the message didn't go through.",
     mailFallback: 'Open your mail client instead →',
-    procTitle: 'AFTER YOUR MESSAGE — PIT PROCEDURE',
+    procTitle: 'AFTER YOUR MESSAGE — THE PROCEDURE',
     procedure: [
-      { icon: Radio, title: 'Message received', text: 'Your message lands straight on my pit wall (my inbox).' },
+      { icon: Radio, title: 'Message received', text: 'Your message lands straight at mission control (my inbox).' },
       { icon: Clock, title: 'Reply < 48 h', text: 'I answer everyone, usually within 24–48 hours.' },
       { icon: CalendarCheck, title: 'We set things up', text: "If it's a match, we schedule a call, a video chat or a coffee." },
     ],
@@ -225,7 +225,7 @@ function Field({ label, name, textarea = false, value, onChange, onBlur, error, 
   )
 }
 
-// Ligne d'info du "mur des stands"
+// Ligne d'info du centre de contrôle
 function InfoRow({ icon: Icon, children }) {
   return (
     <li className="flex items-center gap-3 text-sm text-gray-300">
@@ -395,7 +395,7 @@ export default function Contact() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-5">
-        {/* ── mur des stands : infos directes ── */}
+        {/* ── centre de contrôle : infos directes ── */}
         <ScrollReveal direction="right" className="lg:col-span-2">
           <div className="flex h-full flex-col gap-5 rounded-2xl border border-line bg-panel p-7">
             <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] text-gray-500">
@@ -495,7 +495,7 @@ export default function Contact() {
           </div>
         </ScrollReveal>
 
-        {/* ── team radio : le formulaire ── */}
+        {/* ── liaison radio : le formulaire ── */}
         <ScrollReveal direction="left" delay={0.1} className="lg:col-span-3">
           <form ref={formRef} onSubmit={onSubmit} noValidate className="h-full rounded-2xl border border-line bg-panel">
             <div className="flex h-full flex-col gap-5 p-8">
@@ -578,7 +578,7 @@ export default function Contact() {
         </ScrollReveal>
       </div>
 
-      {/* ── la procédure au stand : après votre message ── */}
+      {/* ── la procédure : après votre message ── */}
       <ScrollReveal delay={0.1} className="mt-12">
         <p className="mb-4 font-mono text-[11px] tracking-[0.15em] text-gray-500">
           {L.procTitle}

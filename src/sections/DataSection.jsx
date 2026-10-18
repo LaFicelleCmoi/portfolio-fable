@@ -24,7 +24,7 @@ const CHART_COLORS = {
 const STRINGS = {
   fr: {
     kicker: 'Data',
-    title: 'La data du paddock',
+    title: 'La data de bord',
     subtitle: 'Tout est calculé en direct depuis mes dépôts GitHub — rien de saisi à la main, comme une vraie télémétrie.',
     live: 'Données live — elles bougent quand je code.',
     donutTitle: 'Langages de mes dépôts',
@@ -39,7 +39,7 @@ const STRINGS = {
   },
   en: {
     kicker: 'Data',
-    title: 'Paddock data',
+    title: 'Mission data',
     subtitle: 'Everything is computed live from my GitHub repositories — nothing typed by hand, like real telemetry.',
     live: 'Live data — it moves when I code.',
     donutTitle: 'Languages across my repos',

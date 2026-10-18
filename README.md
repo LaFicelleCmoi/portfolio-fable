@@ -17,8 +17,9 @@ Développeur mobile & full-stack · Étudiant à Epitech · Alternant chez Unist
 
 ## Présentation
 
-Portfolio personnel en une page, pensé comme un week-end de Grand Prix : chaque section est un
-« secteur » du circuit, et une monoplace pilotable au clavier traverse le site.
+Portfolio personnel en une page, sous un ciel profond qui se révèle au fil du scroll — comme
+l'empilement de poses d'un télescope Unistellar. Et, pour le fan de F1, une monoplace pilotable
+au clavier peut traverser le site.
 Les projets et les statistiques sont **calculés en direct depuis GitHub** : rien n'est saisi à
 la main, le site se met à jour à chaque nouveau dépôt publié.
 
@@ -28,6 +29,7 @@ la main, le site se met à jour à chaque nouveau dépôt publié.
 |---|---|
 | **Projets synchronisés** | Dépôts récupérés via l'API GitHub (cache *stale-while-revalidate*), filtres par catégorie et par langage, classement réorganisable par glisser-déposer, fiche détaillée par projet. |
 | **Data en direct** | Répartition des langages, part de dépôts actifs, avec démo en ligne et documentés — tout est recalculé à chaque visite. |
+| **Ciel profond** | Fond animé sur canvas : étoiles en parallaxe, Voie lactée, nébuleuse et galaxie générées en bruit fractal qui se révèlent avec le scroll, Saturne, satellites et étoiles filantes. Image fixe si l'utilisateur réduit les animations. |
 | **Mode piste** | Touche `P` : une F1 vue de dessus roule par-dessus la page (physique, dérive, DRS, traces de pneus, chrono jusqu'à la ligne d'arrivée en bas de page). Chargé à la demande, il ne pèse rien au premier affichage. |
 | **Bilingue** | Français / anglais, choix mémorisé ; i18n maison sans dépendance. |
 | **Contact** | Formulaire envoyé via FormSubmit, modèles de message selon le profil (recruteur, développeur…), vCard et QR code téléchargeables. |
