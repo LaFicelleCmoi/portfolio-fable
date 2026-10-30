@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react'
 // - trois plans d'étoiles en parallaxe (scroll + pointeur), teintes stellaires réelles
 // - aigrettes de diffraction sur les étoiles les plus brillantes, comme en astrophoto
 // - nébuleuse (Hα rouge, OIII turquoise, bandes de poussière) générée en bruit fractal
-// - Saturne près du Hero, galaxie spirale au milieu de la page (révélée elle aussi)
+// - la Terre et la Lune près du Hero, galaxie spirale au milieu de la page (révélée elle aussi)
 // - traînées de vitesse quand on défile vite, satellite qui passe avec un reflet solaire
 // - Voie lactée en diagonale, scintillement, étoile filante de temps en temps
 // Un seul canvas fixe, ~30 i/s, en pause onglet caché ; image figée (mais toujours
@@ -166,62 +166,118 @@ function drawMilkyWay(ctx, w, h, cy) {
 // ── objets du ciel profond, pré-rendus une fois ──
 const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5
 
-// Saturne : globe ombré à bandes, anneaux A et B séparés par la division de Cassini.
-// La moitié arrière des anneaux passe derrière le globe, la moitié avant devant.
-function makeSaturn(R) {
-  const c = document.createElement('canvas')
-  c.width = Math.ceil(R * 5)
-  c.height = Math.ceil(R * 2.8)
-  const g = c.getContext('2d')
-  g.translate(c.width / 2, c.height / 2)
-  g.rotate(-0.36)
-  const RINGS = [
-    [1.24, 1.5, 'rgba(190,170,135,0.28)'], // anneau C, sombre et translucide
-    [1.52, 1.94, 'rgba(232,212,170,0.85)'], // anneau B, le plus brillant
-    [2.02, 2.26, 'rgba(210,190,150,0.6)'], // anneau A (après Cassini)
-    [2.29, 2.33, 'rgba(200,180,140,0.35)'],
-  ]
-  const rings = (front) => {
-    for (const [r0, r1, color] of RINGS) {
-      g.save()
-      g.scale(1, 0.3)
-      g.beginPath()
-      g.arc(0, 0, R * r1, front ? 0 : Math.PI, front ? Math.PI : Math.PI * 2)
-      g.arc(0, 0, R * r0, front ? Math.PI : Math.PI * 2, front ? 0 : Math.PI, true)
-      g.closePath()
-      g.fillStyle = color
-      g.fill()
-      g.restore()
+// Terre et Lune : sphères rendues pixel par pixel, éclairées du même côté (haut gauche).
+// Les continents sont placés en longitude/latitude puis déchiquetés au bruit : la Terre
+// montre l'Afrique et l'Europe, et donc la Méditerranée de Marseille.
+const SUN = [-0.62, -0.5, 0.6]
+const CONTINENTS = [
+  // longitude, latitude, demi-largeur, demi-hauteur (degrés)
+  [20, 4, 20, 17], [2, 17, 24, 11], [26, -20, 12, 15], [16, 50, 22, 9], [45, 25, 11, 11],
+  [88, 50, 42, 22], [78, 20, 8, 10], [-60, -12, 16, 23], [-100, 45, 28, 18], [-42, 72, 10, 7],
+]
+
+function paintSphere(g, cx, cy, r, shade) {
+  const x0 = Math.floor(cx - r - 1)
+  const y0 = Math.floor(cy - r - 1)
+  const size = Math.ceil(r * 2 + 3)
+  const img = g.createImageData(size, size)
+  for (let py = 0; py < size; py++) {
+    for (let px = 0; px < size; px++) {
+      const nx = (x0 + px + 0.5 - cx) / r
+      const ny = (y0 + py + 0.5 - cy) / r
+      const d2 = nx * nx + ny * ny
+      const edge = clamp01((1 - Math.sqrt(d2)) * r + 0.5)
+      if (edge <= 0) continue
+      const [cr, cg, cb] = shade(nx, ny, Math.sqrt(Math.max(0, 1 - d2)))
+      const i = (py * size + px) * 4
+      img.data[i] = cr
+      img.data[i + 1] = cg
+      img.data[i + 2] = cb
+      img.data[i + 3] = 255 * edge
     }
   }
-  rings(false)
-  // globe
-  g.save()
-  g.beginPath()
-  g.arc(0, 0, R, 0, Math.PI * 2)
-  g.clip()
-  const body = g.createRadialGradient(-R * 0.35, -R * 0.4, R * 0.1, 0, 0, R)
-  body.addColorStop(0, '#f4e4bd')
-  body.addColorStop(0.55, '#d9b97f')
-  body.addColorStop(0.9, '#9a7444')
-  body.addColorStop(1, '#5a4120')
-  g.fillStyle = body
-  g.fillRect(-R, -R, R * 2, R * 2)
-  // bandes nuageuses
-  for (const [y, hgt, a] of [[-0.62, 0.1, 0.22], [-0.35, 0.16, 0.16], [-0.05, 0.08, 0.12], [0.22, 0.14, 0.18], [0.5, 0.1, 0.2]]) {
-    g.fillStyle = `rgba(120,82,40,${a})`
-    g.fillRect(-R, y * R, R * 2, hgt * R)
+  g.putImageData(img, x0, y0)
+}
+
+function shadeEarth(nx, ny, nz) {
+  // inclinaison de l'axe, puis vue centrée sur 5°E, 18°N
+  const tilt = 0.32
+  const x = nx * Math.cos(tilt) + ny * Math.sin(tilt)
+  const up = nx * Math.sin(tilt) - ny * Math.cos(tilt)
+  const lat0 = 0.31
+  const lat = Math.asin(clamp01((up * Math.cos(lat0) + nz * Math.sin(lat0) + 1) / 2) * 2 - 1) * (180 / Math.PI)
+  const lon = 5 + Math.atan2(x, -up * Math.sin(lat0) + nz * Math.cos(lat0)) * (180 / Math.PI)
+
+  let land = 0
+  for (const [clon, clat, rlon, rlat] of CONTINENTS) {
+    const a = (lon - clon) / rlon
+    const b = (lat - clat) / rlat
+    land = Math.max(land, Math.exp(-(a * a + b * b)))
   }
-  // ombre de la nuit + ombre des anneaux sur le globe
-  const night = g.createLinearGradient(-R * 0.4, -R * 0.4, R, R)
-  night.addColorStop(0, 'rgba(0,0,0,0)')
-  night.addColorStop(1, 'rgba(0,0,8,0.78)')
-  g.fillStyle = night
-  g.fillRect(-R, -R, R * 2, R * 2)
-  g.fillStyle = 'rgba(0,0,0,0.35)'
-  g.fillRect(-R, R * 0.12, R * 2, R * 0.08)
-  g.restore()
-  rings(true)
+  const n = fbm(lon * 0.075 + 40, lat * 0.075 + 40, 11)
+  const isLand = land + (n - 0.5) * 0.75 > 0.46
+  const ice = Math.abs(lat) + (n - 0.5) * 22 > 74
+
+  let c
+  if (ice) c = [226, 236, 245]
+  else if (isLand) {
+    // désert autour des tropiques, végétation ailleurs
+    const dry = clamp01(1 - Math.abs(Math.abs(lat) - 23) / 14) * 0.85 + (n - 0.5) * 0.7
+    const t = clamp01(dry)
+    c = [62 + 135 * t, 98 + 68 * t, 52 + 42 * t]
+  } else {
+    const deep = clamp01(0.55 + (n - 0.5) * 1.2)
+    c = [10 + 8 * deep, 46 + 32 * deep, 104 + 52 * deep]
+  }
+
+  const ndl = nx * SUN[0] + ny * SUN[1] + nz * SUN[2]
+  // reflet du Soleil sur l'océan
+  if (!isLand && !ice) {
+    const glint = clamp01(ndl) ** 26 * 90
+    c = [c[0] + glint, c[1] + glint, c[2] + glint]
+  }
+  // nuages étirés dans le sens des longitudes
+  const cloud = clamp01((fbm(lon * 0.045 + 9, lat * 0.13 + 3, 23) - 0.49) * 4.6) * 0.92
+  c = c.map((v) => v + (238 - v) * cloud)
+
+  // terminateur doux, puis atmosphère bleue qui s'épaissit vers le limbe
+  const day = clamp01((ndl + 0.1) / 0.55)
+  const rim = (1 - nz) ** 2.6 * day
+  return c.map((v, i) => {
+    const air = [118, 176, 255][i]
+    return Math.min(255, v * day * (0.22 + 0.78 * day) + (air - v * day) * rim * 0.75)
+  })
+}
+
+function shadeMoon(nx, ny, nz) {
+  const u = nx * 2.2 + 5
+  const v = ny * 2.2 + 5
+  // mers sombres et sol clair criblé de petits cratères
+  const mare = clamp01((fbm(u * 0.8, v * 0.8, 31) - 0.47) * 6)
+  const grain = (fbm(u * 3.4, v * 3.4, 37) - 0.5) * 42
+  const base = 188 - mare * 72 + grain
+  const ndl = nx * SUN[0] + ny * SUN[1] + nz * SUN[2]
+  const light = clamp01((ndl + 0.02) / 0.5)
+  return [base * light + 2, base * 0.98 * light + 2, base * 0.94 * light + 3]
+}
+
+function makeEarthMoon(R) {
+  const c = document.createElement('canvas')
+  c.width = Math.ceil(R * 3.9)
+  c.height = Math.ceil(R * 3.2)
+  const g = c.getContext('2d')
+  const ex = R * 1.42
+  const ey = R * 1.82
+  paintSphere(g, ex, ey, R, shadeEarth)
+  paintSphere(g, R * 3.3, R * 0.6, R * 0.3, shadeMoon)
+  // halo d'atmosphère, décalé vers le Soleil et glissé sous la planète
+  g.globalCompositeOperation = 'destination-over'
+  const halo = g.createRadialGradient(ex - R * 0.06, ey - R * 0.05, R * 0.94, ex - R * 0.06, ey - R * 0.05, R * 1.2)
+  halo.addColorStop(0, 'rgba(120,175,255,0.42)')
+  halo.addColorStop(0.45, 'rgba(90,150,255,0.11)')
+  halo.addColorStop(1, 'rgba(90,150,255,0)')
+  g.fillStyle = halo
+  g.fillRect(0, 0, c.width, c.height)
   return c
 }
 
@@ -283,7 +339,8 @@ export default function Starfield() {
     let field = { stars: [], deep: [] }
     let nebula = null
     let nebulaTimer = 0
-    let saturn = null
+    let earthMoon = null
+    let earthR = 0
     let galaxy = null
     let satellite = null
     let nextSat = performance.now() + rand(12000, 22000)
@@ -310,7 +367,12 @@ export default function Starfield() {
       canvas.height = h * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       field = makeStars(w, h)
-      saturn = makeSaturn(w < 768 ? 24 : 44)
+      // rendue en double résolution ; seul un changement de palier la recalcule
+      const nextR = w < 768 ? 40 : 112
+      if (nextR !== earthR) {
+        earthR = nextR
+        earthMoon = makeEarthMoon(earthR)
+      }
       galaxy = makeGalaxy(Math.round(Math.min(440, Math.max(260, w * 0.3))))
       // la nébuleuse coûte quelques dizaines de ms : on la calcule hors du chemin critique
       clearTimeout(nebulaTimer)
@@ -417,13 +479,15 @@ export default function Starfield() {
       }
       ctx.globalAlpha = 1
 
-      // Saturne, dans le vide à droite du Hero ; elle file vers le haut plus vite que les étoiles
-      if (saturn) {
+      // la Terre et la Lune, dans le vide à droite du Hero ; elles filent vers le haut plus vite que les étoiles
+      if (earthMoon) {
+        const ew = earthMoon.width / 2
+        const eh = earthMoon.height / 2
         const sx = (w >= 1024 ? w * 0.76 : w * 0.8) - mouse.x * 22
-        const sy = h * (w >= 1024 ? 0.4 : 0.16) - scroll * 0.22 - mouse.y * 22
-        if (sy > -saturn.height) {
+        const sy = h * (w >= 1024 ? 0.4 : w >= 768 ? 0.16 : 0.1) - scroll * 0.22 - mouse.y * 22
+        if (sy > -eh) {
           ctx.globalAlpha = w >= 1024 ? 1 : 0.75
-          ctx.drawImage(saturn, sx - saturn.width / 2, sy - saturn.height / 2)
+          ctx.drawImage(earthMoon, sx - ew / 2, sy - eh / 2, ew, eh)
           ctx.globalAlpha = 1
         }
       }
