@@ -2,7 +2,7 @@
 
 # Loïs Clerc — Portfolio
 
-Développeur mobile & full-stack · Étudiant à Epitech · Alternant chez Unistellar
+Apprenti développeur mobile · Étudiant à Epitech · Alternant chez Unistellar
 
 **[portfolio-loisclerc.vercel.app](https://portfolio-loisclerc.vercel.app/)** · FR / EN
 

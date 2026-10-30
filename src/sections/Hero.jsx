@@ -21,7 +21,7 @@ const STRINGS = {
   fr: {
     badge: 'Alternance chez',
     city: 'Marseille',
-    role: 'Développeur mobile & full-stack',
+    role: 'Apprenti développeur mobile',
     tagline: "Étudiant à Epitech, je développe des apps mobiles iOS et Android en alternance chez Unistellar — et, à côté, des projets web, data et IA que je mène de l'idée à la mise en ligne.",
     cv: 'Télécharger mon CV',
     github: 'Mon GitHub',
@@ -31,7 +31,7 @@ const STRINGS = {
   en: {
     badge: 'Apprentice at',
     city: 'Marseille',
-    role: 'Mobile & full-stack developer',
+    role: 'Mobile developer apprentice',
     tagline: 'Epitech student building iOS and Android apps as an apprentice at Unistellar — and, on the side, web, data and AI projects I take from idea to production.',
     cv: 'Download my resume',
     github: 'My GitHub',
